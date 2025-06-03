@@ -111,7 +111,7 @@ def run_single_experiment(trait, top_n, model_name, ModelClass, param_set, extra
 
 if __name__ == '__main__':
     # 数据加载
-    project_root = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     pheno_file = os.path.join(project_root, 'data', 'wheat1k.pheno.txt')
     geno_file = os.path.join(project_root, 'data', 'Wheat1k.recode.vcf')
     loader = DataLoader()

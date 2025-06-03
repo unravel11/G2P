@@ -28,7 +28,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-matplotlib.rcParams['font.sans-serif'] = ['Arial']  # 或 ['DejaVu Sans']
+matplotlib.rcParams['font.sans-serif'] = ['DejaVu Sans']
 matplotlib.rcParams['axes.unicode_minus'] = False    # 正常显示负号
 
 def plot_feature_importance(feature_importance: dict, top_n: int = 10):
