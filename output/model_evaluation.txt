@@ -1,0 +1,90 @@
+模型评估结果
+==================================================
+
+Trait: spikelength
+----------------------------------------
+[RandomForest]
+Test set metrics:
+- r2: 0.2609
+- rmse: 0.9712
+- mse: 0.9431
+CV metrics:
+- r2: 0.2454
+- rmse: 0.8853
+- mse: 0.7872
+Top 10 Important SNPs:
+- feature_541: 0.0066
+- feature_544: 0.0061
+- feature_543: 0.0061
+- feature_540: 0.0051
+- feature_542: 0.0051
+- feature_545: 0.0033
+- feature_1827: 0.0027
+- feature_1986: 0.0026
+- feature_1152: 0.0024
+- feature_266: 0.0019
+
+[XGBoost]
+Test set metrics:
+- r2: 0.2547
+- rmse: 0.9752
+- mse: 0.9509
+CV metrics:
+- r2: 0.2403
+- rmse: 0.8863
+- mse: 0.7876
+Top 10 Important SNPs:
+- feature_542: 0.0600
+- feature_544: 0.0177
+- feature_541: 0.0171
+- feature_419: 0.0167
+- feature_1523: 0.0155
+- feature_1838: 0.0146
+- feature_964: 0.0141
+- feature_1411: 0.0126
+- feature_955: 0.0125
+- feature_393: 0.0120
+
+[LightGBM]
+Test set metrics:
+- r2: 0.2515
+- rmse: 0.9773
+- mse: 0.9551
+CV metrics:
+- r2: 0.2302
+- rmse: 0.8933
+- mse: 0.8013
+Top 10 Important SNPs:
+- feature_1621: 168.0000
+- feature_801: 130.0000
+- feature_865: 119.0000
+- feature_73: 116.0000
+- feature_84: 101.0000
+- feature_395: 97.0000
+- feature_526: 85.0000
+- feature_976: 83.0000
+- feature_1551: 75.0000
+- feature_17: 68.0000
+
+[Lasso]
+Test set metrics:
+- r2: 0.2012
+- rmse: 1.0096
+- mse: 1.0193
+CV metrics:
+- r2: 0.2167
+- rmse: 0.9004
+- mse: 0.8149
+Top 10 Important SNPs:
+- feature_1681: 0.2079
+- feature_543: 0.1770
+- feature_115: 0.1348
+- feature_1679: 0.1338
+- feature_457: 0.1288
+- feature_418: 0.1148
+- feature_526: 0.1111
+- feature_1529: 0.1094
+- feature_121: 0.1092
+- feature_1879: 0.0995
+
+
