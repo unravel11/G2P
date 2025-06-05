@@ -9,6 +9,9 @@ from utils.evaluation import evaluate_model, cross_validate
 import logging
 from itertools import product
 from concurrent.futures import ProcessPoolExecutor, as_completed
+import json
+import time
+import numpy as np
 
 # 配置日志
 logging.basicConfig(
@@ -109,11 +112,55 @@ def run_single_experiment(trait, top_n, model_name, ModelClass, param_set, extra
     except Exception as e:
         return {'trait': trait, 'model': model_name, 'top_n_snps': top_n, 'params': param_set, 'error': str(e)}
 
+def save_checkpoint(results, output_dir):
+    """保存中间结果"""
+    checkpoint_file = os.path.join(output_dir, 'checkpoint.json')
+    # 将结果转换为可序列化的格式
+    serializable_results = []
+    for result in results:
+        serializable_result = result.copy()
+        # 将numpy类型转换为Python原生类型
+        if 'params' in serializable_result:
+            serializable_result['params'] = {k: float(v) if isinstance(v, (np.float32, np.float64)) else v 
+                                           for k, v in serializable_result['params'].items()}
+        serializable_results.append(serializable_result)
+    
+    with open(checkpoint_file, 'w') as f:
+        json.dump(serializable_results, f)
+    logger.info(f"已保存检查点，当前完成 {len(results)} 个任务")
+
+def load_checkpoint(output_dir):
+    """加载已保存的结果"""
+    checkpoint_file = os.path.join(output_dir, 'checkpoint.json')
+    if os.path.exists(checkpoint_file):
+        with open(checkpoint_file, 'r') as f:
+            results = json.load(f)
+        logger.info(f"已加载检查点，包含 {len(results)} 个已完成任务")
+        return results
+    return []
+
+def get_completed_tasks(results):
+    """获取已完成任务的标识"""
+    completed = set()
+    for result in results:
+        if 'error' not in result:  # 只考虑成功完成的任务
+            key = (result['trait'], result['model'], result['top_n_snps'], 
+                  json.dumps(result['params'], sort_keys=True))
+            completed.add(key)
+    return completed
+
 if __name__ == '__main__':
     # 数据加载
     project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     pheno_file = os.path.join(project_root, 'data', 'wheat1k.pheno.txt')
     geno_file = os.path.join(project_root, 'data', 'Wheat1k.recode.vcf')
+    output_dir = os.path.join(project_root, 'output')
+    os.makedirs(output_dir, exist_ok=True)
+
+    # 加载检查点
+    results = load_checkpoint(output_dir)
+    completed_tasks = get_completed_tasks(results)
+
     loader = DataLoader()
     pheno_data = loader.load_phenotype(pheno_file).set_index('sample')
     genotype_matrix, snp_ids, sample_ids, chroms = loader.load_genotype(geno_file)
@@ -131,22 +178,37 @@ if __name__ == '__main__':
         for top_n in top_snp_list:
             for model_name, (ModelClass, param_iter, extra_kwargs) in model_grid.items():
                 for param_set in param_iter:
-                    tasks.append((trait, top_n, model_name, ModelClass, param_set, extra_kwargs,
-                                  genotype_matrix, snp_ids, sample_ids, pheno_data))
+                    # 检查任务是否已完成
+                    task_key = (trait, model_name, top_n, json.dumps(param_set, sort_keys=True))
+                    if task_key not in completed_tasks:
+                        tasks.append((trait, top_n, model_name, ModelClass, param_set, extra_kwargs,
+                                    genotype_matrix, snp_ids, sample_ids, pheno_data))
 
-    results = []
-    with ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
-        futures = [executor.submit(run_single_experiment, *task) for task in tasks]
-        for future in as_completed(futures):
-            try:
-                result = future.result()
-                results.append(result)
-            except Exception as e:
-                print(f"Error in task: {e}")
+    logger.info(f"总任务数: {len(tasks) + len(completed_tasks)}, 已完成: {len(completed_tasks)}, 待完成: {len(tasks)}")
 
-    # 保存结果
-    output_dir = os.path.join(project_root, 'output')
-    os.makedirs(output_dir, exist_ok=True)
-    results_df = pd.DataFrame(results)
-    results_df.to_csv(os.path.join(output_dir, 'batch_experiment_results.csv'), index=False)
-    print('所有实验已完成，结果已保存到 output/batch_experiment_results.csv') 
+    if not tasks:
+        logger.info("所有任务已完成！")
+    else:
+        with ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
+            futures = [executor.submit(run_single_experiment, *task) for task in tasks]
+            last_save_time = time.time()
+            
+            for future in as_completed(futures):
+                try:
+                    result = future.result()
+                    results.append(result)
+                    
+                    # 每5分钟保存一次检查点
+                    current_time = time.time()
+                    if current_time - last_save_time > 300:  # 300秒 = 5分钟
+                        save_checkpoint(results, output_dir)
+                        last_save_time = current_time
+                        
+                except Exception as e:
+                    logger.error(f"任务执行出错: {e}")
+
+        # 保存最终结果
+        save_checkpoint(results, output_dir)
+        results_df = pd.DataFrame(results)
+        results_df.to_csv(os.path.join(output_dir, 'batch_experiment_results.csv'), index=False)
+        logger.info('所有实验已完成，结果已保存到 output/batch_experiment_results.csv') 

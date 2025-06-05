@@ -43,6 +43,7 @@ ENV/
 *.vcf.gz
 *.pheno.txt
 *.pheno.txt.gz
+output/
 
 # Logs
 *.log
