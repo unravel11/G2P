@@ -10,7 +10,16 @@ from .base import BaseModel
 
 class LassoModel(BaseModel):
     """Lasso回归模型类"""
-    def __init__(self, model_params: Optional[Dict[str, Any]] = None):
+    def __init__(self, model_params: Optional[Dict[str, Any]] = None, task_type: str = 'regression'):
+        """
+        初始化Lasso模型
+        
+        Args:
+            model_params: 模型参数字典
+            task_type: 任务类型，Lasso只支持回归任务
+        """
+        if task_type != 'regression':
+            raise ValueError("Lasso模型只支持回归任务")
         super().__init__(model_params)
         self.feature_names = None
         self._init_model()

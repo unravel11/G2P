@@ -22,6 +22,23 @@ class BaseModel(ABC):
         self.model_params = model_params or {}
         self.model = None
         
+    def update_params(self, new_params: Dict[str, Any]) -> None:
+        """
+        更新模型参数
+        
+        Args:
+            new_params: 新的参数字典
+        """
+        self.model_params.update(new_params)
+        self._init_model()
+        
+    @abstractmethod
+    def _init_model(self) -> None:
+        """
+        初始化模型实例
+        """
+        pass
+        
     @abstractmethod
     def train(self, X: np.ndarray, y: np.ndarray) -> None:
         """
