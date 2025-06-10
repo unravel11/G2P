@@ -43,8 +43,6 @@ ENV/
 *.vcf.gz
 *.pheno.txt
 *.pheno.txt.gz
-output/
-nohup.out
 
 # Logs
 *.log
