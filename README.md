@@ -209,6 +209,11 @@ pip install -r requirements.txt
 ```bash
 python run.py
 ```
+指定性状进行参数 tune
+
+```bash
+python run.py --trait_name 性状名称 --tune
+```
 
 脚本会根据配置自动执行所有步骤，并在指定的输出目录中生成结果。
 
