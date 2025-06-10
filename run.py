@@ -89,10 +89,9 @@ if __name__ == "__main__":
         models_to_use = args.models or list(config['models'].keys())
         # 如果未指定性状，使用所有15个性状
         traits_to_use = args.traits or [
-            'spikelength', 'spikeweight', 'spikeletnumber', 'spikeletdensity',
-            'spikeletfertility', 'grainweight', 'grainlength', 'grainwidth',
-            'grainthickness', 'grainarea', 'grainperimeter', 'graincircularity',
-            'grainaspectratio', 'graincompactness', 'yield'
+            'spikelength', 'spikelet', 'lodging', 'kernelspikelet', 'height',
+            'headingdate', 'gns', 'FHB', 'cold', 'yield', 'tkw', 
+            'tiller', 'sterilspike', 'FD', 'Mature'
         ]
         print_tuning_tasks(config, models_to_use, traits_to_use)
     

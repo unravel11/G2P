@@ -10,6 +10,7 @@ import logging
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
+from scipy.stats import pearsonr
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -25,10 +26,15 @@ def evaluate_model(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float]:
     Returns:
         Dict[str, float]: 包含各种评估指标的字典
     """
+    # 计算皮尔逊相关系数
+    pearson_r, p_value = pearsonr(y_true, y_pred)
+    
     metrics = {
         'r2': r2_score(y_true, y_pred),
         'rmse': np.sqrt(mean_squared_error(y_true, y_pred)),
-        'mse': mean_squared_error(y_true, y_pred)
+        'mse': mean_squared_error(y_true, y_pred),
+        'pearson_r': pearson_r,
+        'pearson_p': p_value
     }
     
     logger.info("\n测试集评估结果:")
@@ -131,8 +137,12 @@ def plot_prediction_vs_actual(y_true: np.ndarray, y_pred: np.ndarray, output_dir
     plt.xlabel('Actual Value')
     plt.ylabel('Predicted Value')
     plt.title('Predicted vs Actual (Test Set)')
-    r2 = r2_score(y_true, y_pred)  # 这里的R²值是在测试集上计算的
-    plt.text(0.05, 0.95, f'R² = {r2:.3f}', transform=plt.gca().transAxes)
+    
+    # 计算皮尔逊相关系数
+    pearson_r, p_value = pearsonr(y_true, y_pred)
+    plt.text(0.05, 0.95, f'PCC = {pearson_r:.3f}\np-value = {p_value:.2e}', 
+             transform=plt.gca().transAxes, 
+             bbox=dict(facecolor='white', alpha=0.8))
     
     if output_dir is None:
         output_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'output')
@@ -141,5 +151,5 @@ def plot_prediction_vs_actual(y_true: np.ndarray, y_pred: np.ndarray, output_dir
     filename = 'prediction_vs_actual.png'
     if prefix:
         filename = f"{prefix}_{filename}"
-    plt.savefig(os.path.join(output_dir, filename))
+    plt.savefig(os.path.join(output_dir, filename), dpi=300, bbox_inches='tight')
     plt.close() 
