@@ -9,6 +9,7 @@ from .random_forest import RandomForestModel
 from .xgboost_model import XGBoostModel
 from .lightgbm_model import LightGBMModel
 from .lasso_model import LassoModel
+from .cnn_model import CNNModel
 
 class ModelFactory:
     """模型工厂类"""
@@ -18,7 +19,8 @@ class ModelFactory:
         'RandomForestModel': RandomForestModel,
         'XGBoostModel': XGBoostModel,
         'LightGBMModel': LightGBMModel,
-        'LassoModel': LassoModel
+        'LassoModel': LassoModel,
+        'CNNModel': CNNModel
     }
     
     @classmethod
