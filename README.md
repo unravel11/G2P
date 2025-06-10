@@ -197,6 +197,13 @@ pip install -r requirements.txt
 ```
 
 这会安装 `pandas`, `numpy`, `scikit-learn`, `xgboost`, `lightgbm` 等必要的库。
+推荐使用 conda 安装，使用 conda 安装可以避免很多依赖问题。
+
+```bash
+conda create -n g2p python=3.8
+conda activate g2p
+pip install -r requirements.txt
+```
 
 ### 2. 配置
 
