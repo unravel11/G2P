@@ -151,24 +151,24 @@ def create_output_dirs(project_root: str, config: Dict[str, Any], trait: str) ->
     Returns:
         Dict[str, str]: 包含各个输出目录路径的字典
     """
-    # 创建带日期标签的输出目录
-    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-    base_output_dir = os.path.join(project_root, config['data']['output_dir'], f'evaluation_results_{current_time}')
-    
-    # 更新配置文件中的输出目录
-    config['data']['output_dir'] = base_output_dir
+    # 创建带日期标签的输出目录（只在第一次调用时创建）
+    if not hasattr(create_output_dirs, 'base_output_dir'):
+        current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+        create_output_dirs.base_output_dir = os.path.join(project_root, config['data']['output_dir'], f'evaluation_results_{current_time}')
+        # 更新配置文件中的输出目录
+        config['data']['output_dir'] = create_output_dirs.base_output_dir
     
     # 创建各个子目录
-    trait_dir = os.path.join(base_output_dir, trait)
+    trait_dir = os.path.join(create_output_dirs.base_output_dir, trait)
     importance_dir = os.path.join(trait_dir, 'feature_importance')
     prediction_dir = os.path.join(trait_dir, 'prediction_plots')
     
     # 创建所有目录
-    for directory in [base_output_dir, trait_dir, importance_dir, prediction_dir]:
+    for directory in [trait_dir, importance_dir, prediction_dir]:
         os.makedirs(directory, exist_ok=True)
     
     return {
-        'base': base_output_dir,
+        'base': create_output_dirs.base_output_dir,
         'trait': trait_dir,
         'importance': importance_dir,
         'prediction': prediction_dir

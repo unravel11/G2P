@@ -44,6 +44,7 @@ ENV/
 *.pheno.txt
 *.pheno.txt.gz
 output/
+nohup.out
 
 # Logs
 *.log
