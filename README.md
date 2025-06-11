@@ -1,110 +1,241 @@
-# Wheat Genotype-Phenotype Machine Learning Pipeline
+# G2P: 基因型到表型预测框架
 
-## 项目简介
-本项目用于小麦基因型-表型预测，支持多性状、多模型（RandomForest、XGBoost、LightGBM、Lasso）、多SNP特征筛选、批量参数搜索与并行加速。适合大规模SNP数据的机器学习建模与特征重要性分析。
+G2P (Genotype-to-Phenotype) 是一个利用机器学习从基因型数据预测表型性状的计算框架。本项目基于小麦1K群体的基因型和表型数据，实现了从基因型到表型的预测分析。
 
----
+## 目录
+
+1. [项目背景](#项目背景)
+2. [功能特性](#功能特性)
+3. [框架图](#框架图)
+4. [目录结构](#目录结构)
+5. [核心模块详解](#核心模块详解)
+6. [输入与输出](#输入与输出)
+7. [如何运行](#如何运行)
+8. [扩展性](#扩展性)
+
+## 项目背景
+
+在生物信息学领域，**从基因型预测表型 (G2P)** 是一个核心且具有挑战性的任务。它旨在通过分析个体的遗传变异（如单核苷酸多态性，SNPs）来预测其可观察到的性状（如疾病易感性、作物产量等）。准确的 G2P 模型对于精准医疗、动植物育种和基础生物学研究具有至关重要的意义。
+
+本项目 `G2P` 提供了一个标准化的、可扩展的机器学习框架，用于应对这一挑战。它集成了数据预处理、模型训练、超参数调优和结果评估等关键步骤，支持多种经典的机器学习模型，并能生成标准化的分析报告和可视化图表。
+
+## 功能特性
+
+* **模块化设计**: 代码结构清晰，分为数据处理、模型、训练、评估等独立模块，易于理解和扩展。
+* **可配置流程**: 通过 `config.json` 文件可以轻松配置数据路径、模型参数和运行模式。
+* **多种模型支持**: 内置了多种常用的机器学习回归模型，包括：
+  * LASSO (L1 正则化线性回归)
+  * Random Forest (随机森林)
+  * XGBoost
+  * LightGBM
+* **自动化工作流**: `run.py` 作为入口，可以一键执行完整的数据分析和模型训练流程。
+* **探索性数据分析 (EDA)**: 包含专门的脚本用于对表型数据进行初步的探索性分析。
+* **结果可视化**: 能够生成 GWAS (全基因组关联分析) 中常见的曼哈顿图。
+
+## 框架图
+
+项目的整体工作流程如下：
+
+```
++------------------+     +------------------+     +------------------+
+|    数据输入层     |     |   数据预处理层    |     |    模型训练层    |
++------------------+     +------------------+     +------------------+
+| - 基因型数据      |     | - 数据加载       |     | - 模型选择      |
+|   (VCF/PLINK)    | --> |   (loader.py)    | --> |   (factory.py)  |
+| - 表型数据        |     | - 数据清洗       |     | - 模型训练      |
+|   (CSV/TXT)      |     |   (preprocessor) |     |   (training.py) |
+| - 样本列表        |     | - 特征选择       |     | - 交叉验证      |
+|   (TXT)          |     |   (LD过滤)       |     | - 参数调优      |
++------------------+     +------------------+     +------------------+
+                                                          |
+                                                          v
++------------------+     +------------------+     +------------------+
+|    结果输出层     |     |    可视化模块     |     |    配置文件      |
++------------------+     +------------------+     +------------------+
+| - 预测结果        | <-- | - 曼哈顿图       | <-- | - 数据路径      |
+| - 评估指标        |     | - 预测效果图     |     | - 模型参数      |
+|   (R², RMSE)     |     |   (gwas_plot.py) |     | - 输出路径      |
+| - 特征重要性      |     +------------------+     +------------------+
++------------------+
+```
+
+### 工作流程说明
+
+1. **数据输入层**
+   - 基因型数据：支持VCF或PLINK格式
+   - 表型数据：CSV或TXT格式
+   - 样本列表：用于筛选特定样本
+
+2. **数据预处理层**
+   - 数据加载：统一格式转换
+   - 数据清洗：处理缺失值和异常值
+   - 特征选择：基于LD过滤SNP位点
+
+3. **模型训练层**
+   - 模型选择：支持多种机器学习模型
+   - 交叉验证：确保模型稳定性
+   - 超参数调优：优化模型性能
+
+4. **结果输出层**
+   - 预测结果：测试集预测值
+   - 评估指标：
+     * R²（决定系数）：衡量模型解释的方差比例
+     * RMSE（均方根误差）：预测值与真实值的平均偏差
+     * MSE（均方误差）：预测误差的平方平均值
+     * 皮尔逊相关系数（PCC）：预测值与真实值的相关性
+     * 皮尔逊相关系数p值：相关性显著性检验
+   - 特征重要性：SNP位点贡献度
+   - 可视化结果：
+     * 曼哈顿图：展示SNP位点与表型的关联强度
+     * 预测效果图：预测值vs实际值散点图
+     * 特征重要性图：展示top N个重要SNP位点
 
 ## 目录结构
+
+代码的目录结构组织清晰，各个模块功能明确。
+
 ```
-├── data/                        # 数据目录
-│   ├── wheat1k.pheno.txt       # 表型数据（样本×性状）
-│   └── Wheat1k.recode.vcf      # 基因型VCF文件
-├── src/                        # 源代码目录
-│   ├── main.py                 # 主程序入口
-│   ├── config.json            # 配置文件
-│   ├── models/                # 模型实现
-│   ├── utils/                 # 工具函数
-│   │   ├── evaluation.py      # 模型评估
-│   │   ├── training.py        # 训练相关
-│   │   └── hyperparameter_tuning.py  # 参数调优
-│   ├── data/                  # 数据处理
-│   ├── visualization/         # 可视化
-│   └── __init__.py
-├── batch_experiment.py        # 批量实验脚本
-├── requirements.txt           # 依赖包
-├── output/                    # 结果输出目录
-└── README.md
+G2P/
+├── .gitignore
+├── README.md
+├── requirements.txt         # Python 依赖包
+├── run.py                   # 项目主入口脚本
+├── sample.txt               # 输入样本ID示例文件
+├── src/
+│   ├── __init__.py
+│   ├── main.py              # 核心逻辑与流程控制
+│   ├── config.json          # 配置文件
+│   ├── analysis/            # 分析脚本
+│   │   └── phenotype_eda.py # 表型数据的探索性分析
+│   ├── data/                # 数据处理模块
+│   │   ├── loader.py        # 数据加载
+│   │   └── preprocessor.py  # 数据预处理
+│   ├── models/              # 机器学习模型
+│   │   ├── base.py          # 模型基类
+│   │   ├── factory.py       # 模型工厂，用于创建模型实例
+│   │   ├── lasso_model.py
+│   │   ├── lightgbm_model.py
+│   │   ├── random_forest.py
+│   │   └── xgboost_model.py
+│   ├── utils/               # 工具函数
+│   │   ├── evaluation.py    # 评估指标计算
+│   │   ├── hyperparameter_tuning.py # 超参数搜索
+│   │   └── training.py      # 模型训练逻辑
+│   └── visualization/       # 可视化模块
+│       └── gwas_plot.py     # GWAS 曼哈顿图绘制
+└── tests/                   # 测试代码
+    └── ...
 ```
 
----
+## 核心模块详解
 
-## 依赖环境
-- Python 3.8+
-- numpy, pandas, scikit-learn, matplotlib, seaborn
-- xgboost, lightgbm
-- tqdm, joblib, cyvcf2, scipy
+### `run.py`
 
-安装依赖：
+项目的 **唯一入口**。它负责解析命令行参数，并调用 `src/main.py` 中的主函数来启动整个分析流程。
+
+### `src/main.py`
+
+**核心控制器**。该脚本负责编排整个工作流：
+
+1. 读取 `src/config.json` 配置文件。
+2. 调用 `data/loader.py` 加载基因型和表型数据。
+3. 调用 `data/preprocessor.py` 对数据进行清洗、转换和特征工程。
+4. 根据配置，通过 `models/factory.py` 创建指定的机器学习模型实例。
+5. 调用 `utils/training.py` 训练模型。
+6. 调用 `utils/evaluation.py` 评估模型性能。
+7. 保存结果和模型。
+
+### `src/config.json`
+
+**项目配置文件**。这是一个 JSON 文件，用于定义所有可配置的参数，避免了硬编码。
+
+* `data_paths`: 指定输入数据（基因型、表型）的路径。
+* `model_params`: 指定要使用的模型及其超参数。
+* `output_paths`: 指定结果（报告、图表、训练好的模型）的保存路径。
+
+### `src/data/` 模块
+
+* `loader.py`: 负责从文件系统读取数据。它能够处理基因型文件（例如 VCF 或 PLINK 格式，代码中需适配）和表型文件（通常是 CSV 或 TXT）。
+* `preprocessor.py`: 执行关键的预处理步骤，例如：
+  * 缺失值填充。
+  * 数据标准化或归一化。
+  * 根据方差或连锁不平衡 (LD) 进行特征选择。
+
+### `src/models/` 模块
+
+* `base.py`: 定义了一个所有模型都必须继承的抽象基类 `BaseModel`，确保了所有模型都有统一的 `train` 和 `predict` 接口。
+* `factory.py`: `ModelFactory` 类可以根据配置文件中的模型名称（如 "xgboost"）动态地创建对应的模型对象，这使得添加新模型变得非常容易。
+* `*_model.py`: 每个文件都实现了 `BaseModel` 接口，封装了具体模型的训练和预测逻辑。
+
+### `src/utils/` 模块
+
+* `training.py`: 包含执行模型训练循环的逻辑，支持交叉验证。
+* `evaluation.py`: 实现了 R²、RMSE、MSE、皮尔逊相关系数等常用回归评估指标。
+* `hyperparameter_tuning.py`: 提供了使用网格搜索 (Grid Search) 或随机搜索 (Randomized Search) 等方法自动寻找最佳超参数的功能。
+
+## 输入与输出
+
+### 输入数据格式
+
+* **表型数据**: 一个包含样本 ID 和对应表型值的文本文件或 CSV。第一列通常是样本 ID，第二列是数值型的表型性状。
+* **样本列表 (`sample.txt`)**: Wheat1k.recode.vcf文件内容示例
+
+### 输出结果
+
+* **评估报告**: 一个文本或 CSV 文件，包含了模型的性能指标，如 $R^2$、MSE、MAE 等。
+* **预测值**: 对于测试集，会生成一个包含真实值和模型预测值的文件，便于后续分析。
+* **可视化图表**: 例如，由 `gwas_plot.py` 生成的曼哈顿图（PNG 或 PDF 格式），展示了每个 SNP 与表型的关联强度。
+
+## 如何运行
+
+### 1. 环境准备
+
+首先，需要安装所有依赖的 Python 包。在项目根目录下运行：
+
 ```bash
 pip install -r requirements.txt
 ```
 
----
+这会安装 `pandas`, `numpy`, `scikit-learn`, `xgboost`, `lightgbm` 等必要的库。
+推荐使用 conda 安装，使用 conda 安装可以避免很多依赖问题。
 
-## 数据格式说明
-- **表型文件**：`data/wheat1k.pheno.txt`
-  - 第一列为`sample`，后续为15个性状（列名为性状名）。
-- **基因型文件**：`data/Wheat1k.recode.vcf`
-  - VCF格式，样本与表型文件一致。
-
----
-
-## 使用方法
-
-### 1. 环境配置
-首先安装所需依赖：
 ```bash
+conda create -n g2p python=3.8
+conda activate g2p
 pip install -r requirements.txt
 ```
 
-### 2. 数据准备
-- 将表型数据文件 `wheat1k.pheno.txt` 放在 `data/` 目录下
-- 将基因型数据文件 `Wheat1k.recode.vcf` 放在 `data/` 目录下
+### 2. 配置
 
-### 3. 配置文件说明
-在 `src/config.json` 中可以配置：
-- 数据文件路径
-- 预处理参数（MAF阈值、缺失值阈值等）
-- 模型参数（支持RandomForest、XGBoost、LightGBM、Lasso）
-- 训练参数（测试集比例、交叉验证折数等）
+打开 `src/config.json` 文件，根据你的实际情况修改文件路径和模型参数。
 
-### 4. 运行方式
+### 3. 执行
 
-#### 4.1 单性状多模型预测
+完成配置后，在项目根目录下运行主脚本：
+
 ```bash
-# 方式1：使用run.py（推荐）
-python run.py  # 使用默认配置
+python run.py
+```
+指定性状进行参数 tune
 
-# 方式2：直接运行main.py
-python src/main.py  # 使用默认配置
-
-# 指定配置文件
-python run.py --config path/to/config.json
-
-# 指定特定模型和性状
-python run.py --models RandomForest XGBoost --traits spikelength yield
-
-# 启用参数搜索（使用配置文件中的参数网格）
-python run.py --tune
+```bash
+python run.py --traits 性状名称 --tune
 ```
 
-> 注意：推荐使用 `run.py` 运行程序，它会自动处理Python路径问题，使用更方便。
+脚本会根据配置自动执行所有步骤，并在指定的输出目录中生成结果。
 
-### 5. 输出结果
-- 模型评估结果保存在 `output/model_evaluation.txt`
-- 特征重要性图保存在 `output/` 目录
-- 预测效果图保存在 `output/` 目录
+## 扩展性
 
-### 6. 结果解读
-- `test_metrics`：测试集评估指标（R²、RMSE等）
-- `cv_metrics`：交叉验证评估指标
-- `top_features`：Top 10重要SNP位点
-- 可视化结果包括：
-  - 特征重要性条形图
-  - 预测值vs实际值散点图
+该框架具有良好的扩展性，您可以轻松地进行二次开发：
 
----
+* **添加新模型**:
+  1. 在 `src/models/` 目录下创建一个新的模型文件，例如 `my_model.py`。
+  2. 在该文件中创建一个继承自 `src.models.base.BaseModel` 的新类。
+  3. 实现 `train` 和 `predict` 方法。
+  4. 在 `src/models/factory.py` 中的 `ModelFactory` 里注册你的新模型。
 
-## 结果分析建议
-- 关注`
+* **添加新的预处理步骤**:
+  在 `src/data/preprocessor.py` 中添加新的函数，并在 `main.py` 的主流程中调用它。
+
+* **添加新的评估指标**:
+  在 `src/utils/evaluation.py` 中实现新的评估函数。
