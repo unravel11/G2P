@@ -1,0 +1,10 @@
+feature_49: 13.0000
+feature_267: 11.0000
+feature_289: 10.0000
+feature_477: 10.0000
+feature_779: 10.0000
+feature_77: 9.0000
+feature_287: 9.0000
+feature_391: 9.0000
+feature_793: 9.0000
+feature_813: 9.0000

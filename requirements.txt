@@ -17,3 +17,6 @@ cyvcf2>=0.30.0  # 用于处理 VCF 文件
 tqdm>=4.62.0    # 进度条
 joblib>=1.0.0   # 模型保存
 
+# 添加PyTorch依赖（GPU版本，CUDA 11.7）
+--find-links https://download.pytorch.org/whl/torch_stable.html
+torch==2.0.0+cu117

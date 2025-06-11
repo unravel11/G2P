@@ -1,0 +1,10 @@
+feature_774: 0.0254
+feature_100: 0.0252
+feature_1593: 0.0237
+feature_1519: 0.0224
+feature_3833: 0.0218
+feature_2738: 0.0202
+feature_894: 0.0193
+feature_2954: 0.0187
+feature_1003: 0.0175
+feature_2311: 0.0171

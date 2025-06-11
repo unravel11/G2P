@@ -56,17 +56,31 @@ def train_and_evaluate(
         X, y, test_size=test_size, random_state=random_state
     )
     
+    # 如果是CNN模型,需要特殊处理
+    is_cnn = isinstance(model, type) and model.__name__ == 'CNNModel'
+    
     # 如果有参数网格，进行参数搜索
     if param_grid is not None:
         logger.info("开始参数搜索...")
-        search_results = grid_search(
-            model=model,
-            X=X_train,
-            y=y_train,
-            param_grid=param_grid,
-            cv=cv,
-            n_jobs=n_jobs
-        )
+        if is_cnn:
+            # CNN模型使用自定义的参数搜索
+            search_results = grid_search(
+                model=model,
+                X=X_train,
+                y=y_train,
+                param_grid=param_grid,
+                cv=cv,
+                n_jobs=1  # CNN模型不支持并行训练
+            )
+        else:
+            search_results = grid_search(
+                model=model,
+                X=X_train,
+                y=y_train,
+                param_grid=param_grid,
+                cv=cv,
+                n_jobs=n_jobs
+            )
         model.model = search_results['best_estimator']
         param_results = search_results['all_results']
     else:
@@ -74,7 +88,14 @@ def train_and_evaluate(
     
     # 训练模型
     logger.info("训练最终模型...")
-    model.train(X_train, y_train, feature_names=feature_names)
+    if is_cnn:
+        # CNN模型需要验证集
+        X_train, X_val, y_train, y_val = train_test_split(
+            X_train, y_train, test_size=0.2, random_state=random_state
+        )
+        model.train(X_train, y_train, X_val=X_val, y_val=y_val, feature_names=feature_names)
+    else:
+        model.train(X_train, y_train, feature_names=feature_names)
     
     # 在测试集上评估
     logger.info("在测试集上评估模型...")
@@ -87,7 +108,11 @@ def train_and_evaluate(
     
     # 进行交叉验证
     logger.info("进行交叉验证...")
-    cv_metrics = cross_validate(model, X, y, n_splits=n_splits)
+    if is_cnn:
+        # CNN模型使用自定义的交叉验证
+        cv_metrics = cross_validate(model, X, y, n_splits=n_splits, is_cnn=True)
+    else:
+        cv_metrics = cross_validate(model, X, y, n_splits=n_splits)
     
     # 获取特征重要性
     feature_importance = model.get_feature_importance()

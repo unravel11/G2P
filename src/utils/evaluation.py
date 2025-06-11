@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 from scipy.stats import pearsonr
+from sklearn.model_selection import train_test_split
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -43,7 +44,7 @@ def evaluate_model(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float]:
         
     return metrics
 
-def cross_validate(model: Any, X: np.ndarray, y: np.ndarray, n_splits: int = 5) -> Dict[str, float]:
+def cross_validate(model: Any, X: np.ndarray, y: np.ndarray, n_splits: int = 5, is_cnn: bool = False) -> Dict[str, float]:
     """
     进行交叉验证
     
@@ -52,6 +53,7 @@ def cross_validate(model: Any, X: np.ndarray, y: np.ndarray, n_splits: int = 5) 
         X: 特征矩阵
         y: 目标变量
         n_splits: 交叉验证折数
+        is_cnn: 是否是CNN模型
         
     Returns:
         Dict[str, float]: 交叉验证结果
@@ -70,7 +72,14 @@ def cross_validate(model: Any, X: np.ndarray, y: np.ndarray, n_splits: int = 5) 
         y_train, y_val = y[train_idx], y[val_idx]
         
         # 训练模型
-        model.train(X_train, y_train)
+        if is_cnn:
+            # CNN模型需要验证集
+            X_train, X_val_inner, y_train, y_val_inner = train_test_split(
+                X_train, y_train, test_size=0.2, random_state=42
+            )
+            model.train(X_train, y_train, X_val=X_val_inner, y_val=y_val_inner)
+        else:
+            model.train(X_train, y_train)
         
         # 预测并评估
         y_pred = model.predict(X_val)
@@ -104,15 +113,41 @@ def plot_feature_importance(
         output_dir: 输出目录
         prefix: 文件名前缀
     """
+    # 设置绘图风格
+    plt.style.use('seaborn')
+    
     # 获取前N个重要特征
     top_features = sorted(feature_importance, key=lambda x: x[1], reverse=True)[:top_n]
     
     # 创建图形
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x=[x[1] for x in top_features], y=[x[0] for x in top_features])
-    plt.title('Importance of Features')
-    plt.xlabel('Importance')
-    plt.ylabel('Feature')
+    plt.figure(figsize=(12, 8))
+    
+    # 创建水平条形图
+    bars = plt.barh(
+        [x[0] for x in top_features],
+        [x[1] for x in top_features],
+        color='#2878B5',
+        alpha=0.8
+    )
+    
+    # 添加数值标签
+    for bar in bars:
+        width = bar.get_width()
+        plt.text(width, bar.get_y() + bar.get_height()/2,
+                f'{width:.3f}',
+                ha='left', va='center',
+                fontsize=10, fontweight='bold')
+    
+    # 设置标题和标签
+    plt.title('Feature Importance', fontsize=14, pad=15)
+    plt.xlabel('Importance Score', fontsize=12)
+    plt.ylabel('Feature', fontsize=12)
+    
+    # 添加网格线
+    plt.grid(True, linestyle='--', alpha=0.7, axis='x')
+    
+    # 调整布局
+    plt.tight_layout()
     
     # 保存图形
     if output_dir:
@@ -131,19 +166,50 @@ def plot_prediction_vs_actual(y_true: np.ndarray, y_pred: np.ndarray, output_dir
         output_dir: 输出目录
         prefix: 文件名前缀
     """
-    plt.figure(figsize=(8, 8))
-    plt.scatter(y_true, y_pred, alpha=0.5)
-    plt.plot([y_true.min(), y_true.max()], [y_true.min(), y_true.max()], 'r--', lw=2)
-    plt.xlabel('Actual Value')
-    plt.ylabel('Predicted Value')
-    plt.title('Predicted vs Actual (Test Set)')
+    # 设置绘图风格
+    plt.style.use('seaborn')
+    plt.figure(figsize=(10, 8))
     
-    # 计算皮尔逊相关系数
+    # 绘制散点图
+    plt.scatter(y_true, y_pred, alpha=0.6, c='#2878B5', s=50)
+    
+    # 绘制对角线
+    min_val = min(y_true.min(), y_pred.min())
+    max_val = max(y_true.max(), y_pred.max())
+    plt.plot([min_val, max_val], [min_val, max_val], 'r--', lw=2, label='Perfect Prediction')
+    
+    # 添加网格线
+    plt.grid(True, linestyle='--', alpha=0.7)
+    
+    # 设置标签和标题
+    plt.xlabel('Actual Value', fontsize=12)
+    plt.ylabel('Predicted Value', fontsize=12)
+    plt.title('Predicted vs Actual Values', fontsize=14, pad=15)
+    
+    # 计算评估指标
     pearson_r, p_value = pearsonr(y_true, y_pred)
-    plt.text(0.05, 0.95, f'PCC = {pearson_r:.3f}\np-value = {p_value:.2e}', 
-             transform=plt.gca().transAxes, 
-             bbox=dict(facecolor='white', alpha=0.8))
+    r2 = r2_score(y_true, y_pred)
+    rmse = np.sqrt(mean_squared_error(y_true, y_pred))
     
+    # 添加评估指标文本
+    metrics_text = (
+        f'R² = {r2:.3f}\n'
+        f'PCC = {pearson_r:.3f}\n'
+        f'p-value = {p_value:.2e}\n'
+        f'RMSE = {rmse:.3f}'
+    )
+    plt.text(0.05, 0.95, metrics_text,
+             transform=plt.gca().transAxes,
+             bbox=dict(facecolor='white', edgecolor='gray', alpha=0.8),
+             fontsize=10, verticalalignment='top')
+    
+    # 添加图例
+    plt.legend(loc='lower right')
+    
+    # 调整布局
+    plt.tight_layout()
+    
+    # 保存图形
     if output_dir is None:
         output_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'output')
     os.makedirs(output_dir, exist_ok=True)

@@ -1,0 +1,10 @@
+feature_391: 16.0000
+feature_393: 13.0000
+feature_314: 12.0000
+feature_431: 12.0000
+feature_770: 12.0000
+feature_562: 11.0000
+feature_434: 9.0000
+feature_575: 9.0000
+feature_55: 8.0000
+feature_164: 8.0000

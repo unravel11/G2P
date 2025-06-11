@@ -1,0 +1,10 @@
+feature_1967: 0.0064
+feature_2092: 0.0053
+feature_1944: 0.0047
+feature_2841: 0.0046
+feature_1176: 0.0046
+feature_1940: 0.0044
+feature_1957: 0.0043
+feature_1976: 0.0041
+feature_3422: 0.0038
+feature_2093: 0.0037

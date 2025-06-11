@@ -18,6 +18,15 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 # 导入并运行主程序
 from src.main import main
 
+# 模型名称映射
+MODEL_NAME_MAP = {
+    'rf': 'RandomForest',
+    'xgb': 'XGBoost',
+    'lgb': 'LightGBM',
+    'lasso': 'Lasso',
+    'cnn': 'CNN'
+}
+
 def load_config(config_path: str) -> Dict[str, Any]:
     """加载配置文件"""
     with open(config_path, 'r') as f:
@@ -74,7 +83,7 @@ if __name__ == "__main__":
     parser.add_argument('--config', type=str, default='src/config.json',
                       help='配置文件路径')
     parser.add_argument('--models', type=str, nargs='+',
-                      help='要使用的模型列表，例如：RandomForest XGBoost')
+                      help='要使用的模型列表，例如：rf xgb cnn')
     parser.add_argument('--traits', type=str, nargs='+',
                       help='要预测的性状列表，例如：spikelength yield')
     parser.add_argument('--tune', action='store_true',
@@ -82,6 +91,10 @@ if __name__ == "__main__":
     parser.add_argument('--n_jobs', type=int, default=-1,
                       help='并行计算的CPU核心数，-1表示使用所有可用核心，1表示不使用并行计算')
     args = parser.parse_args()
+    
+    # 转换模型名称
+    if args.models:
+        args.models = [MODEL_NAME_MAP.get(model.lower(), model) for model in args.models]
     
     # 如果启用参数搜索，打印任务信息
     if args.tune:

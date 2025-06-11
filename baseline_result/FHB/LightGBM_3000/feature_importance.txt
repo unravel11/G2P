@@ -1,0 +1,10 @@
+feature_866: 67.0000
+feature_2017: 53.0000
+feature_1905: 45.0000
+feature_1070: 44.0000
+feature_464: 42.0000
+feature_208: 39.0000
+feature_2264: 39.0000
+feature_9: 38.0000
+feature_1399: 37.0000
+feature_117: 35.0000

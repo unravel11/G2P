@@ -1,0 +1,10 @@
+feature_1188: 9.0000
+feature_1511: 8.0000
+feature_1805: 8.0000
+feature_2276: 8.0000
+feature_3058: 8.0000
+feature_1860: 7.0000
+feature_3237: 7.0000
+feature_1603: 6.0000
+feature_2072: 6.0000
+feature_3986: 6.0000
