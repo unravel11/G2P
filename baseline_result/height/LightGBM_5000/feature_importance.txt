@@ -1,0 +1,10 @@
+feature_1511: 10.0000
+feature_4504: 8.0000
+feature_293: 7.0000
+feature_2841: 7.0000
+feature_203: 6.0000
+feature_1189: 6.0000
+feature_2275: 6.0000
+feature_2422: 6.0000
+feature_4194: 6.0000
+feature_79: 5.0000

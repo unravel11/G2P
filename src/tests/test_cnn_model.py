@@ -11,6 +11,9 @@ from pathlib import Path
 import logging
 from datetime import datetime
 import argparse
+import pickle
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
 
 # 添加项目根目录到Python路径
 project_root = str(Path(__file__).parent.parent.parent)
@@ -19,7 +22,7 @@ sys.path.append(project_root)
 from src.models.cnn_model import CNNModel
 from src.data.loader import DataLoader
 from src.data.preprocessor import GenotypePreprocessor
-from src.utils.evaluation import plot_feature_importance, plot_prediction_vs_actual
+from src.utils.evaluation import plot_feature_importance, plot_prediction_vs_actual, cross_validate
 
 # 配置日志
 logging.basicConfig(
@@ -54,7 +57,7 @@ def create_output_dirs(base_dir: str, trait: str) -> dict:
         'prediction': prediction_dir
     }
 
-def test_cnn_model(trait: str = None):
+def test_cnn_model(trait: str = None, force_preprocess: bool = False):
     """测试CNN模型"""
     logger.info("开始测试CNN模型...")
     
@@ -65,37 +68,53 @@ def test_cnn_model(trait: str = None):
     # 创建输出目录
     output_dirs = create_output_dirs(config['data']['output_dir'], trait or 'test_trait')
     
-    # 加载数据
+    # 直接进行数据加载和预处理
     logger.info("加载数据...")
     data_loader = DataLoader()
-    
-    # 加载基因型数据
     logger.info("加载基因型数据...")
     geno_matrix, snp_ids, sample_ids, chroms = data_loader.load_genotype(config['data']['geno_file'])
-    
-    # 加载表型数据
     logger.info("加载表型数据...")
     pheno_data = data_loader.load_phenotype(config['data']['pheno_file'])
+    pheno_data = pheno_data.set_index('sample')
+    common_samples = list(set(sample_ids) & set(pheno_data.index))
+    logger.info(f"共同样本数量: {len(common_samples)}")
+    pheno_data = pheno_data.loc[common_samples]
+    sample_indices = [sample_ids.index(sample) for sample in common_samples]
+    geno_matrix = geno_matrix[:, sample_indices]
+    sample_ids = [sample_ids[i] for i in sample_indices]
+    logger.info(f"筛选后的表型数据形状: {pheno_data.shape}")
+    logger.info(f"筛选后的基因型数据形状: {geno_matrix.shape}")
     
     # 数据预处理
     logger.info("数据预处理...")
     preprocessor = GenotypePreprocessor(
         maf_threshold=config['preprocessing']['maf_threshold'],
-        missing_threshold=config['preprocessing']['missing_threshold']
+        missing_threshold=config['preprocessing']['missing_threshold'],
+        gwas_p_threshold=config['preprocessing']['gwas_p_threshold'],
+        top_n_snps=config['preprocessing']['top_n_snps']
     )
     
-    # 如果没有指定性状，使用第一个性状
     if trait is None:
-        trait = pheno_data.columns[1]  # 跳过'sample'列
+        trait = pheno_data.columns[1]
     logger.info(f"使用性状 {trait} 进行测试")
     
-    # 预处理数据
-    X, y, feature_names = preprocessor.preprocess(
+    # 预处理基因型数据
+    filtered_matrix, filtered_snp_ids, filtered_sample_ids = preprocessor.preprocess(
         geno_matrix,
-        pheno_data[trait]
+        snp_ids,
+        sample_ids,
+        phenotype=pheno_data[trait].values
     )
     
-    # 如果SNP数量过多，使用GWAS选择top SNPs
+    # 准备特征和目标变量
+    X = filtered_matrix.T.astype(np.float32)
+    y = pheno_data.loc[filtered_sample_ids, trait].values.astype(np.float32)
+    feature_names = filtered_snp_ids
+    
+    logger.info(f"数据形状: X={X.shape}, y={y.shape}")
+    logger.info(f"数据类型: X={X.dtype}, y={y.dtype}")
+    
+    # 使用GWAS选择top SNPs
     if X.shape[1] > config['preprocessing']['top_n_snps']:
         logger.info(f"使用GWAS选择top {config['preprocessing']['top_n_snps']} SNPs")
         X, feature_names = preprocessor.select_top_snps(
@@ -103,29 +122,37 @@ def test_cnn_model(trait: str = None):
             n_snps=config['preprocessing']['top_n_snps']
         )
     
-    logger.info(f"数据形状: X={X.shape}, y={y.shape}")
-    
-    # 划分训练集和测试集
-    from sklearn.model_selection import train_test_split
-    X_train, X_test, y_train, y_test = train_test_split(
+    # 划分训练集、验证集和测试集
+    X_trainval, X_test, y_trainval, y_test = train_test_split(
         X, y,
         test_size=config['training']['test_size'],
         random_state=config['training']['random_state']
     )
+    X_train, X_val, y_train, y_val = train_test_split(
+        X_trainval, y_trainval,
+        test_size=0.2,  # 20%作为验证集
+        random_state=config['training']['random_state']
+    )
     
-    # 初始化模型
+    # 首先进行交叉验证评估
+    logger.info("开始交叉验证评估...")
+    model = CNNModel(model_params=cnn_config, task_type='regression')
+    cv_metrics = cross_validate(model, X_trainval, y_trainval, n_splits=config['training']['n_splits'])
+    logger.info("交叉验证结果:")
+    for metric_name, value in cv_metrics.items():
+        logger.info(f"{metric_name}: {value:.4f}")
+    
+    # 训练最终模型
     logger.info("初始化模型...")
     model = CNNModel(model_params=cnn_config, task_type='regression')
-    
-    # 训练模型
     logger.info("开始训练模型...")
-    model.train(X_train, y_train, feature_names=feature_names)
+    model.train(X_train, y_train, X_val=X_val, y_val=y_val, feature_names=feature_names)
     logger.info("模型训练完成")
     
     # 评估模型
     logger.info("评估模型性能...")
     metrics = model.evaluate(X_test, y_test)
-    logger.info("评估指标:")
+    logger.info("测试集评估指标:")
     for metric_name, value in metrics.items():
         logger.info(f"{metric_name}: {value:.4f}")
     
@@ -140,17 +167,20 @@ def test_cnn_model(trait: str = None):
         for feature, importance in top_features:
             f.write(f"{feature}: {importance:.4f}\n")
     
-    # 绘制特征重要性图
-    plot_feature_importance(
-        feature_importance,
-        output_path=os.path.join(output_dirs['importance'], 'feature_importance.png')
-    )
-    
     # 绘制预测值与实际值对比图
     y_pred = model.predict(X_test)
     plot_prediction_vs_actual(
         y_test, y_pred,
-        output_path=os.path.join(output_dirs['prediction'], 'prediction_vs_actual.png')
+        output_dir=output_dirs['prediction'],
+        prefix=f"cnn_{trait}"
+    )
+    
+    # 绘制特征重要性图
+    plot_feature_importance(
+        list(feature_importance.items()),
+        top_n=10,
+        output_dir=output_dirs['importance'],
+        prefix=f"cnn_{trait}"
     )
     
     # 保存模型
@@ -175,5 +205,6 @@ def test_cnn_model(trait: str = None):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='测试CNN模型')
     parser.add_argument('--trait', type=str, help='要预测的性状名称')
+    parser.add_argument('--force-preprocess', action='store_true', help='强制重新进行数据预处理')
     args = parser.parse_args()
-    test_cnn_model(args.trait) 
+    test_cnn_model(args.trait, args.force_preprocess) 

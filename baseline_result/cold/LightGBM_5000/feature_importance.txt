@@ -1,0 +1,10 @@
+feature_3100: 67.0000
+feature_2390: 62.0000
+feature_3058: 55.0000
+feature_1511: 49.0000
+feature_2126: 45.0000
+feature_618: 43.0000
+feature_1171: 37.0000
+feature_2395: 35.0000
+feature_3105: 35.0000
+feature_99: 34.0000

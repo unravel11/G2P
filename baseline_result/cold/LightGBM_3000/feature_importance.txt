@@ -1,0 +1,10 @@
+feature_2017: 70.0000
+feature_1087: 52.0000
+feature_1523: 51.0000
+feature_1076: 46.0000
+feature_1527: 46.0000
+feature_1995: 45.0000
+feature_2020: 43.0000
+feature_190: 41.0000
+feature_794: 39.0000
+feature_2630: 38.0000

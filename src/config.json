@@ -9,14 +9,15 @@
         "missing_threshold": 0.1,
         "gwas_p_threshold": 0.05,
         "top_n_snps": 1000,
-        "top_n_snps_grid": [1000,3000,5000]
+        "top_n_snps_grid": [1000]
     },
     "training": {
         "test_size": 0.2,
         "random_state": 42,
         "n_splits": 5,
         "n_jobs": 32,
-        "cv": 5
+        "cv": 5,
+        "early_stopping_rounds": 20
     },
     "models": {
         "RandomForest": {
@@ -45,6 +46,7 @@
             "colsample_bytree": 0.8,
             "random_state": 42,
             "n_jobs": 32,
+            "early_stopping_rounds": 20,
             "param_grid": {
                 "max_depth": [3, 6, 9],
                 "learning_rate": [0.01, 0.1],
@@ -70,6 +72,7 @@
             "verbose": -1,
             "random_state": 42,
             "n_jobs": 32,
+            "early_stopping_rounds": 20,
             "param_grid": {
                 "max_depth": [3, 5, 7],
                 "learning_rate": [0.01, 0.1],
@@ -93,24 +96,18 @@
         "CNN": {
             "class": "CNNModel",
             "task_type": "regression",
-            "hidden_sizes": [128, 64, 32],
-            "dropout_rate": 0.3,
-            "learning_rate": 0.001,
+            "hidden_sizes": [128, 64],
+            "dropout_rate": 0.5,
+            "learning_rate": 0.0001,
             "batch_size": 32,
             "epochs": 200,
             "early_stopping_patience": 20,
-            "weight_decay": 1e-5,
-            "num_workers": 2,
-            "pin_memory": true,
-            "use_gpu": false,
+            "weight_decay": 5e-4,
             "param_grid": {
-                "hidden_sizes": [[64, 32, 16], [128, 64, 32], [256, 128, 64]],
-                "dropout_rate": [0.2, 0.3, 0.4],
-                "learning_rate": [0.0001, 0.001, 0.01],
-                "batch_size": [16, 32, 64],
-                "num_workers": [2],
-                "pin_memory": [true],
-                "use_gpu": [false]
+                "hidden_sizes": [[64, 32], [128, 64], [256, 128]],
+                "dropout_rate": [0.3, 0.5, 0.7],
+                "learning_rate": [0.0001, 0.0005],
+                "batch_size": [16, 32, 64]
             }
         }
     }

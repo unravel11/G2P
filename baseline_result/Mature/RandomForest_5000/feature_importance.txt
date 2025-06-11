@@ -1,0 +1,10 @@
+feature_1176: 0.0052
+feature_279: 0.0045
+feature_985: 0.0029
+feature_3: 0.0025
+feature_2422: 0.0023
+feature_981: 0.0020
+feature_2636: 0.0019
+feature_299: 0.0018
+feature_4446: 0.0018
+feature_982: 0.0018
