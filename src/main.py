@@ -20,8 +20,7 @@ from datetime import datetime
 from sklearn.model_selection import train_test_split
 
 from models.factory import ModelFactory
-from data.loader import DataLoader
-from data.preprocessor import GenotypePreprocessor
+from src.data.processed_data_loader import ProcessedDataLoader
 from utils.training import train_and_evaluate
 from utils.evaluation import plot_feature_importance, plot_prediction_vs_actual, evaluate_model
 
@@ -49,126 +48,51 @@ def load_config(config_path: str) -> Dict[str, Any]:
     with open(config_path, 'r') as f:
         return json.load(f)
 
-def save_results(results: Dict[str, Any], output_dir: str) -> None:
+def create_output_dirs(base_dir: str, config: Dict[str, Any], trait: str, timestamp: str) -> Dict[str, str]:
     """
-    保存评估结果
+    创建输出目录
     
     Args:
-        results: 评估结果字典
-        output_dir: 输出目录
-    """
-    os.makedirs(output_dir, exist_ok=True)
-    
-    # 创建总体评估结果文件
-    with open(os.path.join(output_dir, 'overall_evaluation.txt'), 'w') as f:
-        f.write("模型评估结果汇总\n")
-        f.write("=" * 50 + "\n\n")
-        
-        for trait, trait_res in results.items():
-            f.write(f"性状: {trait}\n")
-            f.write("=" * 40 + "\n\n")
-            
-            for model_name, res in trait_res.items():
-                f.write(f"模型: {model_name}\n")
-                
-                # 获取模型参数
-                model_params = res['model'].model_params
-                f.write("模型参数:\n")
-                for param_name, param_value in model_params.items():
-                    f.write(f"- {param_name}: {param_value}\n")
-                f.write("\n")
-                
-                # 如果有参数搜索结果，保存所有参数组合的结果
-                if res.get('param_results'):
-                    f.write("参数搜索结果:\n")
-                    f.write("-" * 20 + "\n")
-                    for i, result in enumerate(res['param_results'], 1):
-                        f.write(f"组合 {i}:\n")
-                        f.write("参数:\n")
-                        for param_name, param_value in result['params'].items():
-                            f.write(f"  - {param_name}: {param_value}\n")
-                        f.write(f"测试集得分: {result['mean_test_score']:.4f} (±{result['std_test_score']:.4f})\n")
-                        f.write(f"训练集得分: {result['mean_train_score']:.4f} (±{result['std_train_score']:.4f})\n")
-                        f.write(f"排名: {result['rank_test_score']}\n\n")
-                    f.write("\n")
-                
-                f.write("测试集评估结果:\n")
-                for metric_name, value in res['test_metrics'].items():
-                    f.write(f"- {metric_name}: {value:.4f}\n")
-                f.write("\n")
-                
-                f.write("Top 10 重要SNP:\n")
-                for snp_id, importance in res['top_features']:
-                    f.write(f"- {snp_id}: {importance:.4f}\n")
-                f.write("\n" + "=" * 50 + "\n\n")
-    
-    # 为每个性状创建单独的评估结果文件
-    for trait, trait_res in results.items():
-        trait_dir = os.path.join(output_dir, trait)
-        os.makedirs(trait_dir, exist_ok=True)
-        
-        # 保存每个模型的评估结果
-        for model_name, res in trait_res.items():
-            model_dir = os.path.join(trait_dir, model_name)
-            os.makedirs(model_dir, exist_ok=True)
-            
-            # 保存模型参数
-            with open(os.path.join(model_dir, 'model_params.txt'), 'w') as f:
-                for param_name, param_value in res['model'].model_params.items():
-                    f.write(f"{param_name}: {param_value}\n")
-            
-            # 保存测试集评估结果
-            with open(os.path.join(model_dir, 'test_metrics.txt'), 'w') as f:
-                for metric_name, value in res['test_metrics'].items():
-                    f.write(f"{metric_name}: {value:.4f}\n")
-            
-            # 保存特征重要性
-            with open(os.path.join(model_dir, 'feature_importance.txt'), 'w') as f:
-                for snp_id, importance in res['top_features']:
-                    f.write(f"{snp_id}: {importance:.4f}\n")
-
-def create_output_dirs(project_root: str, config: Dict[str, Any], trait: str) -> Dict[str, str]:
-    """
-    创建输出目录结构
-    
-    Args:
-        project_root: 项目根目录
+        base_dir: 基础目录
         config: 配置字典
-        trait: 当前处理的性状
+        trait: 性状名称
+        timestamp: 时间戳
         
     Returns:
-        Dict[str, str]: 包含各个输出目录路径的字典
+        Dict[str, str]: 输出目录字典
     """
-    # 创建带日期标签的输出目录（只在第一次调用时创建）
-    if not hasattr(create_output_dirs, 'base_output_dir'):
-        current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-        create_output_dirs.base_output_dir = os.path.join(project_root, config['data']['output_dir'], f'evaluation_results_{current_time}')
-        # 更新配置文件中的输出目录
-        config['data']['output_dir'] = create_output_dirs.base_output_dir
-    
-    # 创建各个子目录
-    trait_dir = os.path.join(create_output_dirs.base_output_dir, trait)
-    importance_dir = os.path.join(trait_dir, 'feature_importance')
-    prediction_dir = os.path.join(trait_dir, 'prediction_plots')
-    loss_curve_dir = os.path.join(trait_dir, 'loss_curve')
-    
-    # 创建所有目录
-    for directory in [trait_dir, importance_dir, prediction_dir, loss_curve_dir]:
-        os.makedirs(directory, exist_ok=True)
-    
+    # 创建带时间戳的评估目录
+    evaluate_dir = os.path.join(base_dir, config['data']['output_dir'], f'evaluate_{timestamp}')
+    trait_dir = os.path.join(evaluate_dir, trait)
+    model_dir = os.path.join(trait_dir, 'models')
+    plot_dir = os.path.join(trait_dir, 'plots')
+    for dir_path in [evaluate_dir, trait_dir, model_dir, plot_dir]:
+        os.makedirs(dir_path, exist_ok=True)
+        
     return {
-        'base': create_output_dirs.base_output_dir,
+        'evaluate': evaluate_dir,
         'trait': trait_dir,
-        'importance': importance_dir,
-        'prediction': prediction_dir,
-        'loss_curve': loss_curve_dir
+        'model': model_dir,
+        'plot': plot_dir
     }
 
+def convert_numpy_types(obj):
+    """将NumPy数据类型转换为Python原生类型"""
+    if isinstance(obj, np.integer):
+        return int(obj)
+    elif isinstance(obj, np.floating):
+        return float(obj)
+    elif isinstance(obj, np.ndarray):
+        return obj.tolist()
+    elif isinstance(obj, dict):
+        return {key: convert_numpy_types(value) for key, value in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_numpy_types(item) for item in obj]
+    return obj
+
 def main(args=None):
-    # 设置随机种子以确保结果可重复
-    np.random.seed(42)
-    
-    # 如果没有提供参数，则创建默认参数
+    """主函数"""
+    # 解析命令行参数
     if args is None:
         parser = argparse.ArgumentParser(description='基因型-表型预测')
         parser.add_argument('--config', type=str, default='config.json',
@@ -190,119 +114,143 @@ def main(args=None):
     if args.n_jobs is not None:
         config['training']['n_jobs'] = args.n_jobs
     
-    # 1. 加载数据
-    logger.info("正在加载数据...")
-    loader = DataLoader()
+    # 初始化数据加载器
     project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    pheno_file = os.path.join(project_root, config['data']['pheno_file'])
-    geno_file = os.path.join(project_root, config['data']['geno_file'])
-    pheno_data = loader.load_phenotype(pheno_file)
-    genotype_matrix, snp_ids, sample_ids, chroms = loader.load_genotype(geno_file)
-    pheno_data = pheno_data.set_index('sample')
-    common_samples = list(set(sample_ids) & set(pheno_data.index))
-    pheno_data = pheno_data.loc[common_samples]
-    sample_indices = [sample_ids.index(sample) for sample in common_samples]
-    genotype_matrix = genotype_matrix[:, sample_indices]
-    sample_ids = [sample_ids[i] for i in sample_indices]
-    logger.info(f"筛选后的表型数据形状: {pheno_data.shape}")
-    logger.info(f"筛选后的基因型数据形状: {genotype_matrix.shape}")
+    loader = ProcessedDataLoader(data_dir=os.path.join(project_root, 'preprocess_data', 'datasets'))
+    
+    # 获取可用的性状
+    available_traits = loader.get_available_traits()
+    if not available_traits:
+        logger.error("没有找到预处理数据，请先运行预处理脚本 python src/data/preprocess_data.py")
+        return
+        
+    logger.info("找到预处理数据，将使用预处理后的数据集...")
+    # 确定要使用的模型和性状
     models_to_use = args.models or list(config['models'].keys())
-    traits_to_use = args.traits or pheno_data.columns.tolist()
-    preprocessor = GenotypePreprocessor(
-        maf_threshold=config['preprocessing']['maf_threshold'],
-        missing_threshold=config['preprocessing']['missing_threshold'],
-        gwas_p_threshold=config['preprocessing']['gwas_p_threshold'],
-        top_n_snps=config['preprocessing']['top_n_snps']
-    )
-    snp_options = config['preprocessing'].get('top_n_snps_grid', [config['preprocessing']['top_n_snps']])
-    logger.info(f"SNP数量选项: {snp_options}")
+    traits_to_use = args.traits or available_traits
+    
+    # 生成时间戳
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    
+    # 处理每个性状
     all_results = {}
     for trait in traits_to_use:
         logger.info(f"\n===== 性状: {trait} =====")
-        output_dirs = create_output_dirs(project_root, config, trait)
-        y_all = pheno_data[trait].values
-        X_all = genotype_matrix.T  # shape: 样本数 x SNP数
-        all_sample_ids = sample_ids  # 顺序对齐
-        # 只划分一次训练集和测试集
-        X_train, X_test, y_train, y_test, train_sample_ids, test_sample_ids = train_test_split(
-            X_all, y_all, all_sample_ids, test_size=config['training']['test_size'], random_state=config['training']['random_state']
-        )
-        logger.info(f"训练集和测试集的大小: {X_train.shape}, {X_test.shape}")
+        output_dirs = create_output_dirs(project_root, config, trait, timestamp)
+        
+        # 获取可用的SNP数量
+        snp_options = loader.get_available_snp_counts(trait)
+        if not snp_options:
+            logger.warning(f"性状 {trait} 没有可用的预处理数据，跳过")
+            continue
+            
+        logger.info(f"可用的SNP数量: {snp_options}")
         trait_results = {}
+        
+        # 处理每个SNP数量
         for n_snps in snp_options:
             logger.info(f"\n----- SNP数量: {n_snps} -----")
-            preprocessor.top_n_snps = n_snps
-            # 只用训练集做GWAS，选SNP
-            filtered_matrix_train, filtered_snp_ids, filtered_sample_ids = preprocessor.preprocess(
-                X_train.T, snp_ids, train_sample_ids, y_train
+            
+            # 加载预处理数据
+            dataset = loader.load_dataset(trait, n_snps)
+            X_train = dataset['X_train']
+            X_test = dataset['X_test']
+            y_train = dataset['y_train']
+            y_test = dataset['y_test']
+            snp_ids = dataset['snp_ids']
+            
+            # 从训练集中划分出验证集
+            X_train, X_val, y_train, y_val = train_test_split(
+                X_train, y_train,
+                test_size=0.1,
+                random_state=42
             )
-            X_train_selected = filtered_matrix_train.T
-            snp_indices = [snp_ids.index(snp) for snp in filtered_snp_ids]
-            X_test_selected = X_test[:, snp_indices]
+            
+            logger.info(f"训练集形状: {X_train.shape}")
+            logger.info(f"验证集形状: {X_val.shape}")
+            logger.info(f"测试集形状: {X_test.shape}")
+            
+            # 训练每个模型
             for model_name in models_to_use:
                 if model_name not in config['models']:
                     logger.warning(f"跳过未知模型: {model_name}")
                     continue
+                    
                 logger.info(f"\n{'='*50}")
                 logger.info(f"训练模型: {model_name}")
+                
+                # 创建模型
                 model = ModelFactory.create_model(model_name, config['models'][model_name])
+                
+                # 参数搜索
                 param_grid = None
                 if args.tune:
                     param_grid = config['models'][model_name].get('param_grid')
                     if param_grid is None:
-                        logger.warning(f"模型 {model_name} 没有定义参数网格，将使用默认参数")
-                param_str = ""
-                if args.tune and param_grid:
-                    current_params = model.model_params
-                    param_parts = []
-                    for param_name, param_value in current_params.items():
-                        if param_name in param_grid:
-                            param_parts.append(f"{param_name}_{param_value}")
-                    if param_parts:
-                        param_str = "_" + "_".join(param_parts)
-                snp_str = f"_snps_{n_snps}"
-                # 划分训练集和验证集
-                X_train_inner, X_val, y_train_inner, y_val = train_test_split(
-                    X_train_selected, y_train, test_size=0.1, random_state=config['training']['random_state']
-                )
+                        logger.warning(f"模型 {model_name} 没有定义参数网格，跳过参数搜索")
                 
+                # 训练和评估模型
                 results = train_and_evaluate(
-                    model=model,
-                    X_train=X_train_inner,
-                    y_train=y_train_inner,
-                    X_val=X_val,
-                    y_val=y_val,
-                    X_test=X_test_selected,
-                    y_test=y_test,
-                    feature_names=filtered_snp_ids,
+                    model, X_train, y_train,
+                    X_val=X_val, y_val=y_val,
+                    X_test=X_test, y_test=y_test,
                     param_grid=param_grid,
                     n_jobs=config['training']['n_jobs'],
-                    output_dir=output_dirs['loss_curve'],  # 用于保存loss曲线
-                    prediction_dir=output_dirs['prediction'],  # 用于保存预测图
-                    prefix=f"{model_name}{param_str}{snp_str}"
+                    output_dir=output_dirs['model'],
+                    prediction_dir=output_dirs['plot'],
+                    prefix=f"{trait}_{model_name}_{n_snps}"
                 )
-                trait_results[f"{model_name}_{n_snps}"] = results
+                
+                # 保存结果
+                trait_results[f"{model_name}_{n_snps}"] = {
+                    'test_metrics': results['test_metrics'],
+                    'top_features': results['top_features'],
+                    'param_results': results['param_results']
+                }
+                
+                # 绘制特征重要性
+                if hasattr(model, 'feature_importances_'):
+                    plot_feature_importance(
+                        model.feature_importances_,
+                        snp_ids,
+                        output_dir=output_dirs['plot']
+                    )
+        
         all_results[trait] = trait_results
-    save_results(all_results, output_dirs['base'])
-    for trait, trait_res in all_results.items():
-        for model_name, res in trait_res.items():
-            param_str = ""
-            if args.tune and res.get('param_results'):
-                current_params = res['model'].model_params
-                param_parts = []
-                for param_name, param_value in current_params.items():
-                    if param_name in config['models'][model_name.split('_')[0]].get('param_grid', {}):
-                        param_parts.append(f"{param_name}_{param_value}")
-                if param_parts:
-                    param_str = "_" + "_".join(param_parts)
-            n_snps = int(model_name.split('_')[-1])
-            snp_str = f"_snps_{n_snps}"
-            plot_feature_importance(
-                res['top_features'],
-                top_n=10,
-                output_dir=output_dirs['importance'],
-                prefix=f"{model_name}{param_str}{snp_str}"
-            )
+        
+        # 保存当前性状的结果
+        results_file = os.path.join(output_dirs['trait'], f'results.txt')
+        with open(results_file, 'w') as f:
+            f.write(f"评估时间: {timestamp}\n")
+            f.write(f"性状: {trait}\n")
+            f.write("="*50 + "\n\n")
+            
+            for model_key, model_results in trait_results.items():
+                f.write(f"模型: {model_key}\n")
+                f.write("-"*30 + "\n")
+                
+                # 保存测试集指标
+                f.write("测试集评估结果:\n")
+                metrics = model_results['test_metrics']
+                for metric_name, value in metrics.items():
+                    if metric_name != 'y_pred':  # 跳过预测值
+                        f.write(f"{metric_name}: {value:.4f}\n")
+                
+                # 保存特征重要性
+                if model_results['top_features']:
+                    f.write("\n特征重要性 (Top 10):\n")
+                    for feature, importance in model_results['top_features'][:10]:
+                        f.write(f"{feature}: {importance:.4f}\n")
+                
+                # 保存参数搜索结果
+                if model_results['param_results']:
+                    f.write("\n参数搜索结果:\n")
+                    for param, value in model_results['param_results'].items():
+                        f.write(f"{param}: {value}\n")
+                
+                f.write("\n" + "="*50 + "\n\n")
+                
+        logger.info(f"性状 {trait} 的结果已保存到: {results_file}")
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main() 

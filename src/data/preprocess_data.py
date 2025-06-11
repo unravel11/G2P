@@ -1,18 +1,18 @@
 """
-数据预处理脚本：生成不同 SNP 数量的数据集
+数据预处理模块
+用于生成不同SNP数量的数据集
 """
 
 import os
 import sys
+import json
 import logging
 import numpy as np
 import pandas as pd
-from pathlib import Path
 from sklearn.model_selection import train_test_split
-import json
 
-# 添加项目根目录到 Python 路径
-project_root = str(Path(__file__).parent.parent)
+# 添加项目根目录到Python路径
+project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(project_root)
 
 from src.data.loader import DataLoader
@@ -25,145 +25,133 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-def create_output_dirs(base_dir: str, trait: str) -> dict:
-    """创建输出目录"""
-    output_dirs = {
-        'base': os.path.join(base_dir, trait),
-        'gwas': os.path.join(base_dir, trait, 'gwas'),
-        'data': os.path.join(base_dir, trait, 'data')
+def create_output_dirs(base_dir: str) -> dict:
+    """
+    创建输出目录结构
+    
+    Args:
+        base_dir: 基础输出目录
+        
+    Returns:
+        dict: 包含各个子目录路径的字典
+    """
+    dirs = {
+        'base': base_dir,
+        'datasets': os.path.join(base_dir, 'datasets')
     }
     
-    for dir_path in output_dirs.values():
+    for dir_path in dirs.values():
         os.makedirs(dir_path, exist_ok=True)
-    
-    return output_dirs
+        
+    return dirs
 
-def save_dataset(X_train: np.ndarray, X_test: np.ndarray, 
+def save_dataset(X_train: np.ndarray, X_test: np.ndarray,
                 y_train: np.ndarray, y_test: np.ndarray,
-                snp_ids: list, sample_ids: list,
-                output_dir: str, n_snps: int):
-    """保存数据集"""
-    # 创建数据集目录
-    dataset_dir = os.path.join(output_dir, f'snps_{n_snps}')
-    os.makedirs(dataset_dir, exist_ok=True)
+                snp_ids: list, output_dir: str, trait: str, snp_count: int):
+    """
+    保存数据集
     
-    # 保存训练集
-    np.save(os.path.join(dataset_dir, 'X_train.npy'), X_train)
-    np.save(os.path.join(dataset_dir, 'y_train.npy'), y_train)
+    Args:
+        X_train: 训练集特征
+        X_test: 测试集特征
+        y_train: 训练集标签
+        y_test: 测试集标签
+        snp_ids: SNP ID列表
+        output_dir: 输出目录
+        trait: 性状名称
+        snp_count: SNP数量
+    """
+    # 创建性状目录
+    trait_dir = os.path.join(output_dir, trait)
+    os.makedirs(trait_dir, exist_ok=True)
     
-    # 保存测试集
-    np.save(os.path.join(dataset_dir, 'X_test.npy'), X_test)
-    np.save(os.path.join(dataset_dir, 'y_test.npy'), y_test)
+    # 创建SNP数量目录
+    snp_dir = os.path.join(trait_dir, f"{snp_count}_snps")
+    os.makedirs(snp_dir, exist_ok=True)
     
-    # 保存 SNP ID 和样本 ID
-    with open(os.path.join(dataset_dir, 'snp_ids.json'), 'w') as f:
-        json.dump(snp_ids, f)
+    # 保存数据
+    np.save(os.path.join(snp_dir, 'X_train.npy'), X_train)
+    np.save(os.path.join(snp_dir, 'X_test.npy'), X_test)
+    np.save(os.path.join(snp_dir, 'y_train.npy'), y_train)
+    np.save(os.path.join(snp_dir, 'y_test.npy'), y_test)
     
-    with open(os.path.join(dataset_dir, 'sample_ids.json'), 'w') as f:
-        json.dump(sample_ids, f)
-    
-    # 保存数据集信息
-    info = {
-        'n_snps': n_snps,
-        'n_samples_train': len(y_train),
-        'n_samples_test': len(y_test),
-        'feature_names': snp_ids
-    }
-    
-    with open(os.path.join(dataset_dir, 'info.json'), 'w') as f:
-        json.dump(info, f, indent=4)
-    
-    logger.info(f"数据集已保存到: {dataset_dir}")
+    # 保存SNP ID
+    with open(os.path.join(snp_dir, 'snp_ids.txt'), 'w') as f:
+        f.write('\n'.join(snp_ids))
 
-def preprocess_data(config_path: str = 'src/config.json'):
-    """预处理数据并生成不同 SNP 数量的数据集"""
-    # 加载配置
-    with open(config_path, 'r') as f:
-        config = json.load(f)
+def preprocess_data():
+    """主预处理函数"""
+    # 设置输入输出路径
+    pheno_file = 'data/wheat1k.pheno.txt'
+    geno_file = 'data/Wheat1k.recode.vcf'
+    output_base = 'preprocess_data'
     
-    # 创建数据加载器
+    # 创建输出目录
+    output_dirs = create_output_dirs(output_base)
+    
+    # 加载原始数据
+    logger.info("加载原始数据...")
     loader = DataLoader()
+    pheno_data = loader.load_phenotype(pheno_file)
+    geno_matrix, snp_ids, sample_ids = loader.load_genotype(geno_file)
     
-    # 加载基因型数据
-    logger.info("加载基因型数据...")
-    genotype_matrix, snp_ids, sample_ids, chroms = loader.load_genotype(config['data']['geno_file'])
+    # 将表型数据的sample列设置为索引
+    pheno_data.set_index('sample', inplace=True)
     
-    # 加载表型数据
-    logger.info("加载表型数据...")
-    pheno_data = pd.read_csv(config['data']['pheno_file'], sep='\t')
-    pheno_data = pheno_data.set_index('sample')
-    
-    # 对齐样本
-    common_samples = list(set(sample_ids) & set(pheno_data.index))
-    logger.info(f"共同样本数量: {len(common_samples)}")
-    
-    # 获取样本索引
-    sample_indices = [sample_ids.index(sample) for sample in common_samples]
-    genotype_matrix = genotype_matrix[:, sample_indices]
-    sample_ids = [sample_ids[i] for i in sample_indices]
+    # 确保样本对齐
+    common_samples = list(set(pheno_data.index) & set(sample_ids))
     pheno_data = pheno_data.loc[common_samples]
+    sample_indices = [sample_ids.index(sample) for sample in common_samples]
+    geno_matrix = geno_matrix[:, sample_indices]
     
-    # 创建预处理器
-    preprocessor = GenotypePreprocessor(
-        maf_threshold=config['preprocessing']['maf_threshold'],
-        missing_threshold=config['preprocessing']['missing_threshold'],
-        gwas_p_threshold=config['preprocessing']['gwas_p_threshold']
-    )
+    logger.info(f"筛选后的表型数据形状: {pheno_data.shape}")
+    logger.info(f"筛选后的基因型数据形状: {geno_matrix.shape}")
+    
+    # 定义SNP数量列表
+    snp_counts = [100, 1000, 3000, 5000, 7000]
     
     # 对每个性状进行处理
-    traits = pheno_data.columns
-    snp_options = [1000, 3000, 5000, 8000]
-    
-    for trait in traits:
-        logger.info(f"\n处理性状: {trait}")
+    for trait in pheno_data.columns:
+        logger.info(f"\n===== 性状: {trait} =====")
         
-        # 创建输出目录
-        output_dirs = create_output_dirs(config['data']['output_dir'], trait)
-        
-        # 获取表型数据
+        # 获取当前性状的表型值
         y = pheno_data[trait].values
         
-        # 划分训练集和测试集
-        X_all = genotype_matrix.T  # shape: 样本数 x SNP数
-        X_train, X_test, y_train, y_test = train_test_split(
-            X_all, y,
-            test_size=0.2,
-            random_state=config['training']['random_state']
+        # 创建预处理器
+        preprocessor = GenotypePreprocessor(
+            maf_threshold=0.05,
+            missing_threshold=0.1,
+            gwas_p_threshold=1e-5,
+            top_n_snps=max(snp_counts)  # 使用最大的SNP数量
         )
         
-        # 对每个 SNP 数量进行处理
-        for n_snps in snp_options:
-            logger.info(f"\n处理 SNP 数量: {n_snps}")
+        # 预处理基因型数据并进行GWAS分析
+        logger.info("进行GWAS分析...")
+        processed_geno, selected_snps, _ = preprocessor.preprocess(
+            geno_matrix, snp_ids, common_samples, y
+        )
+        
+        # 对每个SNP数量进行处理
+        for snp_count in snp_counts:
+            logger.info(f"\n处理 {snp_count} 个SNP...")
             
-            # 设置 SNP 数量
-            preprocessor.top_n_snps = n_snps
+            # 选择指定数量的SNP
+            current_geno = processed_geno[:snp_count]
+            current_snps = selected_snps[:snp_count]
             
-            # 预处理训练集
-            filtered_matrix_train, filtered_snp_ids, filtered_sample_ids = preprocessor.preprocess(
-                X_train.T, snp_ids, sample_ids, y_train
+            # 划分训练集和测试集
+            X_train, X_test, y_train, y_test = train_test_split(
+                current_geno.T, y, test_size=0.2, random_state=42
             )
-            
-            # 保存 GWAS 结果
-            preprocessor.save_gwas_results(
-                output_dir=output_dirs['gwas'],
-                trait_name=f"{trait}_snps_{n_snps}"
-            )
-            
-            # 准备测试集数据
-            snp_indices = [snp_ids.index(snp) for snp in filtered_snp_ids]
-            X_test_selected = X_test[:, snp_indices]
             
             # 保存数据集
             save_dataset(
-                X_train=filtered_matrix_train.T,
-                X_test=X_test_selected,
-                y_train=y_train,
-                y_test=y_test,
-                snp_ids=filtered_snp_ids,
-                sample_ids=filtered_sample_ids,
-                output_dir=output_dirs['data'],
-                n_snps=n_snps
+                X_train, X_test, y_train, y_test,
+                current_snps, output_dirs['datasets'],
+                trait, snp_count
             )
+            
+            logger.info(f"已保存 {snp_count} 个SNP的数据集")
 
 if __name__ == '__main__':
     preprocess_data() 

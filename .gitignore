@@ -43,6 +43,7 @@ ENV/
 *.vcf.gz
 *.pheno.txt
 *.pheno.txt.gz
+/preprocess_data/
 
 # Logs
 *.log
@@ -53,4 +54,4 @@ logs/
 Thumbs.db 
 
 # Evaluation results
-output/evaluation_results_*/ 
+output/evaluate*/ 
