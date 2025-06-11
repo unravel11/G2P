@@ -6,26 +6,25 @@
 import numpy as np
 from typing import Dict, Any, Tuple, List, Optional
 import logging
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from models.base import BaseModel
-from utils.evaluation import evaluate_model, cross_validate, plot_prediction_vs_actual
+from utils.evaluation import evaluate_model, plot_prediction_vs_actual
 from utils.hyperparameter_tuning import grid_search
+import os
 
 logger = logging.getLogger(__name__)
 
 def train_and_evaluate(
     model: Any,
-    X: np.ndarray,
-    y: np.ndarray,
+    X_train: np.ndarray,
+    y_train: np.ndarray,
+    X_val: np.ndarray,
+    y_val: np.ndarray,
+    X_test: np.ndarray,
+    y_test: np.ndarray,
     feature_names: Optional[List[str]] = None,
-    test_size: float = 0.2,
-    random_state: int = 42,
-    n_splits: int = 5,
     param_grid: Optional[Dict[str, List[Any]]] = None,
     n_jobs: int = -1,
-    cv: int = 3,
     output_dir: Optional[str] = None,
+    prediction_dir: Optional[str] = None,
     prefix: Optional[str] = None
 ) -> Dict[str, Any]:
     """
@@ -33,31 +32,26 @@ def train_and_evaluate(
     
     Args:
         model: 模型对象
-        X: 特征矩阵
-        y: 目标变量
+        X_train: 训练集特征矩阵
+        y_train: 训练集目标变量
+        X_val: 验证集特征矩阵
+        y_val: 验证集目标变量
+        X_test: 测试集特征矩阵
+        y_test: 测试集目标变量
         feature_names: 特征名称列表
-        test_size: 测试集比例
-        random_state: 随机种子
-        n_splits: 交叉验证折数
         param_grid: 参数网格
         n_jobs: 并行计算的CPU核心数
-        cv: 参数搜索的交叉验证折数
-        output_dir: 输出目录
+        output_dir: 输出目录（用于保存loss曲线）
+        prediction_dir: 预测图保存目录
         prefix: 文件名前缀
         
     Returns:
         Dict[str, Any]: 包含模型和评估结果的字典
     """
-    from sklearn.model_selection import train_test_split
     from utils.hyperparameter_tuning import grid_search
     
-    # 划分训练集和测试集
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=test_size, random_state=random_state
-    )
-    
     # 如果是CNN模型,需要特殊处理
-    is_cnn = isinstance(model, type) and model.__name__ == 'CNNModel'
+    is_cnn = model.__class__.__name__ == 'CNNModel'
     
     # 如果有参数网格，进行参数搜索
     if param_grid is not None:
@@ -69,7 +63,6 @@ def train_and_evaluate(
                 X=X_train,
                 y=y_train,
                 param_grid=param_grid,
-                cv=cv,
                 n_jobs=1  # CNN模型不支持并行训练
             )
         else:
@@ -78,7 +71,6 @@ def train_and_evaluate(
                 X=X_train,
                 y=y_train,
                 param_grid=param_grid,
-                cv=cv,
                 n_jobs=n_jobs
             )
         model.model = search_results['best_estimator']
@@ -89,11 +81,17 @@ def train_and_evaluate(
     # 训练模型
     logger.info("训练最终模型...")
     if is_cnn:
-        # CNN模型需要验证集
-        X_train, X_val, y_train, y_val = train_test_split(
-            X_train, y_train, test_size=0.2, random_state=random_state
-        )
-        model.train(X_train, y_train, X_val=X_val, y_val=y_val, feature_names=feature_names)
+        # 为CNN模型创建loss_curve目录
+        if output_dir:
+            # 直接使用output_dir作为基础路径
+            loss_curve_dir = output_dir  # 直接使用传入的目录
+            os.makedirs(loss_curve_dir, exist_ok=True)
+            logger.info(f"loss曲线将保存到: {loss_curve_dir}")
+        else:
+            loss_curve_dir = None
+            logger.warning("未提供output_dir，loss曲线将不会保存")
+            
+        model.train(X_train, y_train, X_val=X_val, y_val=y_val, feature_names=feature_names, output_dir=loss_curve_dir)
     else:
         model.train(X_train, y_train, feature_names=feature_names)
     
@@ -103,16 +101,9 @@ def train_and_evaluate(
     test_metrics = evaluate_model(y_test, y_pred)
     
     # 绘制预测图
-    if output_dir and prefix:
-        plot_prediction_vs_actual(y_test, y_pred, output_dir=output_dir, prefix=prefix)
-    
-    # 进行交叉验证
-    logger.info("进行交叉验证...")
-    if is_cnn:
-        # CNN模型使用自定义的交叉验证
-        cv_metrics = cross_validate(model, X, y, n_splits=n_splits, is_cnn=True)
-    else:
-        cv_metrics = cross_validate(model, X, y, n_splits=n_splits)
+    if prediction_dir and prefix:
+        os.makedirs(prediction_dir, exist_ok=True)
+        plot_prediction_vs_actual(y_test, y_pred, output_dir=prediction_dir, prefix=prefix)
     
     # 获取特征重要性
     feature_importance = model.get_feature_importance()
@@ -125,7 +116,6 @@ def train_and_evaluate(
     return {
         'model': model,
         'test_metrics': test_metrics,
-        'cv_metrics': cv_metrics,
         'top_features': top_features,
         'param_results': param_results
     } 

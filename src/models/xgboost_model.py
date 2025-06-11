@@ -57,14 +57,6 @@ class XGBoostModel(BaseModel):
             }
         return metrics
 
-    def cross_validate(self, X: np.ndarray, y: np.ndarray, cv: int = 5) -> Dict[str, float]:
-        scoring = 'accuracy' if self.task_type == 'classification' else 'r2'
-        scores = cross_val_score(self.model, X, y, cv=cv, scoring=scoring)
-        return {
-            'mean_score': scores.mean(),
-            'std_score': scores.std()
-        }
-
     def get_feature_importance(self) -> Dict[str, float]:
         if self.model is None:
             raise ValueError("模型尚未训练")

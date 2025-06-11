@@ -47,17 +47,10 @@ class LassoModel(BaseModel):
         }
         return metrics
 
-    def cross_validate(self, X: np.ndarray, y: np.ndarray, cv: int = 5) -> Dict[str, float]:
-        scores = cross_val_score(self.model, X, y, cv=cv, scoring='r2')
-        return {
-            'mean_score': scores.mean(),
-            'std_score': scores.std()
-        }
-
     def get_feature_importance(self) -> Dict[str, float]:
         if self.model is None:
             raise ValueError("模型尚未训练")
-        coefs = np.abs(self.model.coef_)
+        importances = np.abs(self.model.coef_)
         if self.feature_names is None:
-            self.feature_names = [f"feature_{i}" for i in range(len(coefs))]
-        return dict(zip(self.feature_names, coefs)) 
+            self.feature_names = [f"feature_{i}" for i in range(len(importances))]
+        return dict(zip(self.feature_names, importances)) 

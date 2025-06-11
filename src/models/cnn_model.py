@@ -15,6 +15,11 @@ from sklearn.preprocessing import StandardScaler
 from .base import BaseModel
 import os
 from torch.utils.data import DataLoader, TensorDataset
+import logging
+import matplotlib.pyplot as plt
+import time
+
+logger = logging.getLogger(__name__)
 
 # 设置PyTorch的并行计算线程数
 torch.set_num_threads(os.cpu_count())
@@ -185,7 +190,7 @@ class CNNModel(BaseModel):
             eta_min=1e-6  # 最小学习率
         )
     
-    def train(self, X: np.ndarray, y: np.ndarray, X_val: np.ndarray = None, y_val: np.ndarray = None, feature_names: Optional[List[str]] = None) -> None:
+    def train(self, X: np.ndarray, y: np.ndarray, X_val: np.ndarray = None, y_val: np.ndarray = None, feature_names: Optional[List[str]] = None, output_dir: Optional[str] = None) -> None:
         """
         训练模型
         Args:
@@ -194,100 +199,224 @@ class CNNModel(BaseModel):
             X_val: 验证集特征矩阵
             y_val: 验证集目标变量
             feature_names: 特征名称列表
+            output_dir: 输出目录
         """
-        self.feature_names = feature_names
-        
-        # 标准化表型数据
-        y = self.scaler.fit_transform(y.reshape(-1, 1)).ravel()
-        if y_val is not None:
-            y_val = self.scaler.transform(y_val.reshape(-1, 1)).ravel()
-        
-        # 转换为PyTorch张量
-        X = torch.FloatTensor(X)
-        y = torch.FloatTensor(y)
-        if X_val is not None and y_val is not None:
-            X_val = torch.FloatTensor(X_val)
-            y_val = torch.FloatTensor(y_val)
-        
-        # 创建数据加载器
-        dataset = TensorDataset(X, y)
-        dataloader = DataLoader(
-            dataset,
-            batch_size=self.model_params['batch_size'],
-            shuffle=True,
-            num_workers=os.cpu_count(),
-            pin_memory=True
-        )
-        
-        self.model.train()
-        best_loss = float('inf')
-        patience_counter = 0
-        
-        for epoch in range(self.model_params['epochs']):
-            total_loss = 0
-            for batch_X, batch_y in dataloader:
-                batch_X = batch_X.to(self.device)
-                batch_y = batch_y.to(self.device)
-                if batch_y.dim() == 1:
-                    batch_y = batch_y.unsqueeze(1)
-                
-                self.optimizer.zero_grad()
-                outputs = self.model(batch_X)
-                loss = self.criterion(outputs, batch_y)
-                loss.backward()
-                
-                # 梯度裁剪
-                torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
-                
-                self.optimizer.step()
-                total_loss += loss.item()
+        try:
+            # 设置随机种子
+            torch.manual_seed(42)
+            if torch.cuda.is_available():
+                torch.cuda.manual_seed(42)
+                torch.cuda.manual_seed_all(42)
+            torch.backends.cudnn.deterministic = True
+            torch.backends.cudnn.benchmark = False
             
-            avg_loss = total_loss / len(dataloader)
+            # 动态根据输入特征数（SNP数量）初始化模型
+            input_size = X.shape[1]
+            self.model = self.CNN(
+                input_size=input_size,
+                hidden_sizes=self.model_params['hidden_sizes'],
+                dropout_rate=self.model_params['dropout_rate']
+            ).to(self.device)
+            self.optimizer = optim.AdamW(
+                self.model.parameters(),
+                lr=self.model_params['learning_rate'],
+                weight_decay=self.model_params['weight_decay']
+            )
+            self.scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(
+                self.optimizer,
+                T_0=10,
+                T_mult=2,
+                eta_min=1e-6
+            )
+
+            logger.info("开始训练CNN模型...")
+            logger.info(f"使用设备: {self.device}")
+            logger.info(f"输入数据形状: X={X.shape}, y={y.shape}")
             
-            # 验证集评估
+            self.feature_names = feature_names
+            
+            # 标准化表型数据
+            logger.info("标准化表型数据...")
+            y = self.scaler.fit_transform(y.reshape(-1, 1)).ravel()
+            if y_val is not None:
+                y_val = self.scaler.transform(y_val.reshape(-1, 1)).ravel()
+            
+            # 转换为PyTorch张量
+            logger.info("转换为PyTorch张量...")
+            X = torch.FloatTensor(X)
+            y = torch.FloatTensor(y)
             if X_val is not None and y_val is not None:
-                self.model.eval()
-                with torch.no_grad():
-                    X_val_t = X_val.to(self.device)
-                    y_val_t = y_val.to(self.device)
-                    if y_val_t.dim() == 1:
-                        y_val_t = y_val_t.unsqueeze(1)
-                    val_outputs = self.model(X_val_t)
-                    val_loss = self.criterion(val_outputs, y_val_t).item()
+                X_val = torch.FloatTensor(X_val)
+                y_val = torch.FloatTensor(y_val)
+            
+            # 创建数据加载器
+            logger.info("创建数据加载器...")
+            dataset = TensorDataset(X, y)
+            # 创建固定的随机数生成器
+            g = torch.Generator()
+            g.manual_seed(42)
+            dataloader = DataLoader(
+                dataset,
+                batch_size=self.model_params['batch_size'],
+                shuffle=True,
+                num_workers=0,  # 修改为0，避免多进程问题
+                pin_memory=True,
+                generator=g  # 使用固定的随机数生成器
+            )
+            
+            logger.info("开始训练循环...")
+            self.model.train()
+            best_loss = float('inf')
+            patience_counter = 0
+            train_losses = []
+            val_losses = []
+            
+            for epoch in range(self.model_params['epochs']):
+                total_loss = 0
+                batch_count = 0
                 
-                print(f"Epoch {epoch+1}/{self.model_params['epochs']}, "
-                      f"Train Loss: {avg_loss:.6f}, Val Loss: {val_loss:.6f}, "
-                      f"LR: {self.scheduler.get_last_lr()[0]:.6f}")
+                try:
+                    for batch_X, batch_y in dataloader:
+                        try:
+                            batch_count += 1
+                            # 只在每个epoch开始时输出一次进度
+                            if batch_count == 1:
+                                logger.info(f"Epoch {epoch+1}/{self.model_params['epochs']} 开始训练...")
+                            
+                            # 确保数据在正确的设备上
+                            batch_X = batch_X.to(self.device, non_blocking=True)
+                            batch_y = batch_y.to(self.device, non_blocking=True)
+                            if batch_y.dim() == 1:
+                                batch_y = batch_y.unsqueeze(1)
+                            
+                            # 前向传播
+                            self.optimizer.zero_grad()
+                            outputs = self.model(batch_X)
+                            loss = self.criterion(outputs, batch_y)
+                            
+                            # 反向传播
+                            loss.backward()
+                            
+                            # 梯度裁剪
+                            torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
+                            
+                            # 更新参数
+                            self.optimizer.step()
+                            total_loss += loss.item()
+                            
+                            # 清理缓存
+                            if torch.cuda.is_available():
+                                torch.cuda.empty_cache()
+                                
+                        except RuntimeError as e:
+                            logger.error(f"处理batch时出错: {str(e)}")
+                            if "CUDA out of memory" in str(e):
+                                logger.error("GPU内存不足，尝试减小batch size")
+                                raise
+                            continue
+                    
+                    avg_loss = total_loss / len(dataloader)
+                    train_losses.append(avg_loss)
+                    
+                    # 验证集评估
+                    if X_val is not None and y_val is not None:
+                        self.model.eval()
+                        with torch.no_grad():
+                            try:
+                                X_val_t = X_val.to(self.device, non_blocking=True)
+                                y_val_t = y_val.to(self.device, non_blocking=True)
+                                if y_val_t.dim() == 1:
+                                    y_val_t = y_val_t.unsqueeze(1)
+                                val_outputs = self.model(X_val_t)
+                                val_loss = self.criterion(val_outputs, y_val_t).item()
+                                val_losses.append(val_loss)
+                                
+                                # 只在验证损失改善时输出详细信息
+                                if val_loss < best_loss:
+                                    logger.info(f"Epoch {epoch+1}/{self.model_params['epochs']}, "
+                                              f"Train Loss: {avg_loss:.6f}, Val Loss: {val_loss:.6f}, "
+                                              f"LR: {self.scheduler.get_last_lr()[0]:.6f}")
+                                
+                                self.model.train()
+                                
+                                # 更新学习率
+                                self.scheduler.step()
+                                
+                                # Early stopping
+                                if val_loss < best_loss:
+                                    best_loss = val_loss
+                                    patience_counter = 0
+                                    logger.info(f"发现更好的模型，验证损失: {val_loss:.6f}")
+                                else:
+                                    patience_counter += 1
+                                    if patience_counter >= self.model_params['early_stopping_patience']:
+                                        logger.info(f"Early stopping at epoch {epoch+1}")
+                                        break
+                                    
+                            except RuntimeError as e:
+                                logger.error(f"验证集评估时出错: {str(e)}")
+                                continue
+                    else:
+                        # 只在训练损失改善时输出详细信息
+                        if avg_loss < best_loss:
+                            logger.info(f"Epoch {epoch+1}/{self.model_params['epochs']}, "
+                                      f"Loss: {avg_loss:.6f}, LR: {self.scheduler.get_last_lr()[0]:.6f}")
+                        
+                        # 更新学习率
+                        self.scheduler.step()
+                        
+                        if avg_loss < best_loss:
+                            best_loss = avg_loss
+                            patience_counter = 0
+                        else:
+                            patience_counter += 1
+                            if patience_counter >= self.model_params['early_stopping_patience']:
+                                logger.info(f"Early stopping at epoch {epoch+1}")
+                                break
+                            
+                except Exception as e:
+                    logger.error(f"训练过程中出错: {str(e)}")
+                    raise
+            
+            logger.info("模型训练完成")
+            
+            # 训练结束后绘制loss曲线
+            try:
+                # 自动生成唯一文件名
+                param_str = f"snps{X.shape[1]}_hidden{'-'.join(map(str, self.model_params.get('hidden_sizes', [])))}_dropout{self.model_params.get('dropout_rate', '')}_lr{self.model_params.get('learning_rate', '')}_bs{self.model_params.get('batch_size', '')}"
+                timestamp = time.strftime("%Y%m%d%H%M%S")
                 
-                self.model.train()
-                
-                # 更新学习率
-                self.scheduler.step()
-                
-                # Early stopping
-                if val_loss < best_loss:
-                    best_loss = val_loss
-                    patience_counter = 0
+                if output_dir:
+                    # 确保输出目录存在
+                    os.makedirs(output_dir, exist_ok=True)
+                    loss_curve_path = os.path.join(output_dir, f"loss_curve_{param_str}_{timestamp}.png")
+                    
+                    plt.figure(figsize=(10, 6))
+                    plt.plot(train_losses, label='Train Loss', linewidth=2)
+                    if val_losses:
+                        plt.plot(val_losses, label='Validation Loss', linewidth=2)
+                    plt.xlabel('Epoch', fontsize=12)
+                    plt.ylabel('Loss', fontsize=12)
+                    plt.title('Training/Validation Loss Curve', fontsize=14)
+                    plt.legend(fontsize=12)
+                    plt.grid(True)
+                    plt.tight_layout()
+                    
+                    # 保存图片
+                    plt.savefig(loss_curve_path, dpi=300, bbox_inches='tight')
+                    plt.close()
+                    logger.info(f'Loss曲线已保存: {loss_curve_path}')
                 else:
-                    patience_counter += 1
-                    if patience_counter >= self.model_params['early_stopping_patience']:
-                        print(f"Early stopping at epoch {epoch+1}")
-                        break
-            else:
-                print(f"Epoch {epoch+1}/{self.model_params['epochs']}, "
-                      f"Loss: {avg_loss:.6f}, LR: {self.scheduler.get_last_lr()[0]:.6f}")
-                
-                # 更新学习率
-                self.scheduler.step()
-                
-                if avg_loss < best_loss:
-                    best_loss = avg_loss
-                    patience_counter = 0
-                else:
-                    patience_counter += 1
-                    if patience_counter >= self.model_params['early_stopping_patience']:
-                        print(f"Early stopping at epoch {epoch+1}")
-                        break
+                    logger.warning("未提供output_dir，无法保存loss曲线")
+            except Exception as e:
+                logger.error(f'绘制loss曲线出错: {str(e)}')
+                logger.error(f'错误详情: {e.__class__.__name__}')
+                import traceback
+                logger.error(f'错误堆栈: {traceback.format_exc()}')
+            
+        except Exception as e:
+            logger.error(f"训练过程发生错误: {str(e)}")
+            raise
     
     def predict(self, X: np.ndarray) -> np.ndarray:
         """

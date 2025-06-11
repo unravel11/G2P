@@ -106,26 +106,6 @@ class RandomForestModel(BaseModel):
         
         return metrics
     
-    def cross_validate(self, X: np.ndarray, y: np.ndarray, cv: int = 5) -> Dict[str, float]:
-        """
-        交叉验证
-        
-        Args:
-            X: 特征矩阵
-            y: 目标变量
-            cv: 交叉验证折数
-            
-        Returns:
-            Dict[str, float]: 交叉验证结果
-        """
-        scoring = 'accuracy' if self.task_type == 'classification' else 'r2'
-        scores = cross_val_score(self.model, X, y, cv=cv, scoring=scoring)
-        
-        return {
-            'mean_score': scores.mean(),
-            'std_score': scores.std()
-        }
-    
     def get_feature_importance(self) -> Dict[str, float]:
         """
         获取特征重要性
@@ -136,8 +116,8 @@ class RandomForestModel(BaseModel):
         if self.model is None:
             raise ValueError("模型尚未训练")
             
+        importances = self.model.feature_importances_
         if self.feature_names is None:
-            # 如果没有特征名称，使用索引作为特征名
-            self.feature_names = [f"feature_{i}" for i in range(len(self.model.feature_importances_))]
+            self.feature_names = [f"feature_{i}" for i in range(len(importances))]
             
-        return dict(zip(self.feature_names, self.model.feature_importances_)) 
+        return dict(zip(self.feature_names, importances)) 

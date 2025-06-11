@@ -22,7 +22,8 @@ sys.path.append(project_root)
 from src.models.cnn_model import CNNModel
 from src.data.loader import DataLoader
 from src.data.preprocessor import GenotypePreprocessor
-from src.utils.evaluation import plot_feature_importance, plot_prediction_vs_actual, cross_validate
+from src.utils.evaluation import plot_feature_importance, plot_prediction_vs_actual
+from src.utils.training import train_and_evaluate
 
 # 配置日志
 logging.basicConfig(
@@ -134,50 +135,39 @@ def test_cnn_model(trait: str = None, force_preprocess: bool = False):
         random_state=config['training']['random_state']
     )
     
-    # 首先进行交叉验证评估
-    logger.info("开始交叉验证评估...")
+    # 训练和评估模型
+    logger.info("开始训练和评估模型...")
     model = CNNModel(model_params=cnn_config, task_type='regression')
-    cv_metrics = cross_validate(model, X_trainval, y_trainval, n_splits=config['training']['n_splits'])
-    logger.info("交叉验证结果:")
-    for metric_name, value in cv_metrics.items():
-        logger.info(f"{metric_name}: {value:.4f}")
-    
-    # 训练最终模型
-    logger.info("初始化模型...")
-    model = CNNModel(model_params=cnn_config, task_type='regression')
-    logger.info("开始训练模型...")
-    model.train(X_train, y_train, X_val=X_val, y_val=y_val, feature_names=feature_names)
-    logger.info("模型训练完成")
-    
-    # 评估模型
-    logger.info("评估模型性能...")
-    metrics = model.evaluate(X_test, y_test)
-    logger.info("测试集评估指标:")
-    for metric_name, value in metrics.items():
+    results = train_and_evaluate(
+        model=model,
+        X_train=X_train,
+        y_train=y_train,
+        X_val=X_val,
+        y_val=y_val,
+        X_test=X_test,
+        y_test=y_test,
+        feature_names=feature_names,
+        output_dir=output_dirs['trait'],
+        prediction_dir=output_dirs['prediction'],
+        prefix=f"cnn_{trait}"
+    )
+    logger.info("评估结果:")
+    for metric_name, value in results['test_metrics'].items():
         logger.info(f"{metric_name}: {value:.4f}")
     
     # 获取特征重要性
     logger.info("获取特征重要性...")
-    feature_importance = model.get_feature_importance()
-    top_features = sorted(feature_importance.items(), key=lambda x: x[1], reverse=True)[:10]
+    feature_importance = results['top_features']
     
     # 保存特征重要性
     importance_file = os.path.join(output_dirs['importance'], 'feature_importance.txt')
     with open(importance_file, 'w') as f:
-        for feature, importance in top_features:
+        for feature, importance in feature_importance:
             f.write(f"{feature}: {importance:.4f}\n")
-    
-    # 绘制预测值与实际值对比图
-    y_pred = model.predict(X_test)
-    plot_prediction_vs_actual(
-        y_test, y_pred,
-        output_dir=output_dirs['prediction'],
-        prefix=f"cnn_{trait}"
-    )
     
     # 绘制特征重要性图
     plot_feature_importance(
-        list(feature_importance.items()),
+        list(feature_importance),
         top_n=10,
         output_dir=output_dirs['importance'],
         prefix=f"cnn_{trait}"
