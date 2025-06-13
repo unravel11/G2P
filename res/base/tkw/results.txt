@@ -1,0 +1,5764 @@
+评估时间: 20250612_185550
+性状: tkw
+==================================================
+
+模型: RandomForest_100
+------------------------------
+测试集评估结果:
+r2: 0.2707
+rmse: 3.7369
+mse: 13.9646
+pearson_r: 0.5252
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_6: 0.0708
+feature_1: 0.0567
+feature_50: 0.0498
+feature_20: 0.0487
+feature_21: 0.0471
+feature_22: 0.0438
+feature_10: 0.0431
+feature_7: 0.0328
+feature_56: 0.0311
+feature_60: 0.0275
+
+参数搜索结果:
+组合 1:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.4641 (±0.1222)
+训练集得分: 0.6090 (±0.0174)
+排名: 1
+
+组合 2:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.4603 (±0.1221)
+训练集得分: 0.6074 (±0.0172)
+排名: 2
+
+组合 3:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.4602 (±0.1196)
+训练集得分: 0.5488 (±0.0202)
+排名: 3
+
+组合 4:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.4574 (±0.1209)
+训练集得分: 0.6492 (±0.0164)
+排名: 4
+
+组合 5:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.4573 (±0.1283)
+训练集得分: 0.5602 (±0.0190)
+排名: 5
+
+组合 6:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.4566 (±0.1238)
+训练集得分: 0.5607 (±0.0189)
+排名: 6
+
+组合 7:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.4558 (±0.1220)
+训练集得分: 0.6473 (±0.0163)
+排名: 7
+
+组合 8:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.4556 (±0.1230)
+训练集得分: 0.5478 (±0.0206)
+排名: 8
+
+组合 9:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.4547 (±0.1220)
+训练集得分: 0.6338 (±0.0170)
+排名: 9
+
+组合 10:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.4519 (±0.1181)
+训练集得分: 0.6828 (±0.0153)
+排名: 10
+
+组合 11:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.4518 (±0.1216)
+训练集得分: 0.6320 (±0.0170)
+排名: 11
+
+组合 12:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.4502 (±0.1220)
+训练集得分: 0.6811 (±0.0156)
+排名: 12
+
+组合 13:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.4495 (±0.1214)
+训练集得分: 0.6404 (±0.0169)
+排名: 13
+
+组合 14:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.4475 (±0.1193)
+训练集得分: 0.6384 (±0.0172)
+排名: 14
+
+组合 15:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.4449 (±0.1177)
+训练集得分: 0.6892 (±0.0157)
+排名: 15
+
+组合 16:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.4426 (±0.1210)
+训练集得分: 0.6877 (±0.0158)
+排名: 16
+
+
+==================================================
+
+模型: XGBoost_100
+------------------------------
+测试集评估结果:
+r2: 0.2139
+rmse: 3.8797
+mse: 15.0517
+pearson_r: 0.4730
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_10: 0.1155
+feature_20: 0.0902
+feature_64: 0.0513
+feature_1: 0.0380
+feature_47: 0.0303
+feature_2: 0.0276
+feature_13: 0.0271
+feature_21: 0.0235
+feature_9: 0.0229
+feature_65: 0.0227
+
+参数搜索结果:
+组合 1:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4436 (±0.1041)
+训练集得分: 0.6937 (±0.0166)
+排名: 1
+
+组合 2:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4431 (±0.0990)
+训练集得分: 0.6937 (±0.0168)
+排名: 2
+
+组合 3:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4422 (±0.0990)
+训练集得分: 0.6818 (±0.0163)
+排名: 3
+
+组合 4:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4419 (±0.0983)
+训练集得分: 0.6186 (±0.0170)
+排名: 4
+
+组合 5:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4418 (±0.0982)
+训练集得分: 0.6187 (±0.0170)
+排名: 5
+
+组合 6:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4417 (±0.0980)
+训练集得分: 0.6186 (±0.0170)
+排名: 6
+
+组合 7:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4417 (±0.1015)
+训练集得分: 0.5829 (±0.0173)
+排名: 7
+
+组合 8:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4417 (±0.0991)
+训练集得分: 0.6816 (±0.0165)
+排名: 8
+
+组合 9:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4415 (±0.1017)
+训练集得分: 0.5829 (±0.0173)
+排名: 9
+
+组合 10:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4413 (±0.1017)
+训练集得分: 0.5830 (±0.0174)
+排名: 10
+
+组合 11:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4408 (±0.1047)
+训练集得分: 0.6820 (±0.0163)
+排名: 11
+
+组合 12:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4394 (±0.1076)
+训练集得分: 0.7004 (±0.0158)
+排名: 12
+
+组合 13:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4392 (±0.1039)
+训练集得分: 0.5742 (±0.0174)
+排名: 13
+
+组合 14:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4392 (±0.1039)
+训练集得分: 0.5742 (±0.0173)
+排名: 14
+
+组合 15:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4391 (±0.1040)
+训练集得分: 0.5743 (±0.0175)
+排名: 15
+
+组合 16:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4391 (±0.1087)
+训练集得分: 0.5313 (±0.0211)
+排名: 16
+
+组合 17:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4391 (±0.1087)
+训练集得分: 0.5313 (±0.0211)
+排名: 16
+
+组合 18:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4391 (±0.1087)
+训练集得分: 0.5313 (±0.0211)
+排名: 16
+
+组合 19:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4390 (±0.0998)
+训练集得分: 0.6290 (±0.0170)
+排名: 19
+
+组合 20:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4388 (±0.1060)
+训练集得分: 0.5465 (±0.0210)
+排名: 20
+
+组合 21:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4388 (±0.1060)
+训练集得分: 0.5465 (±0.0210)
+排名: 20
+
+组合 22:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4388 (±0.1060)
+训练集得分: 0.5465 (±0.0210)
+排名: 22
+
+组合 23:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4385 (±0.1043)
+训练集得分: 0.6007 (±0.0162)
+排名: 23
+
+组合 24:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4385 (±0.1001)
+训练集得分: 0.6291 (±0.0170)
+排名: 24
+
+组合 25:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4385 (±0.1000)
+训练集得分: 0.6292 (±0.0169)
+排名: 25
+
+组合 26:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4383 (±0.1046)
+训练集得分: 0.6007 (±0.0162)
+排名: 26
+
+组合 27:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4383 (±0.1046)
+训练集得分: 0.6007 (±0.0162)
+排名: 27
+
+组合 28:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4375 (±0.0950)
+训练集得分: 0.6711 (±0.0166)
+排名: 28
+
+组合 29:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4375 (±0.1065)
+训练集得分: 0.5402 (±0.0213)
+排名: 29
+
+组合 30:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4374 (±0.1064)
+训练集得分: 0.5403 (±0.0213)
+排名: 30
+
+组合 31:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4373 (±0.1063)
+训练集得分: 0.5402 (±0.0213)
+排名: 31
+
+组合 32:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4373 (±0.1055)
+训练集得分: 0.7006 (±0.0157)
+排名: 32
+
+组合 33:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4372 (±0.0997)
+训练集得分: 0.6939 (±0.0162)
+排名: 33
+
+组合 34:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4367 (±0.1108)
+训练集得分: 0.7004 (±0.0154)
+排名: 34
+
+组合 35:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4364 (±0.0965)
+训练集得分: 0.6714 (±0.0162)
+排名: 35
+
+组合 36:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4360 (±0.1051)
+训练集得分: 0.6257 (±0.0152)
+排名: 36
+
+组合 37:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4357 (±0.0920)
+训练集得分: 0.6639 (±0.0150)
+排名: 37
+
+组合 38:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4357 (±0.1058)
+训练集得分: 0.6255 (±0.0149)
+排名: 38
+
+组合 39:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4356 (±0.1058)
+训练集得分: 0.6255 (±0.0149)
+排名: 39
+
+组合 40:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4349 (±0.0930)
+训练集得分: 0.6635 (±0.0151)
+排名: 40
+
+组合 41:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4349 (±0.0989)
+训练集得分: 0.6616 (±0.0173)
+排名: 41
+
+组合 42:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4349 (±0.0929)
+训练集得分: 0.6637 (±0.0151)
+排名: 42
+
+组合 43:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4348 (±0.0989)
+训练集得分: 0.6611 (±0.0169)
+排名: 43
+
+组合 44:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4342 (±0.0921)
+训练集得分: 0.6715 (±0.0163)
+排名: 44
+
+组合 45:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4337 (±0.1080)
+训练集得分: 0.6346 (±0.0180)
+排名: 45
+
+组合 46:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4337 (±0.1078)
+训练集得分: 0.6345 (±0.0180)
+排名: 46
+
+组合 47:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4335 (±0.1074)
+训练集得分: 0.6348 (±0.0180)
+排名: 47
+
+组合 48:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4329 (±0.1074)
+训练集得分: 0.6141 (±0.0162)
+排名: 48
+
+组合 49:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4327 (±0.1003)
+训练集得分: 0.6615 (±0.0172)
+排名: 49
+
+组合 50:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4314 (±0.1102)
+训练集得分: 0.6142 (±0.0165)
+排名: 50
+
+组合 51:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4307 (±0.1103)
+训练集得分: 0.6145 (±0.0166)
+排名: 51
+
+组合 52:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4278 (±0.1071)
+训练集得分: 0.7107 (±0.0153)
+排名: 52
+
+组合 53:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4262 (±0.1023)
+训练集得分: 0.7099 (±0.0152)
+排名: 53
+
+组合 54:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4262 (±0.1073)
+训练集得分: 0.7104 (±0.0152)
+排名: 54
+
+
+==================================================
+
+模型: LightGBM_100
+------------------------------
+测试集评估结果:
+r2: 0.2636
+rmse: 3.7551
+mse: 14.1006
+pearson_r: 0.5143
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_56: 77.0000
+feature_7: 76.0000
+feature_26: 67.0000
+feature_4: 66.0000
+feature_50: 63.0000
+feature_6: 58.0000
+feature_34: 54.0000
+feature_35: 52.0000
+feature_55: 49.0000
+feature_1: 47.0000
+
+参数搜索结果:
+组合 1:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4326 (±0.1141)
+训练集得分: 0.6209 (±0.0182)
+排名: 1
+
+组合 2:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4326 (±0.1141)
+训练集得分: 0.6209 (±0.0182)
+排名: 1
+
+组合 3:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4326 (±0.1141)
+训练集得分: 0.6209 (±0.0182)
+排名: 1
+
+组合 4:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4308 (±0.1109)
+训练集得分: 0.6332 (±0.0191)
+排名: 4
+
+组合 5:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4308 (±0.1109)
+训练集得分: 0.6332 (±0.0191)
+排名: 4
+
+组合 6:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4308 (±0.1109)
+训练集得分: 0.6332 (±0.0191)
+排名: 4
+
+组合 7:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4288 (±0.1039)
+训练集得分: 0.5181 (±0.0234)
+排名: 7
+
+组合 8:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4288 (±0.1039)
+训练集得分: 0.5181 (±0.0234)
+排名: 7
+
+组合 9:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4288 (±0.1039)
+训练集得分: 0.5181 (±0.0234)
+排名: 7
+
+组合 10:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4233 (±0.0976)
+训练集得分: 0.5350 (±0.0215)
+排名: 10
+
+组合 11:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4233 (±0.0976)
+训练集得分: 0.5350 (±0.0215)
+排名: 10
+
+组合 12:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4233 (±0.0976)
+训练集得分: 0.5350 (±0.0215)
+排名: 10
+
+组合 13:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4228 (±0.0952)
+训练集得分: 0.5388 (±0.0213)
+排名: 13
+
+组合 14:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4228 (±0.0952)
+训练集得分: 0.5388 (±0.0213)
+排名: 13
+
+组合 15:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4228 (±0.0952)
+训练集得分: 0.5388 (±0.0213)
+排名: 13
+
+组合 16:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4225 (±0.1133)
+训练集得分: 0.5892 (±0.0170)
+排名: 16
+
+组合 17:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4225 (±0.1133)
+训练集得分: 0.5892 (±0.0170)
+排名: 16
+
+组合 18:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4225 (±0.1133)
+训练集得分: 0.5892 (±0.0170)
+排名: 16
+
+
+==================================================
+
+模型: Lasso_100
+------------------------------
+测试集评估结果:
+r2: 0.2268
+rmse: 3.8477
+mse: 14.8050
+pearson_r: 0.4788
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_6: 1.2496
+feature_20: 1.0218
+feature_1: 0.8348
+feature_7: 0.3591
+feature_56: 0.3262
+feature_2: 0.3200
+feature_45: 0.2314
+feature_9: 0.2110
+feature_13: 0.2058
+feature_31: 0.1382
+
+参数搜索结果:
+组合 1:
+参数:
+  - alpha: 0.1
+测试集得分: 0.4555 (±0.1173)
+训练集得分: 0.4902 (±0.0253)
+排名: 1
+
+组合 2:
+参数:
+  - alpha: 0.01
+测试集得分: 0.4472 (±0.1301)
+训练集得分: 0.5337 (±0.0241)
+排名: 2
+
+组合 3:
+参数:
+  - alpha: 0.001
+测试集得分: 0.3564 (±0.1148)
+训练集得分: 0.5583 (±0.0247)
+排名: 3
+
+组合 4:
+参数:
+  - alpha: 1.0
+测试集得分: 0.3225 (±0.0614)
+训练集得分: 0.3419 (±0.0245)
+排名: 4
+
+
+==================================================
+
+模型: RandomForest_7000
+------------------------------
+测试集评估结果:
+r2: 0.3173
+rmse: 3.6156
+mse: 13.0722
+pearson_r: 0.5707
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_1: 0.0039
+feature_366: 0.0036
+feature_473: 0.0035
+feature_265: 0.0034
+feature_348: 0.0032
+feature_101: 0.0029
+feature_219: 0.0029
+feature_430: 0.0029
+feature_1123: 0.0027
+feature_404: 0.0025
+
+参数搜索结果:
+组合 1:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.5297 (±0.0774)
+训练集得分: 0.9276 (±0.0025)
+排名: 1
+
+组合 2:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.5273 (±0.0799)
+训练集得分: 0.9298 (±0.0031)
+排名: 2
+
+组合 3:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.5199 (±0.0831)
+训练集得分: 0.8834 (±0.0049)
+排名: 3
+
+组合 4:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.5196 (±0.0812)
+训练集得分: 0.9416 (±0.0029)
+排名: 4
+
+组合 5:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.5192 (±0.0801)
+训练集得分: 0.9010 (±0.0041)
+排名: 5
+
+组合 6:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.5188 (±0.0713)
+训练集得分: 0.9681 (±0.0016)
+排名: 6
+
+组合 7:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.5165 (±0.0878)
+训练集得分: 0.8813 (±0.0042)
+排名: 7
+
+组合 8:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.5146 (±0.0858)
+训练集得分: 0.7371 (±0.0064)
+排名: 8
+
+组合 9:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.5144 (±0.0736)
+训练集得分: 0.9535 (±0.0027)
+排名: 9
+
+组合 10:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.5140 (±0.0738)
+训练集得分: 0.9518 (±0.0032)
+排名: 10
+
+组合 11:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.5138 (±0.0707)
+训练集得分: 0.9664 (±0.0020)
+排名: 11
+
+组合 12:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.5132 (±0.0848)
+训练集得分: 0.9394 (±0.0027)
+排名: 12
+
+组合 13:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.5125 (±0.0751)
+训练集得分: 0.8993 (±0.0043)
+排名: 13
+
+组合 14:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.5093 (±0.0874)
+训练集得分: 0.7362 (±0.0073)
+排名: 14
+
+组合 15:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.5035 (±0.0872)
+训练集得分: 0.7338 (±0.0062)
+排名: 15
+
+组合 16:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.5019 (±0.0930)
+训练集得分: 0.7318 (±0.0064)
+排名: 16
+
+
+==================================================
+
+模型: XGBoost_7000
+------------------------------
+测试集评估结果:
+r2: 0.2715
+rmse: 3.7349
+mse: 13.9496
+pearson_r: 0.5954
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_298: 0.0128
+feature_216: 0.0121
+feature_5: 0.0110
+feature_239: 0.0105
+feature_219: 0.0102
+feature_10: 0.0097
+feature_252: 0.0094
+feature_345: 0.0092
+feature_20: 0.0080
+feature_430: 0.0077
+
+参数搜索结果:
+组合 1:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5475 (±0.0659)
+训练集得分: 0.9273 (±0.0082)
+排名: 1
+
+组合 2:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5471 (±0.0670)
+训练集得分: 0.9416 (±0.0072)
+排名: 2
+
+组合 3:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5467 (±0.0661)
+训练集得分: 0.9414 (±0.0072)
+排名: 3
+
+组合 4:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5467 (±0.0653)
+训练集得分: 0.9274 (±0.0086)
+排名: 4
+
+组合 5:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5466 (±0.0651)
+训练集得分: 0.9275 (±0.0084)
+排名: 5
+
+组合 6:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5461 (±0.0661)
+训练集得分: 0.9415 (±0.0070)
+排名: 6
+
+组合 7:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5428 (±0.0703)
+训练集得分: 0.8765 (±0.0093)
+排名: 7
+
+组合 8:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5421 (±0.0699)
+训练集得分: 0.8658 (±0.0111)
+排名: 8
+
+组合 9:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5418 (±0.0697)
+训练集得分: 0.8660 (±0.0113)
+排名: 9
+
+组合 10:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5418 (±0.0696)
+训练集得分: 0.8661 (±0.0111)
+排名: 10
+
+组合 11:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5413 (±0.0731)
+训练集得分: 0.8767 (±0.0092)
+排名: 11
+
+组合 12:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5412 (±0.0717)
+训练集得分: 0.8769 (±0.0092)
+排名: 12
+
+组合 13:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5401 (±0.0668)
+训练集得分: 0.8808 (±0.0081)
+排名: 13
+
+组合 14:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5398 (±0.0654)
+训练集得分: 0.8808 (±0.0089)
+排名: 14
+
+组合 15:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5398 (±0.0666)
+训练集得分: 0.8806 (±0.0089)
+排名: 15
+
+组合 16:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5393 (±0.0621)
+训练集得分: 0.9475 (±0.0066)
+排名: 16
+
+组合 17:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5391 (±0.0625)
+训练集得分: 0.9478 (±0.0063)
+排名: 17
+
+组合 18:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5390 (±0.0631)
+训练集得分: 0.9476 (±0.0064)
+排名: 18
+
+组合 19:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5351 (±0.0782)
+训练集得分: 0.9125 (±0.0072)
+排名: 19
+
+组合 20:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5351 (±0.0781)
+训练集得分: 0.9131 (±0.0074)
+排名: 20
+
+组合 21:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5351 (±0.0781)
+训练集得分: 0.9131 (±0.0074)
+排名: 20
+
+组合 22:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5315 (±0.0772)
+训练集得分: 0.9157 (±0.0051)
+排名: 22
+
+组合 23:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5315 (±0.0772)
+训练集得分: 0.9157 (±0.0051)
+排名: 22
+
+组合 24:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5315 (±0.0772)
+训练集得分: 0.9157 (±0.0051)
+排名: 24
+
+组合 25:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5305 (±0.0856)
+训练集得分: 0.9152 (±0.0064)
+排名: 25
+
+组合 26:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5305 (±0.0856)
+训练集得分: 0.9152 (±0.0064)
+排名: 26
+
+组合 27:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5305 (±0.0856)
+训练集得分: 0.9152 (±0.0064)
+排名: 27
+
+组合 28:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5292 (±0.0525)
+训练集得分: 0.9988 (±0.0002)
+排名: 28
+
+组合 29:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5288 (±0.0621)
+训练集得分: 0.9925 (±0.0010)
+排名: 29
+
+组合 30:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5271 (±0.0521)
+训练集得分: 0.9980 (±0.0002)
+排名: 30
+
+组合 31:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5270 (±0.0507)
+训练集得分: 0.9943 (±0.0006)
+排名: 31
+
+组合 32:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5269 (±0.0707)
+训练集得分: 0.9893 (±0.0013)
+排名: 32
+
+组合 33:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5264 (±0.0557)
+训练集得分: 0.9944 (±0.0008)
+排名: 33
+
+组合 34:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5262 (±0.0608)
+训练集得分: 0.9945 (±0.0008)
+排名: 34
+
+组合 35:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5242 (±0.0537)
+训练集得分: 0.9986 (±0.0002)
+排名: 35
+
+组合 36:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5242 (±0.0658)
+训练集得分: 0.9891 (±0.0013)
+排名: 36
+
+组合 37:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5219 (±0.0667)
+训练集得分: 0.9892 (±0.0009)
+排名: 37
+
+组合 38:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5209 (±0.0519)
+训练集得分: 0.9991 (±0.0001)
+排名: 38
+
+组合 39:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5207 (±0.0796)
+训练集得分: 0.7334 (±0.0097)
+排名: 39
+
+组合 40:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5207 (±0.0796)
+训练集得分: 0.7334 (±0.0097)
+排名: 40
+
+组合 41:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5207 (±0.0796)
+训练集得分: 0.7334 (±0.0097)
+排名: 40
+
+组合 42:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5205 (±0.0798)
+训练集得分: 0.7306 (±0.0103)
+排名: 42
+
+组合 43:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5205 (±0.0798)
+训练集得分: 0.7306 (±0.0103)
+排名: 42
+
+组合 44:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5205 (±0.0798)
+训练集得分: 0.7306 (±0.0103)
+排名: 42
+
+组合 45:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5204 (±0.0815)
+训练集得分: 0.7344 (±0.0098)
+排名: 45
+
+组合 46:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5204 (±0.0815)
+训练集得分: 0.7344 (±0.0098)
+排名: 46
+
+组合 47:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5204 (±0.0815)
+训练集得分: 0.7344 (±0.0098)
+排名: 47
+
+组合 48:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5187 (±0.0616)
+训练集得分: 0.9930 (±0.0009)
+排名: 48
+
+组合 49:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5180 (±0.0570)
+训练集得分: 0.9929 (±0.0009)
+排名: 49
+
+组合 50:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5098 (±0.0568)
+训练集得分: 0.9996 (±0.0001)
+排名: 50
+
+组合 51:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5092 (±0.0733)
+训练集得分: 0.9969 (±0.0004)
+排名: 51
+
+组合 52:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5074 (±0.0607)
+训练集得分: 0.9985 (±0.0001)
+排名: 52
+
+组合 53:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5070 (±0.0641)
+训练集得分: 0.9966 (±0.0004)
+排名: 53
+
+组合 54:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5068 (±0.0687)
+训练集得分: 0.9967 (±0.0004)
+排名: 54
+
+
+==================================================
+
+模型: LightGBM_7000
+------------------------------
+测试集评估结果:
+r2: 0.3341
+rmse: 3.5709
+mse: 12.7515
+pearson_r: 0.5801
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_5488: 13.0000
+feature_458: 9.0000
+feature_4552: 8.0000
+feature_4765: 8.0000
+feature_6169: 8.0000
+feature_3170: 7.0000
+feature_3840: 7.0000
+feature_4922: 7.0000
+feature_589: 6.0000
+feature_3880: 6.0000
+
+参数搜索结果:
+组合 1:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5537 (±0.0748)
+训练集得分: 0.9120 (±0.0085)
+排名: 1
+
+组合 2:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5537 (±0.0748)
+训练集得分: 0.9120 (±0.0085)
+排名: 1
+
+组合 3:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5537 (±0.0748)
+训练集得分: 0.9120 (±0.0085)
+排名: 1
+
+组合 4:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5457 (±0.0640)
+训练集得分: 0.9716 (±0.0043)
+排名: 4
+
+组合 5:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5457 (±0.0640)
+训练集得分: 0.9716 (±0.0043)
+排名: 4
+
+组合 6:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5457 (±0.0640)
+训练集得分: 0.9716 (±0.0043)
+排名: 4
+
+组合 7:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5263 (±0.0710)
+训练集得分: 0.9881 (±0.0019)
+排名: 7
+
+组合 8:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5263 (±0.0710)
+训练集得分: 0.9881 (±0.0019)
+排名: 7
+
+组合 9:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5250 (±0.0680)
+训练集得分: 0.9878 (±0.0021)
+排名: 9
+
+组合 10:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5199 (±0.0720)
+训练集得分: 0.8012 (±0.0165)
+排名: 10
+
+组合 11:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5199 (±0.0720)
+训练集得分: 0.8012 (±0.0165)
+排名: 10
+
+组合 12:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5199 (±0.0720)
+训练集得分: 0.8012 (±0.0165)
+排名: 10
+
+组合 13:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5185 (±0.0746)
+训练集得分: 0.8632 (±0.0131)
+排名: 13
+
+组合 14:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5185 (±0.0746)
+训练集得分: 0.8632 (±0.0131)
+排名: 13
+
+组合 15:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5177 (±0.0728)
+训练集得分: 0.8631 (±0.0131)
+排名: 15
+
+组合 16:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4953 (±0.0816)
+训练集得分: 0.7168 (±0.0108)
+排名: 16
+
+组合 17:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4953 (±0.0816)
+训练集得分: 0.7168 (±0.0108)
+排名: 16
+
+组合 18:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4953 (±0.0816)
+训练集得分: 0.7168 (±0.0108)
+排名: 16
+
+
+==================================================
+
+模型: Lasso_7000
+------------------------------
+测试集评估结果:
+r2: 0.3528
+rmse: 3.5204
+mse: 12.3931
+pearson_r: 0.5951
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_5488: 0.6478
+feature_306: 0.5719
+feature_6589: 0.4357
+feature_6614: 0.3109
+feature_1970: 0.3058
+feature_5367: 0.2844
+feature_2357: 0.2818
+feature_550: 0.2646
+feature_398: 0.2569
+feature_1100: 0.2451
+
+参数搜索结果:
+组合 1:
+参数:
+  - alpha: 0.1
+测试集得分: 0.5352 (±0.0885)
+训练集得分: 0.7523 (±0.0166)
+排名: 1
+
+组合 2:
+参数:
+  - alpha: 0.01
+测试集得分: 0.4009 (±0.0729)
+训练集得分: 0.9705 (±0.0022)
+排名: 2
+
+组合 3:
+参数:
+  - alpha: 0.001
+测试集得分: 0.3251 (±0.0816)
+训练集得分: 0.9993 (±0.0001)
+排名: 3
+
+组合 4:
+参数:
+  - alpha: 1.0
+测试集得分: 0.3016 (±0.0534)
+训练集得分: 0.3886 (±0.0686)
+排名: 4
+
+
+==================================================
+
+模型: RandomForest_1000
+------------------------------
+测试集评估结果:
+r2: 0.2476
+rmse: 3.7957
+mse: 14.4072
+pearson_r: 0.5010
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_890: 0.0059
+feature_10: 0.0058
+feature_306: 0.0057
+feature_550: 0.0057
+feature_1: 0.0055
+feature_882: 0.0053
+feature_251: 0.0052
+feature_458: 0.0051
+feature_252: 0.0050
+feature_20: 0.0049
+
+参数搜索结果:
+组合 1:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.5120 (±0.0591)
+训练集得分: 0.8091 (±0.0068)
+排名: 1
+
+组合 2:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.5105 (±0.0573)
+训练集得分: 0.8792 (±0.0075)
+排名: 2
+
+组合 3:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.5105 (±0.0685)
+训练集得分: 0.8687 (±0.0077)
+排名: 3
+
+组合 4:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.5105 (±0.0701)
+训练集得分: 0.7826 (±0.0079)
+排名: 4
+
+组合 5:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.5104 (±0.0539)
+训练集得分: 0.8779 (±0.0073)
+排名: 5
+
+组合 6:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.5102 (±0.0591)
+训练集得分: 0.9170 (±0.0051)
+排名: 6
+
+组合 7:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.5089 (±0.0538)
+训练集得分: 0.8085 (±0.0059)
+排名: 7
+
+组合 8:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.5080 (±0.0704)
+训练集得分: 0.8388 (±0.0080)
+排名: 8
+
+组合 9:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.5073 (±0.0714)
+训练集得分: 0.8668 (±0.0072)
+排名: 9
+
+组合 10:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.5067 (±0.0702)
+训练集得分: 0.8377 (±0.0084)
+排名: 10
+
+组合 11:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.5061 (±0.0711)
+训练集得分: 0.7826 (±0.0077)
+排名: 11
+
+组合 12:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.5048 (±0.0632)
+训练集得分: 0.9178 (±0.0056)
+排名: 12
+
+组合 13:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.4983 (±0.0817)
+训练集得分: 0.6744 (±0.0092)
+排名: 13
+
+组合 14:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.4927 (±0.0890)
+训练集得分: 0.6682 (±0.0090)
+排名: 14
+
+组合 15:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.4924 (±0.0768)
+训练集得分: 0.6750 (±0.0094)
+排名: 15
+
+组合 16:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.4900 (±0.0862)
+训练集得分: 0.6684 (±0.0078)
+排名: 16
+
+
+==================================================
+
+模型: XGBoost_1000
+------------------------------
+测试集评估结果:
+r2: 0.2642
+rmse: 3.7534
+mse: 14.0882
+pearson_r: 0.5727
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_345: 0.0430
+feature_216: 0.0313
+feature_5: 0.0272
+feature_612: 0.0272
+feature_10: 0.0265
+feature_219: 0.0258
+feature_20: 0.0225
+feature_44: 0.0224
+feature_419: 0.0222
+feature_252: 0.0194
+
+参数搜索结果:
+组合 1:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5224 (±0.0815)
+训练集得分: 0.8272 (±0.0089)
+排名: 1
+
+组合 2:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5221 (±0.0813)
+训练集得分: 0.8272 (±0.0089)
+排名: 2
+
+组合 3:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5219 (±0.0813)
+训练集得分: 0.8272 (±0.0090)
+排名: 3
+
+组合 4:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5202 (±0.0806)
+训练集得分: 0.7953 (±0.0091)
+排名: 4
+
+组合 5:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5200 (±0.0860)
+训练集得分: 0.7759 (±0.0094)
+排名: 5
+
+组合 6:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5198 (±0.0797)
+训练集得分: 0.7952 (±0.0089)
+排名: 6
+
+组合 7:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5195 (±0.0803)
+训练集得分: 0.7954 (±0.0091)
+排名: 7
+
+组合 8:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5195 (±0.0860)
+训练集得分: 0.7758 (±0.0094)
+排名: 8
+
+组合 9:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5194 (±0.0860)
+训练集得分: 0.7758 (±0.0094)
+排名: 9
+
+组合 10:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5171 (±0.0841)
+训练集得分: 0.8262 (±0.0110)
+排名: 10
+
+组合 11:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5162 (±0.0726)
+训练集得分: 0.8552 (±0.0090)
+排名: 11
+
+组合 12:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5157 (±0.0725)
+训练集得分: 0.8553 (±0.0088)
+排名: 12
+
+组合 13:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5156 (±0.0742)
+训练集得分: 0.8552 (±0.0085)
+排名: 13
+
+组合 14:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5148 (±0.0825)
+训练集得分: 0.8253 (±0.0104)
+排名: 14
+
+组合 15:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5142 (±0.0834)
+训练集得分: 0.8253 (±0.0104)
+排名: 15
+
+组合 16:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5142 (±0.0802)
+训练集得分: 0.8074 (±0.0077)
+排名: 16
+
+组合 17:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5136 (±0.0799)
+训练集得分: 0.8073 (±0.0079)
+排名: 17
+
+组合 18:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5133 (±0.0800)
+训练集得分: 0.8076 (±0.0075)
+排名: 18
+
+组合 19:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5097 (±0.0759)
+训练集得分: 0.8194 (±0.0096)
+排名: 19
+
+组合 20:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5096 (±0.0760)
+训练集得分: 0.8194 (±0.0096)
+排名: 20
+
+组合 21:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5096 (±0.0760)
+训练集得分: 0.8194 (±0.0096)
+排名: 20
+
+组合 22:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5064 (±0.0839)
+训练集得分: 0.8139 (±0.0111)
+排名: 22
+
+组合 23:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5064 (±0.0839)
+训练集得分: 0.8139 (±0.0111)
+排名: 22
+
+组合 24:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5064 (±0.0839)
+训练集得分: 0.8139 (±0.0111)
+排名: 22
+
+组合 25:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5055 (±0.0730)
+训练集得分: 0.8754 (±0.0068)
+排名: 25
+
+组合 26:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5046 (±0.0729)
+训练集得分: 0.8752 (±0.0067)
+排名: 26
+
+组合 27:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5045 (±0.0727)
+训练集得分: 0.8747 (±0.0063)
+排名: 27
+
+组合 28:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5043 (±0.0925)
+训练集得分: 0.6729 (±0.0153)
+排名: 28
+
+组合 29:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5043 (±0.0925)
+训练集得分: 0.6729 (±0.0153)
+排名: 28
+
+组合 30:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5043 (±0.0925)
+训练集得分: 0.6729 (±0.0153)
+排名: 28
+
+组合 31:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5009 (±0.0947)
+训练集得分: 0.6777 (±0.0155)
+排名: 31
+
+组合 32:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5009 (±0.0947)
+训练集得分: 0.6777 (±0.0155)
+排名: 31
+
+组合 33:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5009 (±0.0947)
+训练集得分: 0.6777 (±0.0155)
+排名: 31
+
+组合 34:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5001 (±0.0933)
+训练集得分: 0.6797 (±0.0156)
+排名: 34
+
+组合 35:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5001 (±0.0933)
+训练集得分: 0.6797 (±0.0156)
+排名: 35
+
+组合 36:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5001 (±0.0933)
+训练集得分: 0.6797 (±0.0156)
+排名: 35
+
+组合 37:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4950 (±0.0755)
+训练集得分: 0.9336 (±0.0057)
+排名: 37
+
+组合 38:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4943 (±0.0833)
+训练集得分: 0.9467 (±0.0043)
+排名: 38
+
+组合 39:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4922 (±0.0791)
+训练集得分: 0.9454 (±0.0036)
+排名: 39
+
+组合 40:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4900 (±0.0810)
+训练集得分: 0.9342 (±0.0055)
+排名: 40
+
+组合 41:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4888 (±0.0812)
+训练集得分: 0.9462 (±0.0037)
+排名: 41
+
+组合 42:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4887 (±0.0834)
+训练集得分: 0.9343 (±0.0061)
+排名: 42
+
+组合 43:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4850 (±0.0754)
+训练集得分: 0.9184 (±0.0076)
+排名: 43
+
+组合 44:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4821 (±0.0791)
+训练集得分: 0.9195 (±0.0057)
+排名: 44
+
+组合 45:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4787 (±0.0753)
+训练集得分: 0.9202 (±0.0052)
+排名: 45
+
+组合 46:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4753 (±0.0722)
+训练集得分: 0.9698 (±0.0028)
+排名: 46
+
+组合 47:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4709 (±0.0756)
+训练集得分: 0.9543 (±0.0033)
+排名: 47
+
+组合 48:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4693 (±0.0769)
+训练集得分: 0.9548 (±0.0030)
+排名: 48
+
+组合 49:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4685 (±0.0891)
+训练集得分: 0.9820 (±0.0021)
+排名: 49
+
+组合 50:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.4664 (±0.0841)
+训练集得分: 0.9538 (±0.0038)
+排名: 50
+
+组合 51:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4655 (±0.0822)
+训练集得分: 0.9818 (±0.0019)
+排名: 51
+
+组合 52:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4654 (±0.0727)
+训练集得分: 0.9819 (±0.0020)
+排名: 52
+
+组合 53:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4638 (±0.0750)
+训练集得分: 0.9703 (±0.0032)
+排名: 53
+
+组合 54:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4627 (±0.0738)
+训练集得分: 0.9703 (±0.0028)
+排名: 54
+
+
+==================================================
+
+模型: LightGBM_1000
+------------------------------
+测试集评估结果:
+r2: 0.3171
+rmse: 3.6160
+mse: 13.0751
+pearson_r: 0.5639
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_458: 25.0000
+feature_890: 18.0000
+feature_442: 17.0000
+feature_665: 14.0000
+feature_981: 13.0000
+feature_550: 11.0000
+feature_997: 11.0000
+feature_489: 10.0000
+feature_589: 10.0000
+feature_623: 10.0000
+
+参数搜索结果:
+组合 1:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4973 (±0.0873)
+训练集得分: 0.8063 (±0.0135)
+排名: 1
+
+组合 2:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4973 (±0.0873)
+训练集得分: 0.8063 (±0.0135)
+排名: 1
+
+组合 3:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4973 (±0.0873)
+训练集得分: 0.8063 (±0.0135)
+排名: 1
+
+组合 4:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4967 (±0.0923)
+训练集得分: 0.7507 (±0.0135)
+排名: 4
+
+组合 5:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4967 (±0.0923)
+训练集得分: 0.7507 (±0.0135)
+排名: 4
+
+组合 6:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4967 (±0.0923)
+训练集得分: 0.7507 (±0.0135)
+排名: 4
+
+组合 7:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4947 (±0.0986)
+训练集得分: 0.7171 (±0.0132)
+排名: 7
+
+组合 8:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4947 (±0.0986)
+训练集得分: 0.7171 (±0.0132)
+排名: 7
+
+组合 9:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4947 (±0.0986)
+训练集得分: 0.7171 (±0.0132)
+排名: 7
+
+组合 10:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4895 (±0.0856)
+训练集得分: 0.6648 (±0.0159)
+排名: 10
+
+组合 11:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4895 (±0.0856)
+训练集得分: 0.6648 (±0.0159)
+排名: 10
+
+组合 12:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4895 (±0.0856)
+训练集得分: 0.6648 (±0.0159)
+排名: 10
+
+组合 13:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4825 (±0.0816)
+训练集得分: 0.8658 (±0.0100)
+排名: 13
+
+组合 14:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4825 (±0.0816)
+训练集得分: 0.8658 (±0.0100)
+排名: 13
+
+组合 15:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4825 (±0.0816)
+训练集得分: 0.8658 (±0.0100)
+排名: 13
+
+组合 16:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4705 (±0.0931)
+训练集得分: 0.8993 (±0.0078)
+排名: 16
+
+组合 17:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4705 (±0.0931)
+训练集得分: 0.8993 (±0.0078)
+排名: 16
+
+组合 18:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4675 (±0.0938)
+训练集得分: 0.8997 (±0.0079)
+排名: 18
+
+
+==================================================
+
+模型: Lasso_1000
+------------------------------
+测试集评估结果:
+r2: 0.3227
+rmse: 3.6011
+mse: 12.9682
+pearson_r: 0.5704
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_458: 0.8783
+feature_306: 0.6698
+feature_890: 0.5840
+feature_550: 0.5540
+feature_997: 0.4657
+feature_946: 0.3810
+feature_665: 0.3547
+feature_387: 0.3312
+feature_398: 0.3160
+feature_120: 0.3092
+
+参数搜索结果:
+组合 1:
+参数:
+  - alpha: 0.1
+测试集得分: 0.5354 (±0.0930)
+训练集得分: 0.6303 (±0.0198)
+排名: 1
+
+组合 2:
+参数:
+  - alpha: 0.01
+测试集得分: 0.4140 (±0.0786)
+训练集得分: 0.8053 (±0.0097)
+排名: 2
+
+组合 3:
+参数:
+  - alpha: 1.0
+测试集得分: 0.3004 (±0.0567)
+训练集得分: 0.3729 (±0.0617)
+排名: 3
+
+组合 4:
+参数:
+  - alpha: 0.001
+测试集得分: 0.1882 (±0.0489)
+训练集得分: 0.8965 (±0.0079)
+排名: 4
+
+
+==================================================
+
+模型: RandomForest_3000
+------------------------------
+测试集评估结果:
+r2: 0.2419
+rmse: 3.8100
+mse: 14.5164
+pearson_r: 0.4951
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_23: 0.0053
+feature_414: 0.0040
+feature_326: 0.0038
+feature_2157: 0.0034
+feature_636: 0.0034
+feature_2790: 0.0032
+feature_589: 0.0032
+feature_1: 0.0032
+feature_404: 0.0031
+feature_2767: 0.0030
+
+参数搜索结果:
+组合 1:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.5118 (±0.0723)
+训练集得分: 0.9108 (±0.0040)
+排名: 1
+
+组合 2:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.5096 (±0.0763)
+训练集得分: 0.9110 (±0.0038)
+排名: 2
+
+组合 3:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.5065 (±0.0826)
+训练集得分: 0.9471 (±0.0043)
+排名: 3
+
+组合 4:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.5045 (±0.0808)
+训练集得分: 0.9476 (±0.0041)
+排名: 4
+
+组合 5:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.5044 (±0.0809)
+训练集得分: 0.8316 (±0.0076)
+排名: 5
+
+组合 6:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.5039 (±0.0814)
+训练集得分: 0.8869 (±0.0054)
+排名: 6
+
+组合 7:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.5017 (±0.0801)
+训练集得分: 0.8299 (±0.0071)
+排名: 7
+
+组合 8:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.4984 (±0.0790)
+训练集得分: 0.8856 (±0.0068)
+排名: 8
+
+组合 9:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.4971 (±0.0801)
+训练集得分: 0.9175 (±0.0046)
+排名: 9
+
+组合 10:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.4950 (±0.0814)
+训练集得分: 0.8519 (±0.0086)
+排名: 10
+
+组合 11:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.4944 (±0.0828)
+训练集得分: 0.9167 (±0.0058)
+排名: 11
+
+组合 12:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.4940 (±0.0863)
+训练集得分: 0.6955 (±0.0088)
+排名: 12
+
+组合 13:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.4937 (±0.0884)
+训练集得分: 0.7022 (±0.0084)
+排名: 13
+
+组合 14:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.4931 (±0.0903)
+训练集得分: 0.6948 (±0.0097)
+排名: 14
+
+组合 15:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.4898 (±0.0807)
+训练集得分: 0.8518 (±0.0095)
+排名: 15
+
+组合 16:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.4876 (±0.0895)
+训练集得分: 0.7010 (±0.0100)
+排名: 16
+
+
+==================================================
+
+模型: XGBoost_3000
+------------------------------
+测试集评估结果:
+r2: 0.3111
+rmse: 3.6319
+mse: 13.1904
+pearson_r: 0.5597
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_228: 0.0409
+feature_20: 0.0356
+feature_345: 0.0354
+feature_215: 0.0244
+feature_1032: 0.0242
+feature_1139: 0.0230
+feature_2855: 0.0170
+feature_26: 0.0165
+feature_1456: 0.0157
+feature_747: 0.0141
+
+参数搜索结果:
+组合 1:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5369 (±0.0828)
+训练集得分: 0.8758 (±0.0078)
+排名: 1
+
+组合 2:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5348 (±0.0831)
+训练集得分: 0.8760 (±0.0075)
+排名: 2
+
+组合 3:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5326 (±0.0828)
+训练集得分: 0.8755 (±0.0069)
+排名: 3
+
+组合 4:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5320 (±0.0685)
+训练集得分: 0.9875 (±0.0010)
+排名: 4
+
+组合 5:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5308 (±0.0701)
+训练集得分: 0.8722 (±0.0087)
+排名: 5
+
+组合 6:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5308 (±0.0701)
+训练集得分: 0.8722 (±0.0087)
+排名: 5
+
+组合 7:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5303 (±0.0755)
+训练集得分: 0.8873 (±0.0068)
+排名: 7
+
+组合 8:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5303 (±0.0755)
+训练集得分: 0.8874 (±0.0068)
+排名: 8
+
+组合 9:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5301 (±0.0700)
+训练集得分: 0.8723 (±0.0086)
+排名: 9
+
+组合 10:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5297 (±0.0740)
+训练集得分: 0.8872 (±0.0067)
+排名: 10
+
+组合 11:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5259 (±0.0798)
+训练集得分: 0.8257 (±0.0077)
+排名: 11
+
+组合 12:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5258 (±0.0798)
+训练集得分: 0.8257 (±0.0076)
+排名: 12
+
+组合 13:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5257 (±0.0796)
+训练集得分: 0.8257 (±0.0077)
+排名: 13
+
+组合 14:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5255 (±0.0725)
+训练集得分: 0.9180 (±0.0066)
+排名: 14
+
+组合 15:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5250 (±0.0750)
+训练集得分: 0.9073 (±0.0061)
+排名: 15
+
+组合 16:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5244 (±0.0640)
+训练集得分: 0.9876 (±0.0010)
+排名: 16
+
+组合 17:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5240 (±0.0733)
+训练集得分: 0.9177 (±0.0070)
+排名: 17
+
+组合 18:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5238 (±0.0749)
+训练集得分: 0.9072 (±0.0061)
+排名: 18
+
+组合 19:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5237 (±0.0745)
+训练集得分: 0.9078 (±0.0061)
+排名: 19
+
+组合 20:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5229 (±0.0794)
+训练集得分: 0.8398 (±0.0074)
+排名: 20
+
+组合 21:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5229 (±0.0736)
+训练集得分: 0.9176 (±0.0069)
+排名: 21
+
+组合 22:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5225 (±0.0799)
+训练集得分: 0.8399 (±0.0073)
+排名: 22
+
+组合 23:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5223 (±0.0802)
+训练集得分: 0.8396 (±0.0074)
+排名: 23
+
+组合 24:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5212 (±0.0798)
+训练集得分: 0.8461 (±0.0079)
+排名: 24
+
+组合 25:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5208 (±0.0820)
+训练集得分: 0.8742 (±0.0091)
+排名: 25
+
+组合 26:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5206 (±0.0816)
+训练集得分: 0.8462 (±0.0081)
+排名: 26
+
+组合 27:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5203 (±0.0744)
+训练集得分: 0.9681 (±0.0031)
+排名: 27
+
+组合 28:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5196 (±0.0744)
+训练集得分: 0.9674 (±0.0027)
+排名: 28
+
+组合 29:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5194 (±0.0815)
+训练集得分: 0.8461 (±0.0080)
+排名: 29
+
+组合 30:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5187 (±0.0618)
+训练集得分: 0.9873 (±0.0014)
+排名: 30
+
+组合 31:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5171 (±0.0797)
+训练集得分: 0.8746 (±0.0089)
+排名: 31
+
+组合 32:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5171 (±0.0797)
+训练集得分: 0.8746 (±0.0089)
+排名: 31
+
+组合 33:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5156 (±0.0768)
+训练集得分: 0.9672 (±0.0028)
+排名: 33
+
+组合 34:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5097 (±0.0747)
+训练集得分: 0.9765 (±0.0028)
+排名: 34
+
+组合 35:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5067 (±0.0706)
+训练集得分: 0.9826 (±0.0020)
+排名: 35
+
+组合 36:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5065 (±0.0771)
+训练集得分: 0.9760 (±0.0015)
+排名: 36
+
+组合 37:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5047 (±0.0732)
+训练集得分: 0.9816 (±0.0025)
+排名: 37
+
+组合 38:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5046 (±0.0759)
+训练集得分: 0.9754 (±0.0017)
+排名: 38
+
+组合 39:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5043 (±0.0635)
+训练集得分: 0.9936 (±0.0005)
+排名: 39
+
+组合 40:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5041 (±0.0908)
+训练集得分: 0.7006 (±0.0115)
+排名: 40
+
+组合 41:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5041 (±0.0908)
+训练集得分: 0.7006 (±0.0115)
+排名: 40
+
+组合 42:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5041 (±0.0908)
+训练集得分: 0.7006 (±0.0115)
+排名: 42
+
+组合 43:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5017 (±0.0916)
+训练集得分: 0.7035 (±0.0114)
+排名: 43
+
+组合 44:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5017 (±0.0916)
+训练集得分: 0.7035 (±0.0114)
+排名: 43
+
+组合 45:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5014 (±0.0916)
+训练集得分: 0.7037 (±0.0112)
+排名: 45
+
+组合 46:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5013 (±0.0751)
+训练集得分: 0.9933 (±0.0006)
+排名: 46
+
+组合 47:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5005 (±0.0924)
+训练集得分: 0.7041 (±0.0119)
+排名: 47
+
+组合 48:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5005 (±0.0924)
+训练集得分: 0.7041 (±0.0119)
+排名: 47
+
+组合 49:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5000 (±0.0919)
+训练集得分: 0.7041 (±0.0119)
+排名: 49
+
+组合 50:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4993 (±0.0819)
+训练集得分: 0.9970 (±0.0004)
+排名: 50
+
+组合 51:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4986 (±0.0708)
+训练集得分: 0.9976 (±0.0003)
+排名: 51
+
+组合 52:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.4983 (±0.0619)
+训练集得分: 0.9932 (±0.0007)
+排名: 52
+
+组合 53:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4963 (±0.0706)
+训练集得分: 0.9824 (±0.0024)
+排名: 53
+
+组合 54:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.4828 (±0.0790)
+训练集得分: 0.9963 (±0.0004)
+排名: 54
+
+
+==================================================
+
+模型: LightGBM_3000
+------------------------------
+测试集评估结果:
+r2: 0.2559
+rmse: 3.7747
+mse: 14.2486
+pearson_r: 0.5156
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_442: 19.0000
+feature_2666: 19.0000
+feature_2915: 18.0000
+feature_665: 17.0000
+feature_2790: 16.0000
+feature_981: 15.0000
+feature_2335: 15.0000
+feature_550: 14.0000
+feature_882: 13.0000
+feature_1032: 13.0000
+
+参数搜索结果:
+组合 1:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5240 (±0.0741)
+训练集得分: 0.9370 (±0.0072)
+排名: 1
+
+组合 2:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5240 (±0.0741)
+训练集得分: 0.9370 (±0.0072)
+排名: 1
+
+组合 3:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5240 (±0.0741)
+训练集得分: 0.9370 (±0.0072)
+排名: 1
+
+组合 4:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5233 (±0.0654)
+训练集得分: 0.8663 (±0.0103)
+排名: 4
+
+组合 5:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5233 (±0.0654)
+训练集得分: 0.8663 (±0.0103)
+排名: 4
+
+组合 6:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5233 (±0.0654)
+训练集得分: 0.8663 (±0.0103)
+排名: 4
+
+组合 7:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5212 (±0.0737)
+训练集得分: 0.9623 (±0.0046)
+排名: 7
+
+组合 8:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5212 (±0.0737)
+训练集得分: 0.9623 (±0.0046)
+排名: 7
+
+组合 9:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5168 (±0.0734)
+训练集得分: 0.9626 (±0.0041)
+排名: 9
+
+组合 10:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4971 (±0.0777)
+训练集得分: 0.8116 (±0.0091)
+排名: 10
+
+组合 11:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4968 (±0.0778)
+训练集得分: 0.8116 (±0.0091)
+排名: 11
+
+组合 12:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4968 (±0.0778)
+训练集得分: 0.8116 (±0.0091)
+排名: 11
+
+组合 13:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4955 (±0.0888)
+训练集得分: 0.7616 (±0.0118)
+排名: 13
+
+组合 14:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4955 (±0.0888)
+训练集得分: 0.7616 (±0.0118)
+排名: 13
+
+组合 15:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4955 (±0.0888)
+训练集得分: 0.7616 (±0.0118)
+排名: 13
+
+组合 16:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4805 (±0.0800)
+训练集得分: 0.6866 (±0.0145)
+排名: 16
+
+组合 17:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4805 (±0.0800)
+训练集得分: 0.6866 (±0.0145)
+排名: 16
+
+组合 18:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4805 (±0.0800)
+训练集得分: 0.6866 (±0.0145)
+排名: 16
+
+
+==================================================
+
+模型: Lasso_3000
+------------------------------
+测试集评估结果:
+r2: 0.3117
+rmse: 3.6303
+mse: 13.1789
+pearson_r: 0.5599
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_306: 0.6464
+feature_550: 0.4621
+feature_458: 0.4138
+feature_398: 0.3848
+feature_2558: 0.3199
+feature_1100: 0.3033
+feature_2157: 0.2819
+feature_2790: 0.2740
+feature_2855: 0.2678
+feature_1618: 0.2628
+
+参数搜索结果:
+组合 1:
+参数:
+  - alpha: 0.1
+测试集得分: 0.5137 (±0.0985)
+训练集得分: 0.6682 (±0.0186)
+排名: 1
+
+组合 2:
+参数:
+  - alpha: 0.01
+测试集得分: 0.3796 (±0.1087)
+训练集得分: 0.9088 (±0.0066)
+排名: 2
+
+组合 3:
+参数:
+  - alpha: 1.0
+测试集得分: 0.3010 (±0.0534)
+训练集得分: 0.3874 (±0.0668)
+排名: 3
+
+组合 4:
+参数:
+  - alpha: 0.001
+测试集得分: 0.1625 (±0.0981)
+训练集得分: 0.9861 (±0.0027)
+排名: 4
+
+
+==================================================
+
+模型: RandomForest_5000
+------------------------------
+测试集评估结果:
+r2: 0.2880
+rmse: 3.6923
+mse: 13.6331
+pearson_r: 0.5455
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_228: 0.0044
+feature_4582: 0.0043
+feature_3759: 0.0043
+feature_210: 0.0038
+feature_368: 0.0038
+feature_692: 0.0036
+feature_373: 0.0036
+feature_329: 0.0035
+feature_3681: 0.0033
+feature_550: 0.0033
+
+参数搜索结果:
+组合 1:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.5247 (±0.0740)
+训练集得分: 0.8607 (±0.0057)
+排名: 1
+
+组合 2:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.5209 (±0.0733)
+训练集得分: 0.9290 (±0.0030)
+排名: 2
+
+组合 3:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.5197 (±0.0791)
+训练集得分: 0.9313 (±0.0033)
+排名: 3
+
+组合 4:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.5178 (±0.0784)
+训练集得分: 0.8634 (±0.0066)
+排名: 4
+
+组合 5:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.5167 (±0.0828)
+训练集得分: 0.9404 (±0.0042)
+排名: 5
+
+组合 6:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.5161 (±0.0803)
+训练集得分: 0.9146 (±0.0044)
+排名: 6
+
+组合 7:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.5159 (±0.0754)
+训练集得分: 0.9596 (±0.0037)
+排名: 7
+
+组合 8:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.5153 (±0.0752)
+训练集得分: 0.9119 (±0.0040)
+排名: 8
+
+组合 9:
+参数:
+  - max_depth: 15
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.5145 (±0.0816)
+训练集得分: 0.9425 (±0.0036)
+排名: 9
+
+组合 10:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.5143 (±0.0767)
+训练集得分: 0.8827 (±0.0051)
+排名: 10
+
+组合 11:
+参数:
+  - max_depth: 20
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.5128 (±0.0780)
+训练集得分: 0.9621 (±0.0031)
+排名: 11
+
+组合 12:
+参数:
+  - max_depth: 10
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.5115 (±0.0758)
+训练集得分: 0.8811 (±0.0054)
+排名: 12
+
+组合 13:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 200
+测试集得分: 0.4989 (±0.0935)
+训练集得分: 0.7218 (±0.0078)
+排名: 13
+
+组合 14:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 200
+测试集得分: 0.4985 (±0.0941)
+训练集得分: 0.7194 (±0.0086)
+排名: 14
+
+组合 15:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 5
+  - n_estimators: 100
+测试集得分: 0.4964 (±0.0945)
+训练集得分: 0.7176 (±0.0084)
+排名: 15
+
+组合 16:
+参数:
+  - max_depth: 5
+  - max_features: sqrt
+  - min_samples_split: 2
+  - n_estimators: 100
+测试集得分: 0.4962 (±0.0962)
+训练集得分: 0.7210 (±0.0081)
+排名: 16
+
+
+==================================================
+
+模型: XGBoost_5000
+------------------------------
+测试集评估结果:
+r2: 0.2649
+rmse: 3.7517
+mse: 14.0751
+pearson_r: 0.5858
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_219: 0.0158
+feature_216: 0.0148
+feature_345: 0.0142
+feature_239: 0.0117
+feature_568: 0.0111
+feature_20: 0.0105
+feature_10: 0.0105
+feature_283: 0.0102
+feature_373: 0.0101
+feature_252: 0.0099
+
+参数搜索结果:
+组合 1:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5435 (±0.0779)
+训练集得分: 0.9114 (±0.0096)
+排名: 1
+
+组合 2:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5434 (±0.0780)
+训练集得分: 0.9111 (±0.0094)
+排名: 2
+
+组合 3:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5432 (±0.0775)
+训练集得分: 0.9114 (±0.0094)
+排名: 3
+
+组合 4:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5421 (±0.0982)
+训练集得分: 0.9005 (±0.0080)
+排名: 4
+
+组合 5:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5421 (±0.0982)
+训练集得分: 0.9005 (±0.0080)
+排名: 4
+
+组合 6:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5407 (±0.0944)
+训练集得分: 0.9001 (±0.0076)
+排名: 6
+
+组合 7:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5396 (±0.0818)
+训练集得分: 0.9282 (±0.0075)
+排名: 7
+
+组合 8:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5385 (±0.0756)
+训练集得分: 0.9884 (±0.0015)
+排名: 8
+
+组合 9:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5369 (±0.0784)
+训练集得分: 0.8470 (±0.0099)
+排名: 9
+
+组合 10:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5367 (±0.0783)
+训练集得分: 0.8470 (±0.0100)
+排名: 10
+
+组合 11:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5365 (±0.0788)
+训练集得分: 0.8473 (±0.0104)
+排名: 11
+
+组合 12:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5364 (±0.0831)
+训练集得分: 0.8588 (±0.0082)
+排名: 12
+
+组合 13:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5363 (±0.0828)
+训练集得分: 0.8589 (±0.0081)
+排名: 13
+
+组合 14:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5363 (±0.0820)
+训练集得分: 0.8590 (±0.0084)
+排名: 14
+
+组合 15:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5361 (±0.0877)
+训练集得分: 0.9285 (±0.0072)
+排名: 15
+
+组合 16:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5353 (±0.0873)
+训练集得分: 0.9285 (±0.0074)
+排名: 16
+
+组合 17:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5345 (±0.0815)
+训练集得分: 0.8647 (±0.0087)
+排名: 17
+
+组合 18:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5342 (±0.0911)
+训练集得分: 0.8985 (±0.0092)
+排名: 18
+
+组合 19:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5342 (±0.0911)
+训练集得分: 0.8985 (±0.0092)
+排名: 18
+
+组合 20:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5342 (±0.0911)
+训练集得分: 0.8985 (±0.0092)
+排名: 18
+
+组合 21:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5341 (±0.0835)
+训练集得分: 0.9368 (±0.0068)
+排名: 21
+
+组合 22:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5339 (±0.0838)
+训练集得分: 0.9367 (±0.0066)
+排名: 22
+
+组合 23:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5339 (±0.0836)
+训练集得分: 0.8647 (±0.0086)
+排名: 23
+
+组合 24:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5333 (±0.0835)
+训练集得分: 0.9362 (±0.0070)
+排名: 24
+
+组合 25:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5331 (±0.0834)
+训练集得分: 0.8649 (±0.0086)
+排名: 25
+
+组合 26:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5328 (±0.0679)
+训练集得分: 0.9886 (±0.0014)
+排名: 26
+
+组合 27:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5325 (±0.0596)
+训练集得分: 0.9884 (±0.0018)
+排名: 27
+
+组合 28:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5297 (±0.0846)
+训练集得分: 0.9911 (±0.0016)
+排名: 28
+
+组合 29:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5271 (±0.0686)
+训练集得分: 0.9838 (±0.0018)
+排名: 29
+
+组合 30:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5259 (±0.0818)
+训练集得分: 0.9992 (±0.0002)
+排名: 30
+
+组合 31:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5226 (±0.0817)
+训练集得分: 0.9910 (±0.0015)
+排名: 31
+
+组合 32:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5221 (±0.0696)
+训练集得分: 0.9838 (±0.0024)
+排名: 32
+
+组合 33:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5211 (±0.0749)
+训练集得分: 0.9838 (±0.0021)
+排名: 33
+
+组合 34:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5210 (±0.0826)
+训练集得分: 0.9002 (±0.0075)
+排名: 34
+
+组合 35:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5205 (±0.0816)
+训练集得分: 0.9981 (±0.0002)
+排名: 35
+
+组合 36:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5203 (±0.0780)
+训练集得分: 0.9947 (±0.0009)
+排名: 36
+
+组合 37:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5199 (±0.0821)
+训练集得分: 0.9004 (±0.0073)
+排名: 37
+
+组合 38:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5199 (±0.0821)
+训练集得分: 0.9004 (±0.0073)
+排名: 37
+
+组合 39:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5185 (±0.0796)
+训练集得分: 0.9946 (±0.0009)
+排名: 39
+
+组合 40:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5179 (±0.0879)
+训练集得分: 0.7211 (±0.0128)
+排名: 40
+
+组合 41:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5179 (±0.0879)
+训练集得分: 0.7211 (±0.0128)
+排名: 40
+
+组合 42:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5179 (±0.0879)
+训练集得分: 0.7211 (±0.0128)
+排名: 42
+
+组合 43:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5178 (±0.0860)
+训练集得分: 0.7204 (±0.0121)
+排名: 43
+
+组合 44:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5178 (±0.0860)
+训练集得分: 0.7204 (±0.0121)
+排名: 43
+
+组合 45:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5178 (±0.0860)
+训练集得分: 0.7204 (±0.0121)
+排名: 43
+
+组合 46:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 6
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5167 (±0.0893)
+训练集得分: 0.9909 (±0.0013)
+排名: 46
+
+组合 47:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 1
+  - subsample: 0.8
+测试集得分: 0.5152 (±0.0827)
+训练集得分: 0.9988 (±0.0001)
+排名: 47
+
+组合 48:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5149 (±0.0844)
+训练集得分: 0.7174 (±0.0120)
+排名: 48
+
+组合 49:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5149 (±0.0844)
+训练集得分: 0.7174 (±0.0120)
+排名: 48
+
+组合 50:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5149 (±0.0844)
+训练集得分: 0.7174 (±0.0120)
+排名: 48
+
+组合 51:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 5
+  - subsample: 0.8
+测试集得分: 0.5139 (±0.0789)
+训练集得分: 0.9946 (±0.0009)
+排名: 51
+
+组合 52:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.1
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5137 (±0.0858)
+训练集得分: 0.9977 (±0.0005)
+排名: 52
+
+组合 53:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0.2
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5114 (±0.0809)
+训练集得分: 0.9971 (±0.0004)
+排名: 53
+
+组合 54:
+参数:
+  - colsample_bytree: 0.8
+  - gamma: 0
+  - learning_rate: 0.1
+  - max_depth: 9
+  - min_child_weight: 3
+  - subsample: 0.8
+测试集得分: 0.5103 (±0.0734)
+训练集得分: 0.9979 (±0.0003)
+排名: 54
+
+
+==================================================
+
+模型: LightGBM_5000
+------------------------------
+测试集评估结果:
+r2: 0.3129
+rmse: 3.6272
+mse: 13.1565
+pearson_r: 0.5617
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_4552: 13.0000
+feature_4922: 10.0000
+feature_665: 9.0000
+feature_4355: 9.0000
+feature_458: 7.0000
+feature_4765: 7.0000
+feature_4767: 7.0000
+feature_981: 6.0000
+feature_1826: 6.0000
+feature_2203: 6.0000
+
+参数搜索结果:
+组合 1:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5434 (±0.0610)
+训练集得分: 0.8949 (±0.0093)
+排名: 1
+
+组合 2:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5434 (±0.0610)
+训练集得分: 0.8949 (±0.0093)
+排名: 1
+
+组合 3:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5434 (±0.0610)
+训练集得分: 0.8949 (±0.0093)
+排名: 1
+
+组合 4:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5312 (±0.0749)
+训练集得分: 0.9624 (±0.0036)
+排名: 4
+
+组合 5:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5312 (±0.0749)
+训练集得分: 0.9624 (±0.0036)
+排名: 4
+
+组合 6:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5312 (±0.0749)
+训练集得分: 0.9624 (±0.0036)
+排名: 4
+
+组合 7:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5206 (±0.0645)
+训练集得分: 0.9813 (±0.0017)
+排名: 7
+
+组合 8:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5142 (±0.0650)
+训练集得分: 0.9805 (±0.0025)
+排名: 8
+
+组合 9:
+参数:
+  - learning_rate: 0.1
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5142 (±0.0650)
+训练集得分: 0.9805 (±0.0025)
+排名: 8
+
+组合 10:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5133 (±0.0746)
+训练集得分: 0.8439 (±0.0112)
+排名: 10
+
+组合 11:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5131 (±0.0745)
+训练集得分: 0.8439 (±0.0111)
+排名: 11
+
+组合 12:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 7
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5131 (±0.0745)
+训练集得分: 0.8439 (±0.0111)
+排名: 11
+
+组合 13:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5085 (±0.0779)
+训练集得分: 0.7874 (±0.0124)
+排名: 13
+
+组合 14:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5085 (±0.0779)
+训练集得分: 0.7874 (±0.0124)
+排名: 13
+
+组合 15:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 5
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.5085 (±0.0779)
+训练集得分: 0.7874 (±0.0124)
+排名: 13
+
+组合 16:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 31
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4922 (±0.0818)
+训练集得分: 0.7019 (±0.0133)
+排名: 16
+
+组合 17:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 63
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4922 (±0.0818)
+训练集得分: 0.7019 (±0.0133)
+排名: 16
+
+组合 18:
+参数:
+  - learning_rate: 0.01
+  - max_depth: 3
+  - min_child_samples: 10
+  - num_leaves: 127
+  - reg_alpha: 0.1
+  - reg_lambda: 0.1
+测试集得分: 0.4922 (±0.0818)
+训练集得分: 0.7019 (±0.0133)
+排名: 16
+
+
+==================================================
+
+模型: Lasso_5000
+------------------------------
+测试集评估结果:
+r2: 0.3467
+rmse: 3.5367
+mse: 12.5083
+pearson_r: 0.5920
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_306: 0.6875
+feature_3681: 0.3885
+feature_550: 0.3591
+feature_398: 0.3224
+feature_458: 0.3208
+feature_3235: 0.3049
+feature_1970: 0.2855
+feature_4506: 0.2757
+feature_4355: 0.2472
+feature_1100: 0.2454
+
+参数搜索结果:
+组合 1:
+参数:
+  - alpha: 0.1
+测试集得分: 0.5160 (±0.0873)
+训练集得分: 0.7150 (±0.0180)
+排名: 1
+
+组合 2:
+参数:
+  - alpha: 0.01
+测试集得分: 0.3472 (±0.1186)
+训练集得分: 0.9479 (±0.0055)
+排名: 2
+
+组合 3:
+参数:
+  - alpha: 1.0
+测试集得分: 0.3016 (±0.0534)
+训练集得分: 0.3886 (±0.0686)
+排名: 3
+
+组合 4:
+参数:
+  - alpha: 0.001
+测试集得分: 0.2196 (±0.1108)
+训练集得分: 0.9973 (±0.0006)
+排名: 4
+
+
+==================================================
+

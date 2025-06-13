@@ -1,0 +1,169 @@
+评估时间: 20250612_181554
+性状: headingdate
+==================================================
+
+模型: CNN_100
+------------------------------
+测试集评估结果:
+r2: 0.3065
+rmse: 2.3512
+mse: 5.5279
+pearson_r: 0.5678
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_17: 0.0558
+feature_83: 0.0558
+feature_31: 0.0545
+feature_71: 0.0544
+feature_11: 0.0543
+feature_14: 0.0541
+feature_38: 0.0539
+feature_62: 0.0537
+feature_16: 0.0536
+feature_47: 0.0536
+
+参数搜索结果:
+组合 1:
+参数:
+  - batch_size: 128
+  - dropout_rate: 0.2
+  - hidden_sizes: [128, 64]
+  - learning_rate: 0.0001
+  - weight_decay: 1e-05
+
+
+==================================================
+
+模型: CNN_7000
+------------------------------
+测试集评估结果:
+r2: 0.2971
+rmse: 2.3670
+mse: 5.6025
+pearson_r: 0.5478
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_1133: 0.0073
+feature_5709: 0.0073
+feature_1533: 0.0072
+feature_5812: 0.0071
+feature_1789: 0.0071
+feature_7: 0.0071
+feature_3114: 0.0071
+feature_457: 0.0071
+feature_164: 0.0071
+feature_4279: 0.0071
+
+参数搜索结果:
+组合 1:
+参数:
+  - batch_size: 128
+  - dropout_rate: 0.2
+  - hidden_sizes: [128, 64]
+  - learning_rate: 0.0001
+  - weight_decay: 1e-05
+
+
+==================================================
+
+模型: CNN_1000
+------------------------------
+测试集评估结果:
+r2: 0.2814
+rmse: 2.3933
+mse: 5.7280
+pearson_r: 0.5432
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_434: 0.0184
+feature_569: 0.0183
+feature_83: 0.0183
+feature_469: 0.0182
+feature_620: 0.0180
+feature_133: 0.0180
+feature_523: 0.0180
+feature_9: 0.0179
+feature_416: 0.0179
+feature_190: 0.0178
+
+参数搜索结果:
+组合 1:
+参数:
+  - batch_size: 128
+  - dropout_rate: 0.2
+  - hidden_sizes: [128, 64]
+  - learning_rate: 0.0001
+  - weight_decay: 1e-05
+
+
+==================================================
+
+模型: CNN_3000
+------------------------------
+测试集评估结果:
+r2: 0.2562
+rmse: 2.4348
+mse: 5.9282
+pearson_r: 0.5228
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_870: 0.0109
+feature_683: 0.0108
+feature_1022: 0.0108
+feature_1032: 0.0108
+feature_1211: 0.0108
+feature_2394: 0.0107
+feature_319: 0.0107
+feature_217: 0.0106
+feature_2345: 0.0106
+feature_3: 0.0106
+
+参数搜索结果:
+组合 1:
+参数:
+  - batch_size: 128
+  - dropout_rate: 0.2
+  - hidden_sizes: [128, 64]
+  - learning_rate: 0.0001
+  - weight_decay: 1e-05
+
+
+==================================================
+
+模型: CNN_5000
+------------------------------
+测试集评估结果:
+r2: 0.2876
+rmse: 2.3829
+mse: 5.6782
+pearson_r: 0.5517
+pearson_p: 0.0000
+
+特征重要性 (Top 10):
+feature_2716: 0.0085
+feature_3975: 0.0084
+feature_356: 0.0084
+feature_1970: 0.0084
+feature_4217: 0.0083
+feature_4333: 0.0083
+feature_1398: 0.0083
+feature_4870: 0.0083
+feature_3955: 0.0083
+feature_3569: 0.0083
+
+参数搜索结果:
+组合 1:
+参数:
+  - batch_size: 128
+  - dropout_rate: 0.2
+  - hidden_sizes: [128, 64]
+  - learning_rate: 0.0001
+  - weight_decay: 1e-05
+
+
+==================================================
+
