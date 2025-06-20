@@ -1,0 +1,15 @@
+graph TD
+    A[输入层\nSNP特征向量] --> B[线性层\ninput_size→hidden_sizes[0]]
+    B --> C[BatchNorm1d]
+    C --> D[ReLU]
+    D --> E[添加通道维度]
+    E --> F[卷积块1\nConv1d→BN→ReLU→MaxPool→Dropout]
+    F --> G[卷积块2\nConv1d→BN→ReLU→MaxPool→Dropout]
+    G --> H[Flatten]
+    H --> I[全连接层1\nLinear→BN→ReLU→Dropout]
+    I --> J[全连接层2\nLinear→BN→ReLU→Dropout]
+    J --> K[输出层\nLinear→1]
+    A --> L[残差连接\nLinear→BN→ReLU→Linear→1]
+    K --> M[输出相加]
+    L --> M
+    M --> N[最终输出] 
