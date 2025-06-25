@@ -54,4 +54,9 @@ logs/
 Thumbs.db 
 
 # Evaluation results
-output/evaluate*/ 
+output/evaluate*/
+
+# 忽略资源、输出和数据目录
+/res/
+/output/
+/data/ 
