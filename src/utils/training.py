@@ -25,7 +25,8 @@ def train_and_evaluate(
     n_jobs: int = -1,
     output_dir: Optional[str] = None,
     prediction_dir: Optional[str] = None,
-    prefix: Optional[str] = None
+    prefix: Optional[str] = None,
+    config: Optional[Dict[str, Any]] = None
 ) -> Dict[str, Any]:
     """
     训练和评估模型
@@ -44,6 +45,7 @@ def train_and_evaluate(
         output_dir: 输出目录（用于保存loss曲线）
         prediction_dir: 预测图保存目录
         prefix: 文件名前缀
+        config: 完整配置字典（用于Ensemble参数合并）
         
     Returns:
         Dict[str, Any]: 包含模型和评估结果的字典
@@ -63,7 +65,8 @@ def train_and_evaluate(
                 X=X_train,
                 y=y_train,
                 param_grid=param_grid,
-                n_jobs=1  # CNN模型不支持并行训练
+                n_jobs=1,  # CNN模型不支持并行训练
+                config=config
             )
         else:
             search_results = grid_search(
@@ -71,7 +74,8 @@ def train_and_evaluate(
                 X=X_train,
                 y=y_train,
                 param_grid=param_grid,
-                n_jobs=n_jobs
+                n_jobs=n_jobs,
+                config=config
             )
         model.model = search_results['best_estimator']
         param_results = search_results['all_results']
@@ -107,11 +111,29 @@ def train_and_evaluate(
     
     # 获取特征重要性
     feature_importance = model.get_feature_importance()
-    top_features = sorted(
-        feature_importance.items(),
-        key=lambda x: x[1],
-        reverse=True
-    )[:10]
+    
+    # 处理联合模型的特征重要性（嵌套字典）
+    if isinstance(feature_importance, dict) and any(isinstance(v, dict) for v in feature_importance.values()):
+        # 联合模型：合并所有模型的特征重要性
+        combined_importance = {}
+        for model_name, importances in feature_importance.items():
+            if isinstance(importances, dict):
+                for feature, importance in importances.items():
+                    if feature in combined_importance:
+                        combined_importance[feature] += importance
+                    else:
+                        combined_importance[feature] = importance
+        feature_importance = combined_importance
+    
+    # 确保feature_importance是字典类型
+    if isinstance(feature_importance, dict):
+        top_features = sorted(
+            feature_importance.items(),
+            key=lambda x: x[1],
+            reverse=True
+        )[:10]
+    else:
+        top_features = []
     
     return {
         'model': model,

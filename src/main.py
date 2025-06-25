@@ -23,6 +23,7 @@ from models.factory import ModelFactory
 from src.data.processed_data_loader import ProcessedDataLoader
 from utils.training import train_and_evaluate
 from utils.evaluation import plot_feature_importance, plot_prediction_vs_actual, evaluate_model
+from utils.ensemble_weight_loader import load_trait_weights
 
 # 配置日志
 logging.basicConfig(
@@ -129,6 +130,14 @@ def main(args=None):
     models_to_use = args.models or list(config['models'].keys())
     traits_to_use = args.traits or available_traits
     
+    # 加载Ensemble权重表（如有），优先从config读取trait_weights
+    ensemble_trait_weights = config['models'].get('Ensemble', {}).get('trait_weights', {})
+    ensemble_weight_path = 'report/ensemble_weights_by_trait.csv'
+    if os.path.exists(ensemble_weight_path):
+        trait_weights_dict = load_trait_weights(ensemble_weight_path)
+    else:
+        trait_weights_dict = {}
+    
     # 生成时间戳
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     
@@ -175,12 +184,22 @@ def main(args=None):
                 if model_name not in config['models']:
                     logger.warning(f"跳过未知模型: {model_name}")
                     continue
-                    
                 logger.info(f"\n{'='*50}")
                 logger.info(f"训练模型: {model_name}")
-                
+                # 自动注入Ensemble权重，优先用config中的trait_weights
+                model_config = config['models'][model_name].copy()
+                if model_name.lower() == 'ensemble':
+                    weights = None
+                    if trait in ensemble_trait_weights:
+                        weights = ensemble_trait_weights[trait]
+                        logger.info(f"Ensemble模型自动注入权重（来自config trait_weights）: {weights}")
+                    elif trait in trait_weights_dict:
+                        weights = trait_weights_dict[trait]
+                        logger.info(f"Ensemble模型自动注入权重（来自csv）: {weights}")
+                    if weights is not None:
+                        model_config['weights'] = weights
                 # 创建模型
-                model = ModelFactory.create_model(model_name, config['models'][model_name])
+                model = ModelFactory.create_model(model_name, model_config)
                 
                 # 参数搜索
                 param_grid = None
@@ -198,7 +217,8 @@ def main(args=None):
                     n_jobs=config['training']['n_jobs'],
                     output_dir=output_dirs['model'],
                     prediction_dir=output_dirs['plot'],
-                    prefix=f"{trait}_{model_name}_{n_snps}"
+                    prefix=f"{trait}_{model_name}_{n_snps}",
+                    config=config
                 )
                 
                 # 保存结果
@@ -245,8 +265,20 @@ def main(args=None):
                 # 保存参数搜索结果
                 if model_results['param_results']:
                     f.write("\n参数搜索结果:\n")
-                    for param, value in model_results['param_results'].items():
-                        f.write(f"{param}: {value}\n")
+                    if isinstance(model_results['param_results'], list):
+                        # 如果是列表，显示最佳参数
+                        if model_results['param_results']:
+                            best_result = model_results['param_results'][0]  # 第一个是最佳结果
+                            if 'params' in best_result:
+                                f.write("最佳参数:\n")
+                                for param, value in best_result['params'].items():
+                                    f.write(f"  {param}: {value}\n")
+                                if 'val_score' in best_result:
+                                    f.write(f"最佳验证分数: {best_result['val_score']:.4f}\n")
+                    else:
+                        # 如果是字典，直接遍历
+                        for param, value in model_results['param_results'].items():
+                            f.write(f"{param}: {value}\n")
                 
                 f.write("\n" + "="*50 + "\n\n")
                 

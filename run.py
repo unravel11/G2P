@@ -24,7 +24,8 @@ MODEL_NAME_MAP = {
     'xgb': 'XGBoost',
     'lgb': 'LightGBM',
     'lasso': 'Lasso',
-    'cnn': 'CNN'
+    'cnn': 'CNN',
+    'ensemble': 'Ensemble'
 }
 
 def load_config(config_path: str) -> Dict[str, Any]:

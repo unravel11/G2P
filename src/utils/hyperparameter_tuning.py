@@ -8,8 +8,10 @@ import logging
 from sklearn.model_selection import GridSearchCV, ParameterGrid, train_test_split
 from models.base import BaseModel
 from models.cnn_model import CNNModel
+from models.ensemble_model import EnsembleModel
 from sklearn.metrics import make_scorer
 from scipy.stats import pearsonr
+from .ensemble_param_merger import merge_ensemble_param_grid
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +26,8 @@ def grid_search(
     y: np.ndarray,
     param_grid: Dict[str, List[Any]],
     cv: int = 5,
-    n_jobs: int = -1
+    n_jobs: int = -1,
+    config: Dict[str, Any] = None
 ) -> Dict[str, Any]:
     """
     执行网格搜索
@@ -36,12 +39,23 @@ def grid_search(
         param_grid: 参数网格
         cv: 交叉验证折数
         n_jobs: 并行计算的CPU核心数
+        config: 完整配置字典（用于Ensemble参数合并）
         
     Returns:
         dict: 包含最佳参数和所有参数组合结果的字典
     """
     logger.info("开始网格搜索...")
-    logger.info(f"参数网格: {param_grid}")
+    
+    # 如果是EnsembleModel，自动合并参数
+    if isinstance(model, EnsembleModel) and config:
+        merged_param_grid = merge_ensemble_param_grid(config)
+        if merged_param_grid:
+            logger.info("检测到Ensemble模型，自动合并基础模型参数")
+            logger.info(f"原始参数网格: {param_grid}")
+            logger.info(f"合并后参数网格: {merged_param_grid}")
+            param_grid = merged_param_grid
+    
+    logger.info(f"最终参数网格: {param_grid}")
     
     # 如果是CNNModel，手写参数搜索
     if isinstance(model, CNNModel):
@@ -78,7 +92,47 @@ def grid_search(
             'all_results': all_results,
             'best_estimator': best_model
         }
-    # 其它模型，仍用GridSearchCV
+    
+    # 如果是EnsembleModel，手写参数搜索
+    if isinstance(model, EnsembleModel):
+        all_results = []
+        best_score = -np.inf
+        best_params = None
+        best_model = None
+        param_list = list(ParameterGrid(param_grid))
+        logger.info(f"Ensemble模型参数组合数: {len(param_list)}")
+        for i, params in enumerate(param_list):
+            logger.info(f"[{i+1}/{len(param_list)}] 当前参数: {params}")
+            # 创建新模型实例
+            from models.factory import ModelFactory
+            ensemble_config = config['models']['Ensemble'].copy()
+            ensemble_config['params'] = params
+            ensemble = ModelFactory.create_model('Ensemble', ensemble_config)
+            # 划分训练/验证集
+            X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+            try:
+                ensemble.train(X_train, y_train)
+                metrics = ensemble.evaluate(X_val, y_val)
+                # 用pearson_r（pcc）作为主评判标准
+                score = metrics.get('pearson_r', -np.inf)
+                logger.info(f"参数: {params}, 验证集PCC: {score:.4f}, R2: {metrics.get('r2', float('nan')):.4f}")
+                all_results.append({'params': params, 'val_score': score, 'metrics': metrics})
+                if score > best_score:
+                    best_score = score
+                    best_params = params
+                    best_model = ensemble
+            except Exception as e:
+                logger.error(f"参数: {params} 训练/评估出错: {e}")
+                all_results.append({'params': params, 'val_score': -np.inf, 'metrics': {}, 'error': str(e)})
+        logger.info(f"Ensemble参数搜索完成，最佳参数: {best_params}, 最佳PCC: {best_score:.4f}")
+        return {
+            'best_params': best_params,
+            'best_score': best_score,
+            'all_results': all_results,
+            'best_estimator': best_model
+        }
+    
+    # 其它模型，使用GridSearchCV（包括新的堆叠集成模型）
     grid = GridSearchCV(
         estimator=model.model,
         param_grid=param_grid,

@@ -44,6 +44,8 @@ ENV/
 *.pheno.txt
 *.pheno.txt.gz
 /preprocess_data/
+/data/
+/res/
 
 # Logs
 *.log

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G2P项目报告</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .nav {
+            background: #34495e;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .nav a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+
+        .section h3 {
+            color: #34495e;
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.5rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 4px solid #3498db;
+        }
+
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        th {
+            background: #34495e;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+
+        .trait-category {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0.2rem;
+        }
+
+        .easy { background: #d4edda; color: #155724; }
+        .medium { background: #fff3cd; color: #856404; }
+        .hard { background: #f8d7da; color: #721c24; }
+
+        .conclusion {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav ul { flex-direction: column; gap: 0.5rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>基因型-表型预测(G2P)项目报告</h1>
+            <p>基于机器学习的植物育种预测系统</p>
+        </div>
+
+        <nav class="nav">
+            <ul>
+                <li><a href="#overview">项目概述</a></li>
+                <li><a href="#background">研究背景</a></li>
+                <li><a href="#methods">技术方法</a></li>
+                <li><a href="#results">结果分析</a></li>
+                <li><a href="#conclusion">结论展望</a></li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <section id="overview" class="section">
+                <h2>🎯 项目概述</h2>
+                <div class="highlight-box">
+                    <h3>项目目标</h3>
+                    <p>开发一个基于机器学习的基因型-表型预测(G2P)系统，在小麦数据集上评估多种模型的预测性能，并实现创新的集成学习方法。</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number">15</div>
+                        <div class="label">农艺性状</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">5</div>
+                        <div class="label">机器学习模型</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">375</div>
+                        <div class="label">实验组合</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">1000</div>
+                        <div class="label">样本数量</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="background" class="section">
+                <h2>🔬 研究背景</h2>
+                
+                <h3>研究意义</h3>
+                <p>基因型-表型预测(Genotype-to-Phenotype Prediction, G2P)是现代植物育种和基因组学研究的核心技术之一。通过分析基因组数据来预测植物的表型特征，可以：</p>
+                <ul style="margin-left: 2rem; margin-top: 1rem;">
+                    <li>加速育种进程，减少传统育种的时间和成本</li>
+                    <li>提高育种效率，实现精准育种</li>
+                    <li>为分子标记辅助选择提供理论依据</li>
+                    <li>促进作物改良和品种选育</li>
+                </ul>
+
+                <h3>技术挑战</h3>
+                <div class="highlight-box">
+                    <h4>主要挑战</h4>
+                    <ul style="margin-left: 1rem;">
+                        <li><strong>高维数据问题</strong>：SNP标记数量远大于样本数量</li>
+                        <li><strong>复杂遗传机制</strong>：表型受多基因控制，存在基因间互作</li>
+                        <li><strong>环境因素影响</strong>：表型表达受环境条件影响</li>
+                        <li><strong>模型选择困难</strong>：不同模型对不同性状的预测能力差异较大</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="methods" class="section">
+                <h2>⚙️ 技术方法</h2>
+                
+                <h3>技术架构</h3>
+                <p>本项目采用模块化设计，包含以下核心组件：</p>
+
+                <h4>模型框架</h4>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Lasso回归</h4>
+                        <p>线性模型，具有特征选择能力</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>随机森林</h4>
+                        <p>集成学习方法，处理非线性关系</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>XGBoost</h4>
+                        <p>梯度提升树，高效且准确</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>LightGBM</h4>
+                        <p>轻量级梯度提升，训练速度快</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Ensemble</h4>
+                        <p>集成模型，结合多个基础模型优势</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="results" class="section">
+                <h2>📊 结果分析</h2>
+                
+                <h3>模型性能排名</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>排名</th>
+                            <th>模型</th>
+                            <th>平均R²</th>
+                            <th>平均RMSE</th>
+                            <th>平均PearsonR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><strong>Lasso</strong></td>
+                            <td>0.2883</td>
+                            <td>4.7122</td>
+                            <td>0.5390</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><strong>XGBoost</strong></td>
+                            <td>0.2812</td>
+                            <td>4.8566</td>
+                            <td>0.5482</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><strong>LightGBM</strong></td>
+                            <td>0.2754</td>
+                            <td>4.7838</td>
+                            <td>0.5383</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><strong>RandomForest</strong></td>
+                            <td>0.2713</td>
+                            <td>4.8016</td>
+                            <td>0.5226</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td><strong>Ensemble</strong></td>
+                            <td>0.2628</td>
+                            <td>4.3800</td>
+                            <td>0.5222</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="chart-container">
+                    <h3>模型性能对比</h3>
+                    <canvas id="modelPerformanceChart" width="400" height="200"></canvas>
+                </div>
+
+                <h3>性状预测难度分析</h3>
+                <div class="highlight-box">
+                    <h4>易预测性状 (R² > 0.4)</h4>
+                    <span class="trait-category easy">lodging (倒伏): R² = 0.5311</span>
+                    <span class="trait-category easy">height (株高): R² = 0.4826</span>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>中等难度性状 (0.2 < R² ≤ 0.4)</h4>
+                    <span class="trait-category medium">FD: R² = 0.3205</span>
+                    <span class="trait-category medium">yield: R² = 0.3067</span>
+                    <span class="trait-category medium">headingdate: R² = 0.3015</span>
+                    <span class="trait-category medium">spikelet: R² = 0.2832</span>
+                    <span class="trait-category medium">gns: R² = 0.2725</span>
+                    <span class="trait-category medium">tkw: R² = 0.2671</span>
+                    <span class="trait-category medium">sterilspike: R² = 0.2561</span>
+                    <span class="trait-category medium">Mature: R² = 0.2468</span>
+                    <span class="trait-category medium">kernelspikelet: R² = 0.2447</span>
+                    <span class="trait-category medium">cold: R² = 0.2094</span>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>难预测性状 (R² ≤ 0.2)</h4>
+                    <span class="trait-category hard">tiller: R² = 0.1529</span>
+                    <span class="trait-category hard">spikelength: R² = 0.1422</span>
+                    <span class="trait-category hard">FHB: R² = 0.1201</span>
+                </div>
+
+                <h3>SNP数量影响分析</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>SNP数量</th>
+                            <th>平均R²</th>
+                            <th>性能变化</th>
+                            <th>性价比评估</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>100</td>
+                            <td>0.1931</td>
+                            <td>-</td>
+                            <td>低 - 信息量不足</td>
+                        </tr>
+                        <tr>
+                            <td>1000</td>
+                            <td>0.2862</td>
+                            <td>+0.0931</td>
+                            <td>高 - 性能显著提升</td>
+                        </tr>
+                        <tr>
+                            <td>3000</td>
+                            <td>0.2921</td>
+                            <td>+0.0059</td>
+                            <td>高 - 最佳性价比</td>
+                        </tr>
+                        <tr>
+                            <td>5000</td>
+                            <td>0.3014</td>
+                            <td>+0.0093</td>
+                            <td>中 - 边际效益递减</td>
+                        </tr>
+                        <tr>
+                            <td>7000</td>
+                            <td>0.3064</td>
+                            <td>+0.0050</td>
+                            <td>低 - 成本高，提升有限</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="chart-container">
+                    <h3>SNP数量对性能的影响</h3>
+                    <canvas id="snpEffectChart" width="400" height="200"></canvas>
+                </div>
+            </section>
+
+            <section id="conclusion" class="section">
+                <h2>🎯 结论与展望</h2>
+                
+                <div class="conclusion">
+                    <h3>主要结论</h3>
+                    <ol style="margin-left: 2rem; margin-top: 1rem;">
+                        <li><strong>Lasso回归表现最佳</strong>：在小麦G2P预测中平均R²达到0.2883</li>
+                        <li><strong>SNP数量优化</strong>：1000-3000个SNP是性价比最高的选择</li>
+                        <li><strong>模型选择策略</strong>：不同性状需要针对性的建模策略</li>
+                        <li><strong>集成学习价值</strong>：虽然整体性能不是最高，但在特定性状上表现优异</li>
+                    </ol>
+                </div>
+
+                <h3>技术贡献</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>模块化架构</h4>
+                        <p>实现了可扩展的G2P预测框架</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>集成学习创新</h4>
+                        <p>开发了支持多种集成方法的Ensemble模型</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>参数优化自动化</h4>
+                        <p>实现了嵌套参数空间的自动优化</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>评估体系完善</h4>
+                        <p>建立了多维度的模型评估体系</p>
+                    </div>
+                </div>
+
+                <h3>应用前景</h3>
+                <ul style="margin-left: 2rem;">
+                    <li><strong>育种实践</strong>：为分子标记辅助选择提供技术支持</li>
+                    <li><strong>品种改良</strong>：加速作物品种改良进程</li>
+                    <li><strong>基因功能研究</strong>：为基因功能注释提供新思路</li>
+                    <li><strong>精准农业</strong>：支持精准农业和智能育种</li>
+                </ul>
+            </section>
+        </div>
+
+        <div class="footer">
+            <h3>项目信息</h3>
+            <p><strong>项目团队</strong>：G2P开发团队</p>
+            <p><strong>完成时间</strong>：2025年1月</p>
+            <p><strong>技术栈</strong>：Python, scikit-learn, XGBoost, LightGBM, pandas, numpy, matplotlib</p>
+            <p><strong>代码仓库</strong>：模块化设计，易于扩展和维护</p>
+        </div>
+    </div>
+
+    <script>
+        // 模型性能图表
+        const modelCtx = document.getElementById('modelPerformanceChart').getContext('2d');
+        new Chart(modelCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Lasso', 'XGBoost', 'LightGBM', 'RandomForest', 'Ensemble'],
+                datasets: [{
+                    label: '平均R²',
+                    data: [0.2883, 0.2812, 0.2754, 0.2713, 0.2628],
+                    backgroundColor: [
+                        'rgba(52, 152, 219, 0.8)',
+                        'rgba(46, 204, 113, 0.8)',
+                        'rgba(155, 89, 182, 0.8)',
+                        'rgba(241, 196, 15, 0.8)',
+                        'rgba(231, 76, 60, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(46, 204, 113, 1)',
+                        'rgba(155, 89, 182, 1)',
+                        'rgba(241, 196, 15, 1)',
+                        'rgba(231, 76, 60, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 0.35,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toFixed(3);
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // SNP数量影响图表
+        const snpCtx = document.getElementById('snpEffectChart').getContext('2d');
+        new Chart(snpCtx, {
+            type: 'line',
+            data: {
+                labels: ['100', '1000', '3000', '5000', '7000'],
+                datasets: [{
+                    label: '平均R²',
+                    data: [0.1931, 0.2862, 0.2921, 0.3014, 0.3064],
+                    borderColor: 'rgba(52, 152, 219, 1)',
+                    backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 0.35,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toFixed(3);
+                            }
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'SNP数量'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
