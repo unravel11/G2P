@@ -9,7 +9,7 @@
         "missing_threshold": 0.1,
         "gwas_p_threshold": 0.05,
         "top_n_snps": 1000,
-        "top_n_snps_grid": [100, 1000, 3000,5000,7000]
+        "top_n_snps_grid": [1000, 3000,5000,7000]
     },
     "training": {
         "random_state": 42,
@@ -109,6 +109,43 @@
                 "learning_rate": [0.0001, 0.0005, 0.001],
                 "batch_size": [32, 64, 128],
                 "weight_decay": [1e-5, 1e-4, 1e-3]
+            }
+        },
+        "GR2LM": {
+            "class": "GR2LMModel",
+            "task_type": "regression",
+            "params": {
+                "main_alpha": 0.1,
+                "main_l1_ratio": 0.5,
+                "residual_alpha": 1.0,
+                "ld_threshold": 0.8,
+                "min_group_size": 3,
+                "max_group_size": 50,
+                "random_state": 42
+            },
+            "param_grid": {
+                "main_alpha": [0.5, 1.0, 2.0],
+                "main_l1_ratio": [0.1, 0.5, 0.9],
+                "residual_alpha": [1.0, 5.0, 10.0, 20.0]
+            }
+        },
+        "S2SR": {
+            "class": "S2SRModel",
+            "task_type": "regression",
+            "params": {
+                "ridge_alphas": [1.0, 10.0, 100.0, 1000.0],
+                "lasso_cv": true,
+                "pval_threshold": 0.01,
+                "max_group_size": 20
+            },
+            "param_grid": {
+                "ridge_alphas": [
+                    [0.01, 0.1, 1.0, 10.0],
+                    [0.1, 1.0, 10.0, 100.0],
+                    [1.0, 10.0, 100.0, 1000.0]
+                ],
+                "pval_threshold": [0.01, 0.05, 0.1],
+                "max_group_size": [30, 50, 100]
             }
         }
     }

@@ -90,6 +90,7 @@ if __name__ == "__main__":
                       help='是否进行参数搜索')
     parser.add_argument('--n_jobs', type=int, default=-1,
                       help='并行计算的CPU核心数，-1表示使用所有可用核心，1表示不使用并行计算')
+    parser.add_argument('--snps', type=int, nargs='+', help='要使用的SNP数量列表，例如：100 1000 3000')
     args = parser.parse_args()
     
     # 转换模型名称

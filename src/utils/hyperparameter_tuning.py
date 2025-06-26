@@ -8,6 +8,7 @@ import logging
 from sklearn.model_selection import GridSearchCV, ParameterGrid, train_test_split
 from models.base import BaseModel
 from models.cnn_model import CNNModel
+from models.s2sr_model import S2SRModel
 from sklearn.metrics import make_scorer
 from scipy.stats import pearsonr
 
@@ -43,23 +44,37 @@ def grid_search(
     logger.info("开始网格搜索...")
     logger.info(f"参数网格: {param_grid}")
     
-    # 如果是CNNModel，手写参数搜索
-    if isinstance(model, CNNModel):
+    # 如果是CNNModel或S2SRModel，手写参数搜索
+    if isinstance(model, (CNNModel, S2SRModel)):
         all_results = []
         best_score = -np.inf
         best_params = None
         best_model = None
         param_list = list(ParameterGrid(param_grid))
-        logger.info(f"CNN模型参数组合数: {len(param_list)}")
+        logger.info(f"{model.__class__.__name__}模型参数组合数: {len(param_list)}")
         for i, params in enumerate(param_list):
             logger.info(f"[{i+1}/{len(param_list)}] 当前参数: {params}")
             # 创建新模型实例
-            cnn = CNNModel(model_params=params, task_type=model.task_type)
+            if isinstance(model, CNNModel):
+                new_model = CNNModel(model_params=params, task_type=model.task_type)
+            else:  # S2SRModel
+                new_model = S2SRModel(model_params=params, task_type=model.task_type)
+            
             # 划分训练/验证集
             X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
             try:
-                cnn.train(X_train, y_train, X_val=X_val, y_val=y_val)
-                metrics = cnn.evaluate(X_val, y_val)
+                if isinstance(model, CNNModel):
+                    new_model.train(X_train, y_train, X_val=X_val, y_val=y_val)
+                    metrics = new_model.evaluate(X_val, y_val)
+                else:  # S2SRModel
+                    new_model.train(X_train, y_train)
+                    y_pred = new_model.predict(X_val)
+                    from sklearn.metrics import r2_score, mean_squared_error
+                    r2 = r2_score(y_val, y_pred)
+                    rmse = mean_squared_error(y_val, y_pred, squared=False)
+                    pcc = pearsonr(y_val, y_pred)[0]
+                    metrics = {'r2': r2, 'rmse': rmse, 'pearson_r': pcc}
+                
                 # 用pearson_r（pcc）作为主评判标准
                 score = metrics.get('pearson_r', -np.inf)
                 logger.info(f"参数: {params}, 验证集PCC: {score:.4f}, R2: {metrics.get('r2', float('nan')):.4f}")
@@ -67,11 +82,11 @@ def grid_search(
                 if score > best_score:
                     best_score = score
                     best_params = params
-                    best_model = cnn
+                    best_model = new_model
             except Exception as e:
                 logger.error(f"参数: {params} 训练/评估出错: {e}")
                 all_results.append({'params': params, 'val_score': -np.inf, 'metrics': {}, 'error': str(e)})
-        logger.info(f"CNN参数搜索完成，最佳参数: {best_params}, 最佳R2: {best_score:.4f}")
+        logger.info(f"{model.__class__.__name__}参数搜索完成，最佳参数: {best_params}, 最佳PCC: {best_score:.4f}")
         return {
             'best_params': best_params,
             'best_score': best_score,
@@ -80,7 +95,7 @@ def grid_search(
         }
     # 其它模型，仍用GridSearchCV
     grid = GridSearchCV(
-        estimator=model.model,
+        estimator=model,
         param_grid=param_grid,
         cv=cv,
         scoring=pcc_scorer,

@@ -105,6 +105,7 @@ def main(args=None):
                           help='是否进行参数搜索')
         parser.add_argument('--n_jobs', type=int, default=-1,
                           help='并行计算的CPU核心数，-1表示使用所有可用核心，1表示不使用并行计算')
+        parser.add_argument('--snps', type=int, nargs='+', help='要使用的SNP数量列表，例如：100 1000 3000')
         args = parser.parse_args()
     
     # 加载配置
@@ -138,8 +139,8 @@ def main(args=None):
         logger.info(f"\n===== 性状: {trait} =====")
         output_dirs = create_output_dirs(project_root, config, trait, timestamp)
         
-        # 获取可用的SNP数量
-        snp_options = loader.get_available_snp_counts(trait)
+        # 获取可用的SNP数量，优先用命令行参数
+        snp_options = args.snps or loader.get_available_snp_counts(trait)
         if not snp_options:
             logger.warning(f"性状 {trait} 没有可用的预处理数据，跳过")
             continue
@@ -245,8 +246,17 @@ def main(args=None):
                 # 保存参数搜索结果
                 if model_results['param_results']:
                     f.write("\n参数搜索结果:\n")
-                    for param, value in model_results['param_results'].items():
-                        f.write(f"{param}: {value}\n")
+                    if isinstance(model_results['param_results'], list):
+                        # 如果是列表格式，显示最佳结果
+                        best_result = model_results['param_results'][0]  # 假设已按得分排序
+                        f.write("最佳参数组合:\n")
+                        for param, value in best_result['params'].items():
+                            f.write(f"  {param}: {value}\n")
+                        f.write(f"最佳得分: {best_result.get('mean_test_score', best_result.get('val_score', 'N/A')):.4f}\n")
+                    else:
+                        # 如果是字典格式
+                        for param, value in model_results['param_results'].items():
+                            f.write(f"{param}: {value}\n")
                 
                 f.write("\n" + "="*50 + "\n\n")
                 
