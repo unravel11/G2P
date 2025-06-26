@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPT风格 - G2P模型分析报告</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 引入Google字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            background-color: #030712;
+            color: #f0f0f0;
+        }
+        /* 单个幻灯片页面 */
+        .slide {
+            min-height: 100vh; /* 使用min-height确保内容足够时可以撑开 */
+            width: 100%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 4rem; /* 增加上下padding */
+            box-sizing: border-box;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* 背景固定，创建视差效果 */
+            border-bottom: 1px solid #1f2937;
+        }
+        /* 背景遮罩层 */
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(17, 24, 39, 0.85); /* 增加遮罩不透明度 */
+            backdrop-filter: blur(5px);
+        }
+        /* 内容容器 */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .slide-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+        }
+        .slide-subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #d1d5db;
+            margin-top: 1rem;
+            max-width: 800px;
+        }
+        .slide-body {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            gap: 2rem;
+            align-items: center;
+        }
+        .text-panel {
+            flex: 1;
+            text-align: left;
+            background-color: rgba(31, 41, 55, 0.85);
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .chart-panel {
+            flex: 1.5;
+            background-color: rgba(31, 41, 55, 0.85);
+            padding: 2rem;
+            border-radius: 0.75rem;
+             border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .panel-title {
+            font-size: 2.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: white;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 0.75rem;
+        }
+        .panel-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #d1d5db;
+        }
+        .panel-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .panel-list li {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        .panel-list li::before {
+            content: '✓';
+            color: #3b82f6;
+            font-size: 1.25rem;
+            margin-right: 1rem;
+            margin-top: 0.25rem;
+        }
+        .agenda-item {
+            background-color: rgba(31, 41, 55, 0.8);
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+
+        <!-- Slide 1: 标题页 -->
+        <section class="slide" style="background-image: url('https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=1974&auto=format&fit=crop');">
+            <div class="content-wrapper">
+                <h1 class="slide-title">基于深度学习的基因组到表型 (G2P) 预测模型分析</h1>
+                <p class="slide-subtitle">S2SR 模型与基线模型性能对比报告</p>
+                <p class="mt-8 text-gray-400">2025年6月</p>
+            </div>
+        </section>
+
+        <!-- Slide 2: 议程纲要 -->
+        <section class="slide" style="background-image: url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=2070&auto=format&fit=crop');">
+            <div class="content-wrapper">
+                <div class="text-panel w-full max-w-3xl">
+                    <h2 class="panel-title">议程纲要</h2>
+                    <div class="mt-8 text-left grid grid-cols-2 gap-4">
+                        <div class="agenda-item">1. 研究背景</div>
+                        <div class="agenda-item">2. 表型数据探索(EDA)</div>
+                        <div class="agenda-item">3. 数据处理流程</div>
+                        <div class="agenda-item">4. S2SR 消融实验</div>
+                        <div class="agenda-item">5. 模型架构解析</div>
+                        <div class="agenda-item">6. 结果与性能对比</div>
+                        <div class="agenda-item">7. 结论与展望</div>
+                        <div class="agenda-item">8. Q & A</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: 背景介绍 -->
+        <section class="slide" style="background-image: url('https://images.unsplash.com/photo-1533757828052-f3c178a59333?q=80&w=2070&auto=format&fit=crop');">
+            <div class="content-wrapper">
+                 <div class="text-panel w-full max-w-4xl">
+                    <h2 class="panel-title">研究背景</h2>
+                    <p class="panel-text mt-6">
+                        基因组选择（Genomic Selection, GS）是现代动植物育种的一场技术革命。其核心思想是利用覆盖全基因组的分子标记（如SNP），在个体生长早期即预测其未来的表型性状（如产量、抗病性等），从而实现对优良个体的早期筛选。
+                        <br><br>
+                        然而，这一过程面临巨大挑战。首先，表型性状通常由大量基因共同控制，且基因之间存在复杂的相互作用（上位性）。其次，高通量测序技术产生了海量的SNP数据，形成了“高维度，小样本”的统计学难题。因此，本研究旨在探索并评估一种基于深度学习的序列到序列模型（S2SR），并与多种传统机器学习模型进行比较，以期找到更精准、更鲁棒的G2P预测方法。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: 表型数据探索性分析 (EDA) 1 -->
+        <section class="slide" style="background-image: url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop');">
+            <div class="content-wrapper">
+                <div class="slide-body">
+                    <div class="text-panel" style="flex: 1;">
+                        <h2 class="panel-title">表型数据探索(EDA): 性状分布</h2>
+                        <p class="panel-text mt-6">在建模之前，我们首先对15个关键农艺性状的表型数据进行了探索性分析。
+                        <br><br>
+                        我们观察到，大多数性状（如株高 Height, 千粒重 TKW）的分布近似于正态分布，这为后续的线性模型和非线性模型预测提供了良好的数据基础。
+                        <br><br>
+                        然而，部分性状如赤霉病（FHB）和倒伏（Lodging）呈现出偏态分布，这暗示了其背后可能存在复杂的遗传抗性和环境因素影响，也预示着这些性状的预测可能更具挑战性。
+                        </p>
+                    </div>
+                    <div class="chart-panel" style="flex: 1.2;">
+                         <img src="https://placehold.co/800x600/1f2937/d1d5db?text=Traits+Distribution+Histograms" alt="性状分布直方图" class="rounded-lg shadow-2xl w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: 表型数据探索性分析 (EDA) 2 -->
+        <section class="slide" style="background-image: url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop');">
+            <div class="content-wrapper">
+                <div class="slide-body">
+                    <div class="chart-panel" style="flex: 1.2;">
+                         <img src="https://placehold.co/800x600/1f2937/d1d5db?text=Trait+Correlation+Heatmap" alt="性状相关性热图" class="rounded-lg shadow-2xl w-full h-full object-cover">
+                    </div>
+                    <div class="text-panel" style="flex: 1;">
+                        <h2 class="panel-title">表型数据探索(EDA): 性状间相关性</h2>
+                        <p class="panel-text mt-6">
+                        我们进一步分析了性状间的相关性。热图显示，多个产量相关性状之间存在显著正相关。
+                        <br><br>
+                        例如，<strong class="text-green-400">产量（Yield）与穗粒数（GNS）和小穗数（Spikelet）</strong>高度相关，这符合育种学常识。
+                        <br><br>
+                        有趣的是，我们发现<strong class="text-red-400">开花期（FD）与株高（Height）</strong>存在负相关。这种洞察不仅帮助我们理解数据，也为后续模型解释性分析提供了线索。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: 数据预处理 - 质量控制 -->
+        <section class="slide" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop');">
+            <div class="content-wrapper">
+                 <div class="text-panel w-full max-w-5xl">
+                    <h2 class="panel-title">数据管道 Part 1: 基因型数据的质量控制 (QC)</h2>
+                    <p class="text-lg text-gray-300 mb-8">高质量的数据是模型成功的基石。我们通过严格的流程清洗原始基因型数据。</p>
+                    <div class="flex justify-around items-center text-center">
+                        <div class="flex flex-col items-center">
+                            <div class="text-6xl mb-2">🧬</div>
+                            <h3 class="text-xl font-semibold">原始数据</h3>
+                            <p class="text-gray-400">初始SNP集</p>
+                        </div>
+                        <div class="text-4xl text-gray-500">→</div>
+                        <div class="flex flex-col items-center">
+                             <div class="text-6xl mb-2">🔍</div>
+                             <h3 class="text-xl font-semibold">过滤筛选</h3>
+                             <p class="text-gray-400 text-sm">MAF > 0.05<br>HWE p > 1e-6<br>检出率 > 95%</p>
+                        </div>
+                         <div class="text-4xl text-gray-500">→</div>
+                        <div class="flex flex-col items-center">
+                             <div class="text-6xl mb-2">🧩</div>
+                             <h3 class="text-xl font-semibold">缺失值填充</h3>
+                             <p class="text-gray-400">均值填充</p>
+                        </div>
+                         <div class="text-4xl text-gray-500">→</div>
+                         <div class="flex flex-col items-center">
+                             <div class="text-6xl mb-2">✅</div>
+                             <h3 class="text-xl font-semibold">清洁数据</h3>
+                             <p class="text-gray-400">用于后续分析</p>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </section>
+        
+        <!-- Slide 7: 数据预处理 - 特征选择 -->
+        <section class="slide" style="background-image: url('https://images.unsplash.com/photo-1617957718641-042de17c0934?q=80&w=2070&auto=format&fit=crop');">
+            <div class="content-wrapper">
+                <div class="slide-body">
+                    <div class="text-panel" style="flex: 1;">
+                        <h2 class="panel-title">数据管道 Part 2: 基于GWAS的特征选择</h2>
+                        <ul class="panel-list mt-8">
+                            <li><strong class="text-white mr-2">目的:</strong> 降低数据维度，减少计算噪音，聚焦于与目标性状最相关的基因区域。</li>
+                            <li><strong class="text-white mr-2">方法:</strong> 采用全基因组关联分析 (GWAS)，为每个性状独立运行，筛选出p-value显著的SNP位点。</li>
+                             <li><strong class="text-white mr-2">输出:</strong> 为每个性状和模型，生成一个高度相关的、定制化的SNP特征子集，作为模型的最终输入。</li>
+                        </ul>
+                    </div>
+                     <div class="flex-1 flex justify-center items-center">
+                         <div class="text-panel w-full text-center">
+                            <div class="text-7xl mb-4">🎯</div>
+                            <h3 class="text-2xl font-semibold">特征聚焦</h3>
+                            <p class="panel-text mt-4">通过GWAS，我们将数以万计的SNP位点，精简为与特定性状最相关的几百到几千个核心特征，极大提升了模型训练的效率和准确性。</p>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Slide 8: S2SR 消融实验 -->
+        <section class="slide" style="background-image: url('https://images.unsplash.com/photo-1507925921958-b724ca67595e?q=80&w=2070&auto=format&fit=crop');">
+            <div class="content-wrapper">
+                <div class="slide-body">
+                    <div class="text-panel" style="flex: 1;">
+                        <h2 class="panel-title">S2SR消融实验：SNP数量的影响</h2>
+                        <p class="panel-text mt-6">
+                        为了验证GWAS特征选择的有效性，我们进行了一项消融实验：使用不同数量的Top SNP作为S2SR模型的输入，观察其在“产量(Yield)”性状上的预测性能。
+                        <br><br>
+                        结果如图所示，并非SNP越多越好。当SNP数量从100增加到1000时，模型性能有显著提升。然而，当数量继续增加到7000时，性能反而开始下降。
+                        <br><br>
+                        这表明，<strong class="text-green-400">适量的、经过筛选的SNP特征（本例中1000个左右）能够达到最佳效果</strong>，过多的SNP可能会引入噪音，干扰模型学习。
+                        </p>
+                    </div>
+                    <div class="chart-panel" style="flex: 1.2;">
+                         <div class="relative w-full h-full pt-4">
+                            <canvas id="ablation-chart"></canvas>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Slide 9: 基线模型介绍 -->
+        <section class="slide" style="background-image: url('https://images.unsplash.com/photo-1504639725590-7ea0046b536a?q=80&w=2070&auto=format&fit=crop');">
+            <div class="content-wrapper">
+                <div class="text-panel w-full max-w-5xl">
+                    <h2 class="panel-title">基线模型介绍</h2>
+                    <div class="grid grid-cols-2 gap-8 mt-6">
+                        <div>
+                            <h3 class="text-xl font-semibold text-blue-300">Lasso</h3>
+                            <p class="panel-text">一种线性回归模型，通过L1正则化进行特征选择，擅长处理高维稀疏数据。</p>
+                        </div>
+                         <div>
+                            <h3 class="text-xl font-semibold text-green-300">Random Forest</h3>
+                            <p class="panel-text">集成学习模型，通过构建多棵决策树并取平均结果来进行预测，鲁棒性强。</p>
+                        </div>
+                         <div>
+                            <h3 class="text-xl font-semibold text-yellow-300">LightGBM</h3>
+                            <p class="panel-text">基于梯度提升决策树（GBDT）的框架，以速度快、内存占用低著称。</p>
+                        </div>
+                         <div>
+                            <h3 class="text-xl font-semibold text-red-300">XGBoost</h3>
+                            <p class="panel-text">另一种高效的GBDT实现，在各种数据科学竞赛中被广泛使用，性能卓越。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 10: 模型架构 -->
+        <section class="slide" style="background-image: url('https://images.unsplash.com/photo-1581092921448-42cf3315c1e6?q=80&w=2070&auto=format&fit=crop');">
+             <div class="content-wrapper">
+                <div class="text-panel w-full max-w-6xl">
+                    <h2 class="panel-title">核心模型解析：S2SR 架构</h2>
+                    <div class="flex justify-around items-start text-left mt-8 gap-8">
+                         <div class="flex-1">
+                             <div class="flex items-center mb-4"><div class="text-4xl mr-4">📥</div><h3 class="text-2xl font-semibold">Encoder (编码器)</h3></div>
+                             <p class="panel-text">编码器的核心是门控循环单元（GRU）。它像阅读文章一样，按顺序处理基因组上的SNP位点。每读入一个SNP，GRU就会更新其内部的“记忆”（隐藏状态），这个记忆融合了当前SNP的信息和之前所有SNP的上下文。因此，编码器能够学习到SNP之间的序列依赖关系，如连锁不平衡（LD），并将整个基因序列的遗传信息压缩成一个富含信息的上下文向量。</p>
+                         </div>
+                         <div class="flex-1">
+                             <div class="flex items-center mb-4"><div class="text-4xl mr-4">🎯</div><h3 class="text-2xl font-semibold">Attention (注意力)</h3></div>
+                             <p class="panel-text">注意力机制是S2SR模型的点睛之笔。它允许解码器在预测表型时，不必平均对待编码器传来的所有信息。相反，它会计算一个权重分布，为输入序列中对当前预测任务更重要的SNP位点分配更高的权重。这在生物学上类似“聚焦”于关键的数量性状基因座（QTLs），使模型能自动识别并利用最重要的遗传信号。</p>
+                         </div>
+                         <div class="flex-1">
+                             <div class="flex items-center mb-4"><div class="text-4xl mr-4">📤</div><h3 class="text-2xl font-semibold">Decoder (解码器)</h3></div>
+                             <p class="panel-text">解码器同样是一个GRU网络，但其任务是“生成”最终的预测值。它接收编码器的最终“记忆”作为初始状态，并结合注意力机制提供的、经过加权的上下文向量，通过一个全连接层（FC Layer）进行回归计算，最终输出一个连续的数值，即预测的表型值。这一过程模拟了生物体内整合所有遗传效应，最终表现为一个特定性状的复杂过程。</p>
+                         </div>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <!-- Slide 11: 模型性能对比 -->
+        <section class="slide" style="background-image: url('https://images.unsplash.com/photo-1604009531849-0f815a5a18a9?q=80&w=1974&auto=format&fit=crop');">
+             <div class="content-wrapper">
+                <div class="chart-panel w-full max-w-7xl h-[85vh]">
+                    <h2 class="panel-title">性能对决：S2SR vs. 最优基线模型</h2>
+                    <!-- Chart.js canvas wrapper to fix rendering issue -->
+                    <div class="relative w-full h-full pt-4">
+                        <canvas id="comparison-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Slide 12: 综合性能得分 -->
+        <section class="slide" style="background-image: url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1974&auto=format&fit=crop');">
+            <div class="content-wrapper">
+                 <div class="slide-body">
+                    <div class="chart-panel h-[70vh]" style="flex: 1.5;">
+                         <h2 class="panel-title">综合性能得分</h2>
+                         <!-- Chart.js canvas wrapper to fix rendering issue -->
+                         <div class="relative w-full h-full pt-4">
+                            <canvas id="comprehensive-score-chart"></canvas>
+                         </div>
+                    </div>
+                    <div class="text-panel" style="flex: 1;">
+                         <h2 class="panel-title">分析总结</h2>
+                         <p class="panel-text mt-6">
+                            综合性能得分（所有15个性状的平均皮尔逊相关系数）清晰地揭示了各模型的整体实力。
+                            <br><br>
+                            <strong class="text-blue-300">S2SR模型以0.5873的平均分拔得头筹</strong>，表明其作为序列模型的强大泛化能力和稳定性。
+                            <br><br>
+                             其后的集成学习模型，如LightGBM(0.5151)、RandomForest(0.5132)和XGBoost(0.5110)表现稳健，但与S2SR存在明显差距。这说明虽然它们在某些性状上可能找到最优解，但平均表现不如能捕捉序列依赖关系的S2SR。Lasso作为线性模型得分最低(0.4746)，也符合其难以处理复杂非线性遗传效应的预期。
+                         </p>
+                    </div>
+                 </div>
+            </div>
+        </section>
+        
+        <!-- Slide 13: 结论 -->
+        <section class="slide" style="background-image: url('https://images.unsplash.com/photo-1611095965942-12c6a38cc443?q=80&w=2070&auto=format&fit=crop');">
+            <div class="content-wrapper">
+                 <div class="text-panel w-full max-w-4xl">
+                    <h2 class="panel-title">结论与展望</h2>
+                    <ul class="panel-list mt-8">
+                       <li><strong class="text-white">S2SR模型综合性能最佳:</strong> 以 <strong class="text-blue-300">0.5873</strong> 的平均皮尔逊相关系数，全面超越所有基线模型（如LightGBM的0.5151），证明了深度学习序列模型在G2P任务中的强大潜力。</li>
+                       <li><strong class="text-white">在复杂性状上优势明显:</strong> S2SR在赤霉病(FHB, r=0.4319)、穗长(spikelength, r=0.4826)和小穗数(spikelet, r=0.5934)上成为最优模型，尤其在难以预测的抗病性状上表现突出，这得益于其捕捉复杂遗传信息的能力。</li>
+                       <li><strong class="text-white">未来方向：</strong>探索更先进的Transformer架构，其自注意力机制可能比GRU的循环结构更能捕捉长距离依赖；融合转录组、代谢组等多组学数据，构建更全面的预测模型；将S2SR与表现优异的传统模型进行集成学习，有望实现性能的进一步突破。</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 14: Q&A -->
+        <section class="slide" style="background-image: url('https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2070&auto=format&fit=crop');">
+             <div class="content-wrapper">
+                <h1 class="slide-title">Q & A</h1>
+                <p class="slide-subtitle">感谢聆听！</p>
+            </div>
+        </section>
+
+
+    </div>
+
+    <script>
+        // Data source: G2P/report/s2sr_vs_best_report.csv
+        const comparisonData = [
+            {trait: "FD", best_model: "XGBoost", best_pearson: 0.6703, s2sr_pearson: 0.6111},
+            {trait: "FHB", best_model: "S2SR", best_pearson: 0.4319, s2sr_pearson: 0.4319},
+            {trait: "Mature", best_model: "XGBoost", best_pearson: 0.5781, s2sr_pearson: 0.5137},
+            {trait: "cold", best_model: "XGBoost", best_pearson: 0.5135, s2sr_pearson: 0.4992},
+            {trait: "gns", best_model: "XGBoost", best_pearson: 0.5837, s2sr_pearson: 0.5771},
+            {trait: "headingdate", best_model: "LightGBM", best_pearson: 0.6186, s2sr_pearson: 0.5465},
+            {trait: "height", best_model: "RandomForest", best_pearson: 0.7641, s2sr_pearson: 0.7311},
+            {trait: "kernelspikelet", best_model: "LightGBM", best_pearson: 0.5870, s2sr_pearson: 0.5029},
+            {trait: "lodging", best_model: "Lasso", best_pearson: 0.7950, s2sr_pearson: 0.7887},
+            {trait: "spikelength", best_model: "S2SR", best_pearson: 0.4826, s2sr_pearson: 0.4826},
+            {trait: "spikelet", best_model: "S2SR", best_pearson: 0.5934, s2sr_pearson: 0.5934},
+            {trait: "sterilspike", best_model: "XGBoost", best_pearson: 0.6097, s2sr_pearson: 0.5021},
+            {trait: "tiller", best_model: "Lasso", best_pearson: 0.4627, s2sr_pearson: 0.3471},
+            {trait: "tkw", best_model: "Lasso", best_pearson: 0.5951, s2sr_pearson: 0.5098},
+            {trait: "yield", best_model: "LightGBM", best_pearson: 0.6568, s2sr_pearson: 0.5718}
+        ].sort((a,b) => (a.best_pearson + a.s2sr_pearson) - (b.best_pearson + b.s2sr_pearson));
+
+
+        // Comprehensive score data
+        const comprehensiveData = {
+            "S2SR": 0.5873,
+            "LightGBM": 0.5151,
+            "RandomForest": 0.5132,
+            "XGBoost": 0.5110,
+            "Lasso": 0.4746
+        };
+        
+        // Ablation study data for Yield
+        const ablationData = {
+            snp_counts: [100, 1000, 3000, 5000, 7000],
+            pearson_scores: [0.5015, 0.5718, 0.5515, 0.5288, 0.5339]
+        };
+
+        const chartDefaultOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: { color: '#d1d5db', font: { size: 14 } }
+                },
+                title: { display: false }
+            },
+            scales: {
+                y: {
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                    ticks: { color: '#d1d5db' },
+                    title: { display: true, text: 'Pearson Correlation', color: '#d1d5db' }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { color: '#d1d5db', autoSkip: false, maxRotation: 45, minRotation: 45 }
+                }
+            }
+        };
+
+        function renderComparisonChart() {
+            const ctx = document.getElementById('comparison-chart');
+            if (!ctx) return;
+            const labels = comparisonData.map(d => d.trait);
+            const bestModelData = comparisonData.map(d => d.best_pearson);
+            const s2srData = comparisonData.map(d => d.s2sr_pearson);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '最优基线模型 (Best Baseline)',
+                            data: bestModelData,
+                            backgroundColor: 'rgba(239, 68, 68, 0.7)',
+                            borderColor: 'rgba(239, 68, 68, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'S2SR 模型',
+                            data: s2srData,
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: chartDefaultOptions
+            });
+        }
+        
+        function renderComprehensiveChart() {
+             const ctx = document.getElementById('comprehensive-score-chart');
+             if(!ctx) return;
+             const models = Object.keys(comprehensiveData).sort((a, b) => comprehensiveData[b] - comprehensiveData[a]);
+             const scores = models.map(model => comprehensiveData[model]);
+
+             new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: models,
+                    datasets: [{
+                        label: '平均皮尔逊相关系数',
+                        data: scores,
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(22, 163, 74, 0.8)',
+                            'rgba(249, 115, 22, 0.8)',
+                            'rgba(168, 85, 247, 0.8)',
+                            'rgba(239, 68, 68, 0.8)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                     responsive: true,
+                     maintainAspectRatio: false,
+                     plugins: {
+                        legend: { display: false },
+                        title: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#d1d5db' },
+                             title: { display: true, text: 'Average Pearson Correlation', color: '#d1d5db' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#d1d5db', font: { size: 14 } }
+                        }
+                    }
+                }
+             });
+        }
+        
+        function renderAblationChart() {
+            const ctx = document.getElementById('ablation-chart');
+            if (!ctx) return;
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ablationData.snp_counts,
+                    datasets: [{
+                        label: 'Pearson Correlation on Yield',
+                        data: ablationData.pearson_scores,
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top', labels: {color: '#d1d5db'} },
+                        title: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#d1d5db' },
+                            title: { display: true, text: 'Pearson Correlation', color: '#d1d5db' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#d1d5db' },
+                            title: { display: true, text: 'Number of Top SNPs', color: '#d1d5db' }
+                        }
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderComparisonChart();
+            renderComprehensiveChart();
+            renderAblationChart();
+        });
+    </script>
+
+</body>
+</html>
