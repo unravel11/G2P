@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S2SR模型架构图 - G2P项目</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .project-context {
+            background: #f8f9fa;
+            padding: 30px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .context-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .context-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .context-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 4px solid #007bff;
+        }
+        
+        .context-card h3 {
+            color: #007bff;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .context-card p {
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .stages-container {
+            display: flex;
+            gap: 30px;
+            padding: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .stage {
+            flex: 1;
+            min-width: 600px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+        }
+        
+        .stage-1 {
+            border-left-color: #28a745;
+        }
+        
+        .stage-2 {
+            border-left-color: #dc3545;
+        }
+        
+        .stage-title {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .stage-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .stage-1 .stage-icon {
+            background: #28a745;
+        }
+        
+        .stage-2 .stage-icon {
+            background: #dc3545;
+        }
+        
+        .flow-diagram {
+            margin: 25px 0;
+        }
+        
+        .flow-step {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 4px solid #007bff;
+            position: relative;
+        }
+        
+        .flow-step::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid #007bff;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+        }
+        
+        .flow-step:first-child::before {
+            display: none;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            color: #007bff;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .step-description {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .model-box {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .output-box {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .arrow {
+            text-align: center;
+            font-size: 2em;
+            color: #007bff;
+            margin: 20px 0;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #ffc107, #e0a800);
+            color: #212529;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 5px 0;
+        }
+        
+        .formula {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .connection-line {
+            height: 2px;
+            background: linear-gradient(90deg, #28a745, #dc3545);
+            margin: 20px 0;
+            border-radius: 1px;
+        }
+        
+        .final-output {
+            background: linear-gradient(135deg, #6f42c1, #5a2d91);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 30px 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        
+        .design-rationale {
+            background: #e3f2fd;
+            padding: 30px;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .rationale-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #1976d2;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .rationale-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+        
+        .rationale-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .rationale-card h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .rationale-card ul {
+            color: #666;
+            line-height: 1.6;
+            padding-left: 20px;
+        }
+        
+        .rationale-card li {
+            margin-bottom: 8px;
+        }
+        
+        .implementation-details {
+            background: #fff3e0;
+            padding: 30px;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .implementation-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #f57c00;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .implementation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .implementation-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .implementation-card h3 {
+            color: #f57c00;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .implementation-card p {
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .code-snippet {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #333;
+        }
+        
+        @media (max-width: 768px) {
+            .stages-container {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            .stage {
+                min-width: auto;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .context-grid,
+            .rationale-grid,
+            .implementation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>S2SR 模型架构解析</h1>
+            <p>两阶段回归模型：主效应 + 交互效应 | G2P项目核心模型</p>
+        </div>
+        
+        <div class="project-context">
+            <div class="context-title">
+                <span style="font-size: 1.5em;">🌾</span>
+                项目背景与挑战
+            </div>
+            <div class="context-grid">
+                <div class="context-card">
+                    <h3>G2P预测挑战</h3>
+                    <p>从基因型预测表型是生物信息学的核心任务。小麦1K群体包含大量SNP位点，传统方法难以有效捕捉复杂的基因-环境交互作用。</p>
+                </div>
+                <div class="context-card">
+                    <h3>多重共线性问题</h3>
+                    <p>SNP数据中存在严重的连锁不平衡(LD)，导致特征间高度相关，传统线性回归容易过拟合且系数不稳定。</p>
+                </div>
+                <div class="context-card">
+                    <h3>交互效应复杂性</h3>
+                    <p>表型变异不仅来自单个SNP的主效应，更来自SNP间的复杂交互作用，需要专门的方法来建模。</p>
+                </div>
+                <div class="context-card">
+                    <h3>计算效率要求</h3>
+                    <p>面对数千个SNP位点，需要高效的算法来筛选重要交互项，避免组合爆炸问题。</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stages-container">
+            <!-- 阶段一：主效应 -->
+            <div class="stage stage-1">
+                <div class="stage-title">
+                    <div class="stage-icon">1</div>
+                    阶段一：主效应捕捉
+                </div>
+                
+                <div class="flow-diagram">
+                    <div class="flow-step">
+                        <div class="step-title">输入数据</div>
+                        <div class="step-description">
+                            小麦1K群体的SNP基因型数据 (X) 和表型数据 (y)<br>
+                            <span class="highlight">GWAS预筛选</span>：基于p值选择top N个SNP
+                        </div>
+                    </div>
+                    
+                    <div class="arrow">↓</div>
+                    
+                    <div class="flow-step">
+                        <div class="step-title">模型选择</div>
+                        <div class="step-description">
+                            选用 <span class="highlight">岭回归 (RidgeCV)</span> 模型
+                        </div>
+                        <div class="model-box">
+                            RidgeCV with L2 Regularization
+                        </div>
+                        <div class="step-description">
+                            优势：有效处理多重共线性，防止过拟合<br>
+                            自动交叉验证选择最优正则化参数
+                        </div>
+                    </div>
+                    
+                    <div class="arrow">↓</div>
+                    
+                    <div class="flow-step">
+                        <div class="step-title">训练过程</div>
+                        <div class="step-description">
+                            通过交叉验证自动选择最优正则化参数 α
+                        </div>
+                        <div class="formula">
+                            min ||y - Xβ||² + α||β||²
+                        </div>
+                        <div class="step-description">
+                            参数网格：[0.1, 1.0, 10.0, 100.0] 或 [1.0, 10.0, 100.0, 1000.0]
+                        </div>
+                    </div>
+                    
+                    <div class="arrow">↓</div>
+                    
+                    <div class="flow-step">
+                        <div class="step-title">输出结果</div>
+                        <div class="output-box">
+                            主效应预测值 + 残差 (Residuals)
+                        </div>
+                        <div class="step-description">
+                            残差 = 真实值 - 主效应预测值<br>
+                            残差包含了非线性交互效应的信息
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 阶段二：交互效应 -->
+            <div class="stage stage-2">
+                <div class="stage-title">
+                    <div class="stage-icon">2</div>
+                    阶段二：交互效应挖掘
+                </div>
+                
+                <div class="flow-diagram">
+                    <div class="flow-step">
+                        <div class="step-title">输入：第一阶段残差</div>
+                        <div class="step-description">
+                            使用阶段一产生的残差作为目标变量<br>
+                            残差代表主效应无法解释的表型变异
+                        </div>
+                    </div>
+                    
+                    <div class="arrow">↓</div>
+                    
+                    <div class="flow-step">
+                        <div class="step-title">步骤1：SNP分组</div>
+                        <div class="step-description">
+                            按染色体位置等规则将SNP分组<br>
+                            每组包含最多 <span class="highlight">max_group_size</span> 个SNP<br>
+                            默认：20-50个SNP/组，可配置
+                        </div>
+                    </div>
+                    
+                    <div class="arrow">↓</div>
+                    
+                    <div class="flow-step">
+                        <div class="step-title">步骤2：构建交互项</div>
+                        <div class="step-description">
+                            计算组内SNP均值，然后两两相乘构建交互特征
+                        </div>
+                        <div class="formula">
+                            Interaction_ij = Group_i_mean × Group_j_mean
+                        </div>
+                        <div class="step-description">
+                            避免组合爆炸：从O(n²)降低到O(g²)，g为组数
+                        </div>
+                    </div>
+                    
+                    <div class="arrow">↓</div>
+                    
+                    <div class="flow-step">
+                        <div class="step-title">步骤3：统计筛选</div>
+                        <div class="step-description">
+                            计算每个交互项与残差的皮尔逊相关性<br>
+                            只保留 p-value < <span class="highlight">pval_threshold</span> 的交互项<br>
+                            默认阈值：0.01-0.05，可配置
+                        </div>
+                    </div>
+                    
+                    <div class="arrow">↓</div>
+                    
+                    <div class="flow-step">
+                        <div class="step-title">步骤4：Lasso拟合</div>
+                        <div class="step-description">
+                            使用 <span class="highlight">LassoCV</span> 拟合筛选后的交互项
+                        </div>
+                        <div class="model-box">
+                            LassoCV with L1 Regularization
+                        </div>
+                        <div class="step-description">
+                            进一步稀疏化，选择最重要的交互效应<br>
+                            自动交叉验证选择最优正则化参数
+                        </div>
+                    </div>
+                    
+                    <div class="arrow">↓</div>
+                    
+                    <div class="flow-step">
+                        <div class="step-title">输出：交互效应预测</div>
+                        <div class="output-box">
+                            交互效应预测值
+                        </div>
+                        <div class="step-description">
+                            预测第一阶段残差中的非线性模式<br>
+                            捕捉SNP间的上位性效应
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="connection-line"></div>
+        
+        <div class="final-output">
+            <div style="margin-bottom: 15px;">最终预测结果</div>
+            <div style="font-size: 0.9em; opacity: 0.9;">
+                最终预测 = 主效应预测 + 交互效应预测
+            </div>
+            <div class="formula" style="background: rgba(255,255,255,0.2); border: none; color: white; margin-top: 15px;">
+                y_pred = y_pred_main + y_pred_interaction
+            </div>
+        </div>
+        
+        <div class="design-rationale">
+            <div class="rationale-title">
+                <span style="font-size: 1.5em;">🧠</span>
+                设计原理与优势
+            </div>
+            <div class="rationale-grid">
+                <div class="rationale-card">
+                    <h3>为什么选择两阶段设计？</h3>
+                    <ul>
+                        <li><strong>分离关注点</strong>：主效应和交互效应有不同的生物学意义</li>
+                        <li><strong>避免混淆</strong>：防止交互项"窃取"主效应的信号</li>
+                        <li><strong>可解释性</strong>：分别获得主效应和交互效应的贡献</li>
+                        <li><strong>稳定性</strong>：两阶段独立训练，减少过拟合风险</li>
+                    </ul>
+                </div>
+                <div class="rationale-card">
+                    <h3>为什么使用RidgeCV + LassoCV？</h3>
+                    <ul>
+                        <li><strong>RidgeCV</strong>：处理多重共线性，获得稳定的主效应估计</li>
+                        <li><strong>LassoCV</strong>：稀疏化交互项，避免过度拟合</li>
+                        <li><strong>互补性</strong>：L2正则化平滑，L1正则化稀疏</li>
+                        <li><strong>自动化</strong>：交叉验证自动选择最优参数</li>
+                    </ul>
+                </div>
+                <div class="rationale-card">
+                    <h3>为什么采用分组策略？</h3>
+                    <ul>
+                        <li><strong>计算效率</strong>：避免O(n²)的组合爆炸问题</li>
+                        <li><strong>生物学意义</strong>：相邻SNP更可能有功能关联</li>
+                        <li><strong>降噪</strong>：组均值减少单个SNP的随机变异</li>
+                        <li><strong>可扩展性</strong>：适用于大规模基因组数据</li>
+                    </ul>
+                </div>
+                <div class="rationale-card">
+                    <h3>为什么使用统计筛选？</h3>
+                    <ul>
+                        <li><strong>计算效率</strong>：大幅减少需要拟合的交互项数量</li>
+                        <li><strong>统计显著性</strong>：只保留与残差显著相关的交互项</li>
+                        <li><strong>生物学意义</strong>：筛选出真正有意义的基因交互</li>
+                        <li><strong>可配置性</strong>：p值阈值可根据数据特点调整</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="implementation-details">
+            <div class="implementation-title">
+                <span style="font-size: 1.5em;">⚙️</span>
+                实现细节与配置
+            </div>
+            <div class="implementation-grid">
+                <div class="implementation-card">
+                    <h3>模型参数配置</h3>
+                    <div class="code-snippet">
+{
+  "ridge_alphas": [1.0, 10.0, 100.0, 1000.0],
+  "lasso_cv": true,
+  "pval_threshold": 0.01,
+  "max_group_size": 20
+}
+                    </div>
+                    <p>支持网格搜索调优：ridge_alphas、pval_threshold、max_group_size</p>
+                </div>
+                <div class="implementation-card">
+                    <h3>数据预处理流程</h3>
+                    <p><strong>GWAS预筛选</strong>：基于p值选择top N个SNP<br>
+                    <strong>MAF过滤</strong>：移除低频SNP (MAF < 0.05)<br>
+                    <strong>缺失值处理</strong>：众数填充缺失基因型<br>
+                    <strong>特征标准化</strong>：确保模型稳定性</p>
+                </div>
+                <div class="implementation-card">
+                    <h3>评估指标</h3>
+                    <p><strong>R²</strong>：决定系数，衡量模型解释的方差比例<br>
+                    <strong>RMSE</strong>：均方根误差，预测精度指标<br>
+                    <strong>Pearson相关系数</strong>：预测值与真实值的相关性<br>
+                    <strong>特征重要性</strong>：主效应系数绝对值</p>
+                </div>
+                <div class="implementation-card">
+                    <h3>应用场景</h3>
+                    <p><strong>作物育种</strong>：预测小麦产量、品质等性状<br>
+                    <strong>精准农业</strong>：基于基因型预测表型表现<br>
+                    <strong>遗传研究</strong>：发现重要的基因交互作用<br>
+                    <strong>模型比较</strong>：与其他G2P模型性能对比</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

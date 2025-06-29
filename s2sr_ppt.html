@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G2P报告与S2SR架构解析</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', 'Noto Sans SC', sans-serif; background-color: #030712; color: #f0f0f0; }
+        .slide { min-height: 100vh; width: 100%; position: relative; display: flex; justify-content: center; align-items: center; padding: 4rem 4rem; box-sizing: border-box; background-size: cover; background-position: center; background-attachment: fixed; border-bottom: 1px solid #1f2937; }
+        .slide::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(5px); }
+        .content-wrapper { position: relative; z-index: 10; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .slide-title { font-size: 3.5rem; font-weight: 700; color: white; text-shadow: 2px 2px 8px rgba(0,0,0,0.6); }
+        .slide-subtitle { font-size: 1.5rem; font-weight: 300; color: #d1d5db; margin-top: 1rem; max-width: 800px; }
+        .panel-title { font-size: 2.25rem; font-weight: 600; margin-bottom: 1.5rem; color: white; border-bottom: 2px solid #3b82f6; padding-bottom: 0.75rem; }
+        .panel-text { font-size: 1.1rem; line-height: 1.8; color: #d1d5db; }
+        .rationale-card, .context-card, .implementation-card { background: white; color: #222; padding: 20px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin-bottom: 1.5rem; }
+        .rationale-card h3, .context-card h3, .implementation-card h3 { color: #1976d2; margin-bottom: 10px; font-size: 1.1em; }
+        .rationale-card ul, .implementation-card ul { color: #666; line-height: 1.6; padding-left: 20px; }
+        .rationale-card li, .implementation-card li { margin-bottom: 8px; }
+        .code-snippet { background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; padding: 15px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 0.9em; color: #333; }
+        @media (max-width: 768px) { .slide { padding: 1rem; } .panel-title { font-size: 1.3rem; } }
+    </style>
+</head>
+<body>
+<div class="main-container">
+
+<!-- Slide 1: 标题页 -->
+<section class="slide" style="background-image: url('https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=1974&auto=format&fit=crop');">
+    <div class="content-wrapper">
+        <h1 class="slide-title">基因组到表型 (G2P) 预测报告与S2SR模型架构</h1>
+        <p class="slide-subtitle">融合分析报告与架构解读 | 2025年6月</p>
+    </div>
+</section>
+
+<!-- Slide 2: 项目背景与挑战（融合s2sr_architecture.html） -->
+<section class="slide" style="background-image: url('https://images.unsplash.com/photo-1533757828052-f3c178a59333?q=80&w=2070&auto=format&fit=crop');">
+    <div class="content-wrapper">
+        <div class="panel-title">项目背景与挑战</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl mt-8">
+            <div class="context-card"><h3>G2P预测挑战</h3><p>从基因型预测表型是生物信息学的核心任务。小麦1K群体包含大量SNP位点，传统方法难以有效捕捉复杂的基因-环境交互作用。</p></div>
+            <div class="context-card"><h3>多重共线性问题</h3><p>SNP数据中存在严重的连锁不平衡(LD)，导致特征间高度相关，传统线性回归容易过拟合且系数不稳定。</p></div>
+            <div class="context-card"><h3>交互效应复杂性</h3><p>表型变异不仅来自单个SNP的主效应，更来自SNP间的复杂交互作用，需要专门的方法来建模。</p></div>
+            <div class="context-card"><h3>计算效率要求</h3><p>面对数千个SNP位点，需要高效的算法来筛选重要交互项，避免组合爆炸问题。</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 3: S2SR设计原理与优势（融合s2sr_architecture.html） -->
+<section class="slide" style="background-image: url('https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1974&auto=format&fit=crop');">
+    <div class="content-wrapper">
+        <div class="panel-title">S2SR模型设计原理与优势</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl mt-8">
+            <div class="rationale-card">
+                <h3>两阶段设计</h3>
+                <ul>
+                    <li><b>分离关注点</b>：主效应和交互效应有不同的生物学意义</li>
+                    <li><b>避免混淆</b>：防止交互项"窃取"主效应的信号</li>
+                    <li><b>可解释性</b>：分别获得主效应和交互效应的贡献</li>
+                    <li><b>稳定性</b>：两阶段独立训练，减少过拟合风险</li>
+                </ul>
+            </div>
+            <div class="rationale-card">
+                <h3>RidgeCV + LassoCV</h3>
+                <ul>
+                    <li><b>RidgeCV</b>：处理多重共线性，获得稳定的主效应估计</li>
+                    <li><b>LassoCV</b>：稀疏化交互项，避免过度拟合</li>
+                    <li><b>互补性</b>：L2正则化平滑，L1正则化稀疏</li>
+                    <li><b>自动化</b>：交叉验证自动选择最优参数</li>
+                </ul>
+            </div>
+            <div class="rationale-card">
+                <h3>分组策略</h3>
+                <ul>
+                    <li><b>计算效率</b>：避免O(n²)的组合爆炸问题</li>
+                    <li><b>生物学意义</b>：相邻SNP更可能有功能关联</li>
+                    <li><b>降噪</b>：组均值减少单个SNP的随机变异</li>
+                    <li><b>可扩展性</b>：适用于大规模基因组数据</li>
+                </ul>
+            </div>
+            <div class="rationale-card">
+                <h3>统计筛选</h3>
+                <ul>
+                    <li><b>计算效率</b>：大幅减少需要拟合的交互项数量</li>
+                    <li><b>统计显著性</b>：只保留与残差显著相关的交互项</li>
+                    <li><b>生物学意义</b>：筛选出真正有意义的基因交互</li>
+                    <li><b>可配置性</b>：p值阈值可根据数据特点调整</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 4: S2SR架构图（融合s2sr_architecture.html，精简为PPT风格） -->
+<section class="slide" style="background-image: url('https://images.unsplash.com/photo-1581092921448-42cf3315c1e6?q=80&w=2070&auto=format&fit=crop');">
+    <div class="content-wrapper">
+        <div class="panel-title">S2SR模型两阶段架构图</div>
+        <div class="w-full flex flex-col items-center">
+            <!-- SVG流程图 -->
+            <div class="w-full max-w-5xl mb-8">
+                <svg viewBox="0 0 900 340" width="100%" height="auto">
+                    <!-- 主效应阶段 -->
+                    <rect x="40" y="40" width="320" height="240" rx="24" fill="#e6f4ea" stroke="#28a745" stroke-width="3"/>
+                    <text x="200" y="70" text-anchor="middle" font-size="22" fill="#28a745" font-weight="bold">阶段一：主效应</text>
+                    <!-- 输入 -->
+                    <rect x="70" y="100" width="90" height="40" rx="8" fill="#fff" stroke="#28a745" stroke-width="2"/>
+                    <text x="115" y="125" text-anchor="middle" font-size="14" fill="#222">SNP基因型</text>
+                    <rect x="70" y="150" width="90" height="40" rx="8" fill="#fff" stroke="#28a745" stroke-width="2"/>
+                    <text x="115" y="175" text-anchor="middle" font-size="14" fill="#222">表型 (y)</text>
+                    <!-- RidgeCV -->
+                    <rect x="180" y="120" width="120" height="50" rx="12" fill="#c3e6cb" stroke="#28a745" stroke-width="2"/>
+                    <text x="240" y="150" text-anchor="middle" font-size="15" fill="#222">岭回归 (RidgeCV)</text>
+                    <!-- 箭头到RidgeCV -->
+                    <polygon points="160,120 180,145 160,170" fill="#28a745"/>
+                    <polygon points="160,170 180,145 160,120" fill-opacity="0" stroke="#28a745" stroke-width="2"/>
+                    <polygon points="160,170 180,170 180,120 160,120" fill-opacity="0" stroke="#28a745" stroke-width="2"/>
+                    <!-- 输出主效应预测 -->
+                    <rect x="320" y="135" width="90" height="40" rx="8" fill="#fff" stroke="#28a745" stroke-width="2"/>
+                    <text x="365" y="160" text-anchor="middle" font-size="14" fill="#222">主效应预测</text>
+                    <!-- 箭头到主效应预测 -->
+                    <polygon points="300,145 320,155 300,165" fill="#28a745"/>
+                    <polygon points="300,165 320,155 300,145" fill-opacity="0" stroke="#28a745" stroke-width="2"/>
+                    <!-- 残差输出 -->
+                    <rect x="320" y="200" width="90" height="40" rx="8" fill="#fff" stroke="#28a745" stroke-width="2"/>
+                    <text x="365" y="225" text-anchor="middle" font-size="14" fill="#222">残差 (y-res)</text>
+                    <!-- 箭头到残差 -->
+                    <polygon points="300,170 320,220 300,270" fill="#28a745"/>
+                    <polygon points="300,270 320,220 300,170" fill-opacity="0" stroke="#28a745" stroke-width="2"/>
+                    <!-- 交互效应阶段 -->
+                    <rect x="470" y="40" width="370" height="240" rx="24" fill="#fdeaea" stroke="#dc3545" stroke-width="3"/>
+                    <text x="655" y="70" text-anchor="middle" font-size="22" fill="#dc3545" font-weight="bold">阶段二：交互效应</text>
+                    <!-- 残差输入 -->
+                    <rect x="490" y="200" width="90" height="40" rx="8" fill="#fff" stroke="#dc3545" stroke-width="2"/>
+                    <text x="535" y="225" text-anchor="middle" font-size="14" fill="#222">残差 (y-res)</text>
+                    <!-- 箭头残差到分组 -->
+                    <polygon points="580,220 600,170 620,120" fill="#dc3545"/>
+                    <polygon points="580,220 600,220 600,120 580,120" fill-opacity="0" stroke="#dc3545" stroke-width="2"/>
+                    <!-- 分组 -->
+                    <rect x="600" y="100" width="90" height="40" rx="8" fill="#fff" stroke="#dc3545" stroke-width="2"/>
+                    <text x="645" y="125" text-anchor="middle" font-size="14" fill="#222">SNP分组</text>
+                    <!-- 交互项 -->
+                    <rect x="710" y="100" width="110" height="40" rx="8" fill="#fff" stroke="#dc3545" stroke-width="2"/>
+                    <text x="765" y="125" text-anchor="middle" font-size="14" fill="#222">组均值交互项</text>
+                    <!-- 箭头分组到交互项 -->
+                    <polygon points="690,120 710,120 710,140 690,140" fill="#dc3545"/>
+                    <!-- 筛选 -->
+                    <rect x="600" y="160" width="90" height="40" rx="8" fill="#fff" stroke="#dc3545" stroke-width="2"/>
+                    <text x="645" y="185" text-anchor="middle" font-size="14" fill="#222">相关性筛选</text>
+                    <!-- 箭头交互项到筛选 -->
+                    <polygon points="765,140 765,160 645,160" fill="#dc3545"/>
+                    <!-- LassoCV -->
+                    <rect x="710" y="160" width="110" height="40" rx="8" fill="#fff" stroke="#dc3545" stroke-width="2"/>
+                    <text x="765" y="185" text-anchor="middle" font-size="14" fill="#222">LassoCV拟合</text>
+                    <!-- 箭头筛选到LassoCV -->
+                    <polygon points="690,180 710,180 710,200 690,200" fill="#dc3545"/>
+                    <!-- 输出交互预测 -->
+                    <rect x="830" y="180" width="60" height="40" rx="8" fill="#fff" stroke="#dc3545" stroke-width="2"/>
+                    <text x="860" y="205" text-anchor="middle" font-size="14" fill="#222">交互预测</text>
+                    <!-- 箭头LassoCV到输出 -->
+                    <polygon points="820,180 830,200 820,220" fill="#dc3545"/>
+                </svg>
+            </div>
+            <!-- 原有文字说明 -->
+            <div class="flex flex-col md:flex-row gap-8 w-full max-w-6xl">
+                <div class="flex-1 bg-white bg-opacity-90 rounded-xl p-6 text-gray-800 shadow-xl">
+                    <h3 class="text-xl font-bold mb-2 text-green-700">阶段一：主效应捕捉</h3>
+                    <ul class="list-disc ml-6 text-base">
+                        <li>输入：GWAS筛选后的SNP基因型 (X) 与表型 (y)</li>
+                        <li>岭回归 (RidgeCV) 捕捉所有SNP的主效应</li>
+                        <li>自动交叉验证选择正则化参数</li>
+                        <li>输出：主效应预测值 + 残差 (Residuals)</li>
+                    </ul>
+                </div>
+                <div class="flex-1 bg-white bg-opacity-90 rounded-xl p-6 text-gray-800 shadow-xl">
+                    <h3 class="text-xl font-bold mb-2 text-red-700">阶段二：交互效应挖掘</h3>
+                    <ul class="list-disc ml-6 text-base">
+                        <li>输入：第一阶段残差</li>
+                        <li>SNP分组，组均值两两相乘构建交互项</li>
+                        <li>皮尔逊相关性筛选显著交互项</li>
+                        <li>LassoCV拟合，输出交互效应预测</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 text-lg text-blue-200">最终预测 = 主效应预测 + 交互效应预测</div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 5: S2SR实现细节与配置（融合s2sr_architecture.html） -->
+<section class="slide" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop');">
+    <div class="content-wrapper">
+        <div class="panel-title">S2SR实现细节与配置</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl mt-8">
+            <div class="implementation-card">
+                <h3>模型参数配置</h3>
+                <div class="code-snippet">{
+  "ridge_alphas": [1.0, 10.0, 100.0, 1000.0],
+  "lasso_cv": true,
+  "pval_threshold": 0.01,
+  "max_group_size": 20
+}</div>
+                <p>支持网格搜索调优：ridge_alphas、pval_threshold、max_group_size</p>
+            </div>
+            <div class="implementation-card">
+                <h3>数据预处理流程</h3>
+                <ul>
+                    <li>GWAS预筛选：基于p值选择top N个SNP</li>
+                    <li>MAF过滤：移除低频SNP (MAF &lt; 0.05)</li>
+                    <li>缺失值处理：众数填充缺失基因型</li>
+                    <li>特征标准化：确保模型稳定性</li>
+                </ul>
+            </div>
+            <div class="implementation-card">
+                <h3>评估指标</h3>
+                <ul>
+                    <li>R²：决定系数，衡量模型解释的方差比例</li>
+                    <li>RMSE：均方根误差，预测精度指标</li>
+                    <li>Pearson相关系数：预测值与真实值的相关性</li>
+                    <li>特征重要性：主效应系数绝对值</li>
+                </ul>
+            </div>
+            <div class="implementation-card">
+                <h3>应用场景</h3>
+                <ul>
+                    <li>作物育种：预测小麦产量、品质等性状</li>
+                    <li>精准农业：基于基因型预测表型表现</li>
+                    <li>遗传研究：发现重要的基因交互作用</li>
+                    <li>模型比较：与其他G2P模型性能对比</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 其余slide：保留report.html原有内容（如议程、EDA、调优、性能对比等） -->
+<!-- ... 可根据需要继续插入report.html的slide ... -->
+
+</div>
+</body>
+</html> 
