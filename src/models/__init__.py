@@ -8,9 +8,8 @@ from .random_forest import RandomForestModel
 from .xgboost_model import XGBoostModel
 from .lasso_model import LassoModel
 from .lightgbm_model import LightGBMModel
-from .gr2lm_model import GR2LMModel
-
+from .s2sr_model import S2SRModel
 __all__ = [
     'BaseModel', 'RandomForestModel', 'XGBoostModel',
-    'LassoModel', 'LightGBMModel', 'GR2LMModel'
+    'LassoModel', 'LightGBMModel', 'S2SRModel'
 ] 

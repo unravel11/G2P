@@ -10,7 +10,6 @@ from .xgboost_model import XGBoostModel
 from .lightgbm_model import LightGBMModel
 from .lasso_model import LassoModel
 from .cnn_model import CNNModel
-from .gr2lm_model import GR2LMModel
 from .s2sr_model import S2SRModel
 
 class ModelFactory:
@@ -23,7 +22,6 @@ class ModelFactory:
         'LightGBMModel': LightGBMModel,
         'LassoModel': LassoModel,
         'CNNModel': CNNModel,
-        'GR2LMModel': GR2LMModel,
         'S2SRModel': S2SRModel
     }
     
